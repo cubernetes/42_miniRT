@@ -1,6 +1,6 @@
 # Makefile for [ "$(uname -s)" = "Linux" ]
 
-# TODO: adapt for MacOS & BSD
+# TODO: adapt for MacOS
 
 # config
 NAME := miniRT
