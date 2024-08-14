@@ -19,3 +19,6 @@ compile_commands.json
 # vscode
 .vscode/
 libft/.vscode/
+
+# clion
+.idea/

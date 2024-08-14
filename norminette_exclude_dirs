@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+__exclude_dirs=""
+while [ -n "$1" ] ; do
+	__exclude_dirs="${__exclude_dirs} -not -path './${1}*'"
+	shift
+done
+eval find . -type f -name "'*.[hc]'" ${__exclude_dirs} -print0 | xargs -r0 $(command -v norminette -R CheckForbiddenSourceHeader)

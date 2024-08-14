@@ -21,6 +21,7 @@ CC := cc
 RM := /bin/rm -f
 MKDIR := /bin/mkdir -p
 NM := nm
+NORMINETTE_EXCLUDE_DIRS := ./norminette_exclude_dirs
 
 # flags
 CFLAGS := -O3
@@ -51,7 +52,7 @@ LDLIBS += -l$(MINILIBX_LIB)
 
 # DEBUG=1 make re # include debugging information in the binary
 ifeq ($(DEBUG), 1)
-	CFLAGS += -ggdb3 -O0
+	CFLAGS += -ggdb3 -O0 -DDEBUG
 	LDFLAGS += -ggdb3 -O0
 endif
 
@@ -122,15 +123,15 @@ fclean: clean
 re: fclean
 	@$(MAKE) all
 
-## Don't recompile, just run the program (with optional arguments)
+### Don't recompile, just run the program (with optional arguments)
 run:
 	@printf '\n'
-	# This allows $(NAME) to be run using either an absolute, relative or no path.
-	# You can pass arguments like this: make run ARGS="hello ' to this world ! ' ."
+	@# This allows $(NAME) to be run using either an absolute, relative or no path.
+	@# You can pass arguments like this: make run ARGS="hello ' to this world ! ' ."
 	@PATH=".$${PATH:+:$${PATH}}" && \
 		$(NAME) $(ARGS)
 
-## Don't recompile, just run the program with valgrind (and optional arguments)
+### Don't recompile, just run the program with valgrind (and optional arguments)
 valrun:
 	@printf '\n'
 	@PATH=".$${PATH:+:$${PATH}}" && \
@@ -150,15 +151,14 @@ r rerun: re
 l leakcheck: re
 	@$(MAKE) valrun
 
-
-## Don't recompile, just check for forbidden functions
+### Don't recompile, just check for forbidden functions
 fi forbidden-funcs-internal:
-	# - memset and bzero can be ignored from nm (they are added by compiler)
-	# - open, close, read, write, printf, malloc, free, perror, strerror,
-	#   and exit are from the subject
-	# - ... are from the math library (-lm)
-	# - ... are from the minilibx library (-lmlx)
-	# - the functions below starting with underscore are added by the compiler
+	@# - memset and bzero can be ignored from nm (they are added by compiler)
+	@# - open, close, read, write, printf, malloc, free, perror, strerror,
+	@#   and exit are from the subject
+	@# - ... are from the math library (-lm)
+	@# - ... are from the minilibx library (-lmlx)
+	@# - the functions below starting with underscore are added by the compiler
 	@printf '\n'
 	@$(NM) -u $(NAME)      | \
 		grep -v ' bzero@'     | \
@@ -181,7 +181,11 @@ fi forbidden-funcs-internal:
 		grep -v ' __libc_start_main@'          && \
 		printf '\033[41;30m%s\033[m\n' "There are forbidden functions!" || \
 		( \
-			grep --include='*.[hc]' --exclude-dir=minilibx-linux -R -e 'memset' -e 'bzero' | \
+			grep --include='*.[hc]' \
+				--exclude-dir=minilibx-linux \
+				-R \
+				-e 'memset' \
+				-e 'bzero' | \
 			grep -v -e ft_memset -e ft_bzero && \
 			printf '\033[41;30m%s\033[m\n' "You used memset/bzero (forbidden)!" || \
 			printf '\033[42;30m%s\033[m\n' "No forbidden functions!" \
@@ -197,7 +201,11 @@ f forbidden-funcs: re
 fl forbidden-funcs-leakcheck: leakcheck
 	@$(MAKE) forbidden-funcs-internal
 
-## Display this helpful message
+## Recompile and check for norm
+n norm: re
+	$(NORMINETTE_EXCLUDE_DIRS) minilibx-linux
+
+### Display this helpful message
 h help:
 	@printf '\033[31m%b\033[m\n\nTARGETs:\n' "USAGE:\n\tmake <TARGET> [ARGS=\"\"]"
 	@<Makefile python3 -c 'exec('"'"'import re\n\nWIDTH = 8\nregex_self_doc = r"## [\\s\\S]*?\\n([a-z][a-zA-Z -]*):"\nmatches = list(re.finditer(regex_self_doc, open(0).read()))\nformatted_targets = []\nfor match in matches:\n    target = match.groups()[0]\n    doc_str = "\\n".join(match.group().split("\\n")[:-1]).replace("\\n", " ").replace("## ", "")\n    doc_str_words = doc_str.split()\n    doc_str_words_folded = [doc_str_words[i:i+WIDTH] for i in range(0, len(doc_str_words), WIDTH)]\n    formatted_doc_str = "\\n\\t".join([" ".join(words) for words in doc_str_words_folded])\n    formatted_targets.append(f"\\033[36m{target}\\033[m:\\n\\t{formatted_doc_str}")\nhelp_str = "\\n".join(formatted_targets)\nprint(help_str)\n'"'"')'
