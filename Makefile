@@ -50,6 +50,7 @@ LDLIBS += -l$(LIBFT_LIB)
 LDLIBS += -l$(MINILIBX_LIB)
 
 # DEBUG=1 make re # include debugging information in the binary
+# TODO: add -DDEBGU=1 for debugging
 ifeq ($(DEBUG), 1)
 	CFLAGS += -ggdb3 -O0
 	LDFLAGS += -ggdb3 -O0

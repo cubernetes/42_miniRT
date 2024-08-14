@@ -6,5 +6,5 @@ make -j re
 ```
 ## Show possible targets
 ```sh
-make help
+make h
 ```
