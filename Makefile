@@ -158,7 +158,7 @@ fi forbidden-funcs-internal:
 	#   and exit are from the subject
 	# - ... are from the math library (-lm)
 	# - ... are from the minilibx library (-lmlx)
-	# - functions starting with __* are added by the compiler
+	# - the functions below starting with underscore are added by the compiler
 	@printf '\n'
 	@$(NM) -u $(NAME)      | \
 		grep -v ' bzero@'     | \
@@ -172,9 +172,13 @@ fi forbidden-funcs-internal:
 		grep -v ' malloc@'       | \
 		grep -v ' perror@'       | \
 		grep -v ' strerror@'     | \
-		grep -v ' __gmon_start__'      | \
-		grep -v ' __errno_location@'   | \
-		grep -v ' __libc_start_main@'  && \
+		grep -v ' __gmon_start__'              | \
+		grep -v ' _ITM_registerTMCloneTable'   | \
+		grep -v ' _ITM_deregisterTMCloneTable' | \
+		grep -v ' __cxa_finalize@'             | \
+		grep -v ' __errno_location@'           | \
+		grep -v ' __stack_chk_fail@'           | \
+		grep -v ' __libc_start_main@'          && \
 		printf '\033[41;30m%s\033[m\n' "There are forbidden functions!" || \
 		( \
 			grep --include='*.[hc]' --exclude-dir=minilibx-linux -R -e 'memset' -e 'bzero' | \
