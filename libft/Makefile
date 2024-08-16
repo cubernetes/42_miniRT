@@ -191,6 +191,14 @@ SRC += ht_hash.c
 vpath %.c geometry/point
 SRC += point.c
 
+vpath %.c geometry/vec3
+SRC += vec3.c
+SRC += vec3_operations1.c
+SRC += vec3_operations2.c
+
+vpath %.c geometry/ray
+SRC += ray.c
+
 # objects
 OBJ := $(SRC:.c=.o)
 OBJ := $(addprefix $(OBJDIR)/,$(OBJ))

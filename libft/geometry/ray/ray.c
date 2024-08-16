@@ -1,32 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   point.c                                            :+:      :+:    :+:   */
+/*   ray.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nam-vu <nam-vu@student.42berlin.de>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/16 20:19:55 by nam-vu            #+#    #+#             */
-/*   Updated: 2024/08/16 20:19:55 by nam-vu           ###   ########.fr       */
+/*   Created: 2024/08/16 20:28:23 by nam-vu            #+#    #+#             */
+/*   Updated: 2024/08/16 20:28:23 by nam-vu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	new_point(t_point *this, double x, double y, double z)
+void	new_ray(t_ray *this, t_point *terminus, t_vec3 *vec)
 {
-	this->x = x;
-	this->y = y;
-	this->z = z;
+	this->terminus = terminus;
+	this->vec = vec;
 }
 
-void	copy_point(t_point *this, t_point *old)
+void	copy_ray(t_ray *this, t_ray *ray)
 {
-	this->x = old->x;
-	this->y = old->y;
-	this->z = old->z;
+	copy_vec3(this->vec, ray->vec);
+	copy_point(this->terminus, ray->terminus);
 }
 
-void	print_point(t_point *this)
+void	print_ray(t_ray *this)
 {
-	ft_printf("Point: [%i, %i, %i]\n", this->x, this->y, this->z);
+	ft_printf("Ray:\n");
+	ft_printf("\tTerminus: ");
+	print_point(this->terminus);
+	ft_printf("\tDirection vector: ");
+	print_vec3(this->vec);
 }

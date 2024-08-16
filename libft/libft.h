@@ -50,6 +50,8 @@ typedef struct s_str_pair		t_str_pair;
 typedef struct s_kv_pair		t_kv_pair;
 typedef struct s_ctx_meta		t_ctx_meta;
 typedef struct s_point			t_point;
+typedef struct s_vec3			t_vec3;
+typedef struct s_ray			t_ray;
 
 /***************** ENUMS *****************/
 /** Comprehensive enumeration of data types, must match union members of t_data.
@@ -203,11 +205,24 @@ struct s_ht
 	t_ht		*n;
 };
 
+/* geometry */
+
 struct s_point
 {
-	float	x;
-	float	y;
-	float	z;
+	double	x;
+	double	y;
+	double	z;
+};
+
+struct s_vec3
+{
+	double	e[3];
+};
+
+struct s_ray
+{
+	t_point	*terminus;
+	t_vec3	*vec;
 };
 
 /***************** PROTOTYPES *****************/
@@ -422,5 +437,35 @@ t_list							*ft_getopt_plus(char *const argv[],
 									char valid_opts[static 1],
 									char *erropt,
 									int optind[static 1]);
+
+/* point */
+void							new_point(t_point *this,
+									double x, double y, double z);
+void							copy_point(t_point *this, t_point *old);
+void							print_point(t_point *this);
+
+/* vec3 */
+void							new_vec3(t_vec3 *this,
+									double x, double y, double z);
+void							copy_vec3(t_vec3 *this, t_vec3 *old);
+void							point_to_vec3(t_vec3 *this,
+									t_point *a, t_point *b);
+void							reverse_vec3(t_vec3 *this);
+void							sc_mult_vec3(t_vec3 *this, double k);
+void							div_vec3(t_vec3 *this, double k);
+double							length_vec3(t_vec3 *this);
+double							length_squared_vec3(t_vec3 *this);
+void							print_vec3(t_vec3 *this);
+void							add_vec3(t_vec3 *this, t_vec3 *vec);
+void							substract_vec3(t_vec3 *this, t_vec3 *vec);
+double							dot_product_vec3(t_vec3 *this, t_vec3 *vec);
+void							cross_product_vec3(t_vec3 *this, t_vec3 *vec);
+void							unit_vec3(t_vec3 *this);
+
+/* ray */
+void							new_ray(t_ray *this,
+									t_point *terminus, t_vec3 *vec);
+void							copy_ray(t_ray *this, t_ray *ray);
+void							print_ray(t_ray *this);
 
 #endif /* libft.h. */
