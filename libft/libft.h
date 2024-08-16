@@ -49,6 +49,7 @@ typedef struct s_ht				t_ht;
 typedef struct s_str_pair		t_str_pair;
 typedef struct s_kv_pair		t_kv_pair;
 typedef struct s_ctx_meta		t_ctx_meta;
+typedef struct s_point			t_point;
 
 /***************** ENUMS *****************/
 /** Comprehensive enumeration of data types, must match union members of t_data.
@@ -200,6 +201,13 @@ struct s_ht
 	char		*k;
 	t_data		v;
 	t_ht		*n;
+};
+
+struct s_point
+{
+	float	x;
+	float	y;
+	float	z;
 };
 
 /***************** PROTOTYPES *****************/

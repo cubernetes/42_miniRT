@@ -188,6 +188,9 @@ SRC += ht_destroy.c
 SRC += ht_to_list.c
 SRC += ht_hash.c
 
+vpath %.c geometry/point
+SRC += point.c
+
 # objects
 OBJ := $(SRC:.c=.o)
 OBJ := $(addprefix $(OBJDIR)/,$(OBJ))
