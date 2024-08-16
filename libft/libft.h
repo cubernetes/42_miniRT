@@ -49,10 +49,9 @@ typedef struct s_ht				t_ht;
 typedef struct s_str_pair		t_str_pair;
 typedef struct s_kv_pair		t_kv_pair;
 typedef struct s_ctx_meta		t_ctx_meta;
-typedef struct s_point			t_point;
 typedef struct s_vec3			t_vec3;
 typedef struct s_ray			t_ray;
-
+typedef struct s_sphere			t_sphere;
 /***************** ENUMS *****************/
 /** Comprehensive enumeration of data types, must match union members of t_data.
  */
@@ -207,13 +206,6 @@ struct s_ht
 
 /* geometry */
 
-struct s_point
-{
-	double	x;
-	double	y;
-	double	z;
-};
-
 struct s_vec3
 {
 	double	e[3];
@@ -221,8 +213,16 @@ struct s_vec3
 
 struct s_ray
 {
-	t_point	*terminus;
+	t_vec3	*terminus;
 	t_vec3	*vec;
+};
+
+# define NO_ROOTS -1
+
+struct s_sphere
+{
+	t_vec3	*center;
+	double	radius;
 };
 
 /***************** PROTOTYPES *****************/
@@ -438,18 +438,10 @@ t_list							*ft_getopt_plus(char *const argv[],
 									char *erropt,
 									int optind[static 1]);
 
-/* point */
-void							new_point(t_point *this,
-									double x, double y, double z);
-void							copy_point(t_point *this, t_point *old);
-void							print_point(t_point *this);
-
 /* vec3 */
 void							new_vec3(t_vec3 *this,
 									double x, double y, double z);
 void							copy_vec3(t_vec3 *this, t_vec3 *old);
-void							point_to_vec3(t_vec3 *this,
-									t_point *a, t_point *b);
 void							reverse_vec3(t_vec3 *this);
 void							sc_mult_vec3(t_vec3 *this, double k);
 void							div_vec3(t_vec3 *this, double k);
@@ -464,8 +456,17 @@ void							unit_vec3(t_vec3 *this);
 
 /* ray */
 void							new_ray(t_ray *this,
-									t_point *terminus, t_vec3 *vec);
+									t_vec3 *terminus, t_vec3 *vec);
 void							copy_ray(t_ray *this, t_ray *ray);
+void							ray_at(t_ray *this, double t, t_vec3 *res);
 void							print_ray(t_ray *this);
+
+/* sphere */
+void							new_sphere(t_sphere *this,
+									t_vec3 *center, double radius);
+void							copy_sphere(t_sphere *this, t_sphere *sphere);
+void							print_sphere(t_sphere *this);
+void							intersection_sphere(double *t,
+									t_sphere *sphere, t_ray *ray);
 
 #endif /* libft.h. */

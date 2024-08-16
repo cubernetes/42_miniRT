@@ -188,9 +188,6 @@ SRC += ht_destroy.c
 SRC += ht_to_list.c
 SRC += ht_hash.c
 
-vpath %.c geometry/point
-SRC += point.c
-
 vpath %.c geometry/vec3
 SRC += vec3.c
 SRC += vec3_operations1.c
@@ -198,6 +195,9 @@ SRC += vec3_operations2.c
 
 vpath %.c geometry/ray
 SRC += ray.c
+
+vpath %.c geometry/sphere
+SRC += sphere.c
 
 # objects
 OBJ := $(SRC:.c=.o)
