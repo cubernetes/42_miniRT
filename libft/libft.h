@@ -52,6 +52,8 @@ typedef struct s_ctx_meta		t_ctx_meta;
 typedef struct s_vec3			t_vec3;
 typedef struct s_ray			t_ray;
 typedef struct s_sphere			t_sphere;
+typedef struct s_plane			t_plane;
+
 /***************** ENUMS *****************/
 /** Comprehensive enumeration of data types, must match union members of t_data.
  */
@@ -223,6 +225,12 @@ struct s_sphere
 {
 	t_vec3	*center;
 	double	radius;
+};
+
+struct s_plane
+{
+	t_vec3	*point;
+	t_vec3	*norm;
 };
 
 /***************** PROTOTYPES *****************/
@@ -468,5 +476,13 @@ void							copy_sphere(t_sphere *this, t_sphere *sphere);
 void							print_sphere(t_sphere *this);
 void							intersection_sphere(double *t,
 									t_sphere *sphere, t_ray *ray);
+
+/* plane */
+void							new_plane(t_plane *this,
+									t_vec3 *point, t_vec3 *norm);
+void							copy_plane(t_plane *this, t_plane *plane);
+void							print_plane(t_plane *this);
+void							intersection_plane(double *t,
+									t_plane *plane, t_ray *ray);
 
 #endif /* libft.h. */

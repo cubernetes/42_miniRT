@@ -51,13 +51,13 @@ void	intersection_sphere(double *t, t_sphere *sphere, t_ray *ray)
  ||p - o|| = r (1)
 
  vector equation of the ray:
- p = l0 + tl (2)
+ p = l0 + t * l (2)
 
  substitute p in (1) with (2) and square up both sides:
- || l0 + tl - o || ^ 2 = r ^ 2
+ || l0 + t * l - o || ^ 2 = r ^ 2
 
  substitute v = l0 - o:
- || tl + v || ^ 2 = r ^ 2
+ || t * l + v || ^ 2 = r ^ 2
 
  use dot product properties:
  (t ^ 2 * || l || ^ 2) + (2t * l⋅v) + (|| v || ^ 2 - r ^ 2) = 0
