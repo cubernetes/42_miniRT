@@ -202,6 +202,9 @@ SRC += sphere.c
 vpath %.c geometry/plane
 SRC += plane.c
 
+vpath %.c geometry/cylinder
+SRC += cylinder.c
+
 # objects
 OBJ := $(SRC:.c=.o)
 OBJ := $(addprefix $(OBJDIR)/,$(OBJ))

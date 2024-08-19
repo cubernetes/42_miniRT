@@ -31,7 +31,7 @@ void	ray_at(t_ray *this, double t, t_vec3 *res)
 
 	if (t < 0)
 	{
-		ft_dprintf(2, "Error: 't' cannot be negative\n");
+		ft_dprintf(2, "Error: 't' cannot be negative(sometimes can tho)\n");
 		return ;
 	}
 	copy_vec3(res, this->terminus);

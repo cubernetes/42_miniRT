@@ -53,6 +53,7 @@ typedef struct s_vec3			t_vec3;
 typedef struct s_ray			t_ray;
 typedef struct s_sphere			t_sphere;
 typedef struct s_plane			t_plane;
+typedef struct s_cylinder		t_cylinder;
 
 /***************** ENUMS *****************/
 /** Comprehensive enumeration of data types, must match union members of t_data.
@@ -231,6 +232,16 @@ struct s_plane
 {
 	t_vec3	*point;
 	t_vec3	*norm;
+};
+
+struct s_cylinder
+{
+	t_vec3	*center;
+	t_vec3	*axis;
+	t_vec3	*base_top;
+	t_vec3	*base_bot;
+	double	radius;
+	double	height;
 };
 
 /***************** PROTOTYPES *****************/
@@ -484,5 +495,16 @@ void							copy_plane(t_plane *this, t_plane *plane);
 void							print_plane(t_plane *this);
 void							intersection_plane(double *t,
 									t_plane *plane, t_ray *ray);
+
+/* cylinder */
+void							new_cylinder(t_cylinder *this,
+									t_vec3 *center, t_vec3 *axis, double radius, double height);
+void							copy_cylinder(t_cylinder *this,
+									t_cylinder *cylinder);
+void							print_cylinder(t_cylinder *this);
+void							norm_point_to_line(t_vec3 *norm,
+									t_vec3 *point, t_ray *ray);
+void							intersection_cylinder(double *t,
+									t_cylinder *cylinder, t_ray *ray);
 
 #endif /* libft.h. */

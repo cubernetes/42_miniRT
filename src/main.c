@@ -1,31 +1,32 @@
 #include "libft.h"
 #include <stdio.h>
 
+//todo: add cylinder
+//todo: add quaternions
+//todo: add transformations
+
 int	main(void)
 {
 	double t;
 	t_vec3 center;
+	t_vec3 axis;
 	double radius;
-	t_sphere sphere;
-//	t_vec3 point;
-//	t_vec3 norm;
-//	t_plane plane;
+	double height;
+	t_cylinder cylinder;
 	t_vec3 terminus;
 	t_vec3 ray_vec;
 	t_ray ray;
 
-	new_vec3(&center, 0, 0, 0);
+	new_vec3(&axis, 1, 0, 0);
+	new_vec3(&center, 0, 11, 0);
 	radius = 10;
-	new_sphere(&sphere, &center, radius);
-//	new_vec3(&point, 1, 1, 1);
-//	new_vec3(&norm, 1, 1, 1);
-//	new_plane(&plane, &point, &norm);
+	height = 1000;
+	new_cylinder(&cylinder, &center, &axis, radius, height);
 	new_vec3(&terminus, 0, 0, 0);
-	new_vec3(&ray_vec, 1, 2, 3);
+	new_vec3(&ray_vec, 1, 0, 0);
 	new_ray(&ray, &terminus, &ray_vec);
 	t = NO_ROOTS;
-	intersection_sphere(&t, &sphere, &ray);
-//	intersection_plane(&t, &plane, &ray);
+	intersection_cylinder(&t, &cylinder, &ray);
 	if (t < 0)
 		printf("No intersection are possible\n");
 	else
