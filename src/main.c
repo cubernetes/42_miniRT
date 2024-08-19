@@ -1,7 +1,7 @@
 #include "libft.h"
 #include <stdio.h>
 
-//todo: add cylinder
+//todo: check if roots are in the "real range"
 //todo: add quaternions
 //todo: add transformations
 

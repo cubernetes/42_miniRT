@@ -240,7 +240,6 @@ void intersection_cylinder(double *t, t_cylinder *cylinder, t_ray *ray)
 	sec[1] = 2 * (d[1] + d[0] * d[2] * d[3]);
 	sec[2] = length_squared_vec3(&q) - cylinder->radius * cylinder->radius + d[2] * d[2] * d[3];
 	discriminant = sec[1] * sec[1] - 4 * sec[0] * sec[2];
-//	printf("A = %f\nB = %f\nC = %f\ndiscriminant = %f\nlv = %f\nlq = %f\nqv = %f\nv ^ 2 - 2 = %f\n", sec[0], sec[1], sec[2], discriminant, d[0], d[1], d[2], d[3]);
 	if (discriminant < 0)
 	{
 		*t = NO_ROOTS;
