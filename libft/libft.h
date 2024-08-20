@@ -472,7 +472,7 @@ void							substract_vec3(t_vec3 *this, t_vec3 *vec);
 double							dot_product_vec3(t_vec3 *this, t_vec3 *vec);
 void							cross_product_vec3(t_vec3 *this, t_vec3 *vec);
 void							unit_vec3(t_vec3 *this);
-
+void							rebase_vec3(t_vec3 *this, t_vec3 **new_basis);
 /* ray */
 void							new_ray(t_ray *this,
 									t_vec3 *terminus, t_vec3 *vec);
