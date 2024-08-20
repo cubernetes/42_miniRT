@@ -1,17 +1,6 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   vec3_operations2.c                                 :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: nam-vu <nam-vu@student.42berlin.de>        +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/16 22:32:48 by nam-vu            #+#    #+#             */
-/*   Updated: 2024/08/20 23:18:13 by tischmid         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "libft.h"
 
+/* TODO: maybe there's some bitmagic to do this faster? */
 void	add_vec3(t_vec3 *this, t_vec3 *vec)
 {
 	this->x += vec->x;
