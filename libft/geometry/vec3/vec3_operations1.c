@@ -6,7 +6,7 @@
 /*   By: nam-vu <nam-vu@student.42berlin.de>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/16 22:32:46 by nam-vu            #+#    #+#             */
-/*   Updated: 2024/08/16 22:32:46 by nam-vu           ###   ########.fr       */
+/*   Updated: 2024/08/20 23:16:22 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,16 @@
 
 void	reverse_vec3(t_vec3 *this)
 {
-	this->e[0] *= -1;
-	this->e[1] *= -1;
-	this->e[2] *= -1;
+	this->x *= -1;
+	this->y *= -1;
+	this->z *= -1;
 }
 
 void	sc_mult_vec3(t_vec3 *this, double k)
 {
-	this->e[0] *= k;
-	this->e[1] *= k;
-	this->e[2] *= k;
+	this->x *= k;
+	this->y *= k;
+	this->z *= k;
 }
 
 void	div_vec3(t_vec3 *this, double k)
@@ -34,21 +34,21 @@ void	div_vec3(t_vec3 *this, double k)
 		ft_dprintf(2, "division of vec3 by 0\n");
 		return ;
 	}
-	this->e[0] /= k;
-	this->e[1] /= k;
-	this->e[2] /= k;
+	this->x /= k;
+	this->y /= k;
+	this->z /= k;
 }
 
 double	length_vec3(t_vec3 *this)
 {
-	return (sqrt(this->e[0] * this->e[0]
-			+ this->e[1] * this->e[1]
-			+ this->e[2] * this->e[2]));
+	return (sqrt(this->x * this->x
+			+ this->y * this->y
+			+ this->z * this->z));
 }
 
 double	length_squared_vec3(t_vec3 *this)
 {
-	return (this->e[0] * this->e[0]
-		+ this->e[1] * this->e[1]
-		+ this->e[2] * this->e[2]);
+	return (this->x * this->x
+		+ this->y * this->y
+		+ this->z * this->z);
 }

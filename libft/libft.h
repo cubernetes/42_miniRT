@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 20:07:51 by tosuman           #+#    #+#             */
-/*   Updated: 2024/08/20 22:58:30 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/08/20 23:22:15 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -209,9 +209,25 @@ struct s_ht
 
 /* geometry */
 
+/* TODO: This can technically be refactored into `union u_vec3;' afaik */
 struct s_vec3
 {
-	double	e[3];
+	union
+	{
+		double	e[3];
+		struct
+		{
+			double	x;
+			double	y;
+			double	z;
+		};
+		struct
+		{
+			double	r;
+			double	g;
+			double	b;
+		};
+	};
 };
 
 struct s_ray
