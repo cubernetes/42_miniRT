@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 20:07:51 by tosuman           #+#    #+#             */
-/*   Updated: 2024/08/03 18:14:10 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/08/20 22:58:30 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -498,7 +498,7 @@ void							intersection_plane(double *t,
 
 /* cylinder */
 void							new_cylinder(t_cylinder *this,
-									t_vec3 *center, t_vec3 *axis, double radius, double height);
+									t_cylinder *cylinder_params);
 void							copy_cylinder(t_cylinder *this,
 									t_cylinder *cylinder);
 void							print_cylinder(t_cylinder *this);

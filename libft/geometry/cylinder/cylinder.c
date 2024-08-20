@@ -6,7 +6,7 @@
 /*   By: nam-vu <nam-vu@student.42berlin.de>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 20:05:14 by nam-vu            #+#    #+#             */
-/*   Updated: 2024/08/18 20:05:14 by nam-vu           ###   ########.fr       */
+/*   Updated: 2024/08/20 22:58:19 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,33 +14,34 @@
 #include <math.h>
 #include <stdio.h>
 
-void	new_cylinder(t_cylinder *this, t_vec3 *center, t_vec3 *axis, double radius, double height)
+void	new_cylinder(t_cylinder *this, t_cylinder *cylinder_params)
 {
 	double	ratio;
 
-	if (radius <= 0)
+	if (cylinder_params->radius <= 0)
 	{
 		ft_dprintf(2, "Error: radius of the cylinder should be positive\n");
 		return ;
 	}
-	if (height <= 0)
+	if (cylinder_params->height <= 0)
 	{
 		ft_dprintf(2, "Error: height of the cylinder should be positive\n");
 		return ;
 	}
-	this->center = center;
-	this->axis = axis;
-	this->radius = radius;
-	this->height = height;
-	ratio = height * height / (4 * length_squared_vec3(axis));
+	this->center = cylinder_params->center;
+	this->axis = cylinder_params->axis;
+	this->radius = cylinder_params->radius;
+	this->height = cylinder_params->height;
+	ratio = cylinder_params->height * cylinder_params->height
+		/ (4 * length_squared_vec3(cylinder_params->axis));
 	this->base_top = ft_calloc(sizeof(t_vec3), 1);
-	copy_vec3(this->base_top, axis);
+	copy_vec3(this->base_top, cylinder_params->axis);
 	sc_mult_vec3(this->base_top, sqrt(ratio));
-	add_vec3(this->base_top, center);
+	add_vec3(this->base_top, cylinder_params->center);
 	this->base_bot = ft_calloc(sizeof(t_vec3), 1);
-	copy_vec3(this->base_bot, axis);
+	copy_vec3(this->base_bot, cylinder_params->axis);
 	sc_mult_vec3(this->base_bot, -sqrt(ratio));
-	add_vec3(this->base_bot, center);
+	add_vec3(this->base_bot, cylinder_params->center);
 	print_cylinder(this);
 }
 
