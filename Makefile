@@ -151,6 +151,7 @@ r rerun: re
 l leakcheck: re
 	@$(MAKE) valrun
 
+# TODO: benchmark between ft_printf and printf
 ### Don't recompile, just check for forbidden functions
 fi forbidden-funcs-internal:
 	@# - memset and bzero can be ignored from nm (they are added by compiler)
