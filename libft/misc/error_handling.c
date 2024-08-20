@@ -6,7 +6,7 @@
 /*   By: tischmid <tischmid@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 01:02:12 by tischmid          #+#    #+#             */
-/*   Updated: 2024/07/05 01:02:47 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/08/20 22:42:20 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,8 @@ void	print_callstack(void)
 	(void)frames;
 	(void)symbols;
 	(void)callstack;
-	ft_printf("Oh no! Not implemented! Forbidden functions!\n");
+	ft_printf("If it was allowed, this would now print a stacktrace."
+		"But since it is not allowed, you have to use valgrind or gdb.");
 }
 	/* frames = backtrace(callstack, MAX_CALLSTACK_SIZE); */
 	/* symbols = backtrace_symbols(callstack, frames); */
