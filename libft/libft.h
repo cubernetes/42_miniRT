@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 20:07:51 by tosuman           #+#    #+#             */
-/*   Updated: 2024/08/20 23:22:15 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/08/21 00:48:51 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -493,7 +493,7 @@ void							unit_vec3(t_vec3 *this);
 void							new_ray(t_ray *this,
 									t_vec3 *terminus, t_vec3 *vec);
 void							copy_ray(t_ray *this, t_ray *ray);
-void							ray_at(t_ray *this, double t, t_vec3 *res);
+int								ray_at(t_ray *this, double t, t_vec3 *res);
 void							print_ray(t_ray *this);
 
 /* sphere */
@@ -501,7 +501,7 @@ void							new_sphere(t_sphere *this,
 									t_vec3 *center, double radius);
 void							copy_sphere(t_sphere *this, t_sphere *sphere);
 void							print_sphere(t_sphere *this);
-void							intersection_sphere(double *t,
+int								intersection_sphere(double *t,
 									t_sphere *sphere, t_ray *ray);
 
 /* plane */
@@ -509,7 +509,7 @@ void							new_plane(t_plane *this,
 									t_vec3 *point, t_vec3 *norm);
 void							copy_plane(t_plane *this, t_plane *plane);
 void							print_plane(t_plane *this);
-void							intersection_plane(double *t,
+int								intersection_plane(double *t,
 									t_plane *plane, t_ray *ray);
 
 /* cylinder */
@@ -520,7 +520,7 @@ void							copy_cylinder(t_cylinder *this,
 void							print_cylinder(t_cylinder *this);
 void							norm_point_to_line(t_vec3 *norm,
 									t_vec3 *point, t_ray *ray);
-void							intersection_cylinder(double *t,
+int								intersection_cylinder(double *t,
 									t_cylinder *cylinder, t_ray *ray);
 
 #endif /* libft.h. */

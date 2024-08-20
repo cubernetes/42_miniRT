@@ -65,7 +65,7 @@ void	print_sphere(t_sphere *this)
  x = x1 >= 0 ? x1 : (x2 >= 0 ? x2 : NaN)
 
 */
-void	intersection_sphere(double *t, t_sphere *sphere, t_ray *ray)
+int	intersection_sphere(double *t, t_sphere *sphere, t_ray *ray)
 {
 	double	discriminant;
 	double	a;
@@ -82,20 +82,21 @@ void	intersection_sphere(double *t, t_sphere *sphere, t_ray *ray)
 	if (discriminant < 0)
 	{
 		*t = NO_ROOTS;
-		return ;
+		return (1);
 	}
 	discriminant = sqrt(discriminant);
 	*t = -b - discriminant;
 	if (*t >= 0)
 	{
 		*t /= 2 * a;
-		return ;
+		return (1);
 	}
 	*t = -b + discriminant;
 	if (*t >= 0)
 	{
 		*t /= 2 * a;
-		return ;
+		return (1);
 	}
 	*t = NO_ROOTS;
+	return (0);
 }

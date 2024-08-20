@@ -113,16 +113,24 @@ void	intersection_cylinder_sides(double *x, t_cylinder *cylinder, t_ray *ray)
 	t_vec3	at_bot;
 
 	new_plane(&top, cylinder->base_top, cylinder->axis);
-	intersection_plane(x, &top, ray);
-	ray_at(ray, *x, &at_top);
-	substract_vec3(&at_top, cylinder->base_top);
-	if (length_squared_vec3(&at_top) > cylinder->radius * cylinder->radius)
+	if (!intersection_plane(x, &top, ray))
+	{
+		(void)ray_at(ray, *x, &at_top);
+		substract_vec3(&at_top, cylinder->base_top);
+		if (length_squared_vec3(&at_top) > cylinder->radius * cylinder->radius)
+			*x = NO_ROOTS;
+	}
+	else
 		*x = NO_ROOTS;
 	new_plane(&bot, cylinder->base_bot, cylinder->axis);
-	intersection_plane(x + 1, &bot, ray);
-	ray_at(ray, *(x + 1), &at_bot);
-	substract_vec3(&at_bot, cylinder->base_bot);
-	if (length_squared_vec3(&at_bot) > cylinder->radius * cylinder->radius)
+	if (!intersection_plane(x + 1, &bot, ray))
+	{
+		(void)ray_at(ray, *(x + 1), &at_bot);
+		substract_vec3(&at_bot, cylinder->base_bot);
+		if (length_squared_vec3(&at_bot) > cylinder->radius * cylinder->radius)
+			*(x + 1) = NO_ROOTS;
+	}
+	else
 		*(x + 1) = NO_ROOTS;
 }
 
@@ -150,14 +158,22 @@ static void	is_real_cylinder(double *x, t_cylinder *cylinder, t_ray *ray)
 	double	max_distance_squared;
 
 	max_distance_squared = cylinder->radius
-		* cylinder->radius + cylinder->height * cylinder->height;
-	ray_at(ray, *x, &root1);
-	substract_vec3(&root1, cylinder->center);
-	if (length_squared_vec3(&root1) > max_distance_squared)
+		* cylinder->radius + cylinder->height * cylinder->height / 4;
+	if (!ray_at(ray, *x, &root1))
+	{
+		substract_vec3(&root1, cylinder->center);
+		if (length_squared_vec3(&root1) > max_distance_squared)
+			*x = NO_ROOTS;
+	}
+	else
 		*x = NO_ROOTS;
-	ray_at(ray, *(x + 1), &root2);
-	substract_vec3(&root2, cylinder->center);
-	if (length_squared_vec3(&root2) > max_distance_squared)
+	if (!ray_at(ray, *(x + 1), &root2))
+	{
+		substract_vec3(&root2, cylinder->center);
+		if (length_squared_vec3(&root2) > max_distance_squared)
+			*(x + 1) = NO_ROOTS;
+	}
+	else
 		*(x + 1) = NO_ROOTS;
 }
 
@@ -239,7 +255,7 @@ static void	is_real_cylinder(double *x, t_cylinder *cylinder, t_ray *ray)
 
  choose the lowest valid from x1, x2, intersection_top, intersection_bot
  */
-void	intersection_cylinder(double *t, t_cylinder *cylinder, t_ray *ray)
+int	intersection_cylinder(double *t, t_cylinder *cylinder, t_ray *ray)
 {
 	t_vec3	q;
 	double	d[4];
@@ -247,6 +263,7 @@ void	intersection_cylinder(double *t, t_cylinder *cylinder, t_ray *ray)
 	double	discriminant;
 	double	x[4];
 
+	ft_memmove(x, &(double []){-1, -1, -1, -1}, sizeof(double) * 4);
 	copy_vec3(&q, ray->terminus);
 	substract_vec3(&q, cylinder->center);
 	d[0] = dot_product_vec3(ray->vec, cylinder->axis);
@@ -259,14 +276,15 @@ void	intersection_cylinder(double *t, t_cylinder *cylinder, t_ray *ray)
 		- cylinder->radius * cylinder->radius + d[2] * d[2] * d[3];
 	discriminant = sec[1] * sec[1] - 4 * sec[0] * sec[2];
 	if (discriminant < 0)
-	{
 		*t = NO_ROOTS;
-		return ;
+	else
+	{
+		discriminant = sqrt(discriminant);
+		x[0] = (-sec[1] - discriminant) / (2 * sec[0]);
+		x[1] = (-sec[1] + discriminant) / (2 * sec[0]);
+		is_real_cylinder(x, cylinder, ray);
 	}
-	discriminant = sqrt(discriminant);
-	x[0] = (-sec[1] - discriminant) / (2 * sec[0]);
-	x[1] = (-sec[1] + discriminant) / (2 * sec[0]);
-	is_real_cylinder(x, cylinder, ray);
 	intersection_cylinder_sides(x + 2, cylinder, ray);
 	choose_root(t, x);
+	return (*t == NO_ROOTS);
 }

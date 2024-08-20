@@ -53,7 +53,7 @@ void	print_plane(t_plane *this)
   2) b != 0, then ray is parallel to plane, no intersections are possible;
  otherwise, t = -b/k;
 */
-void	intersection_plane(double *t, t_plane *plane, t_ray *ray)
+int	intersection_plane(double *t, t_plane *plane, t_ray *ray)
 {
 	t_vec3	v;
 	double	k;
@@ -69,9 +69,10 @@ void	intersection_plane(double *t, t_plane *plane, t_ray *ray)
 			*t = 0;
 		else
 			*t = NO_ROOTS;
-		return ;
+		return (*t == NO_ROOTS);
 	}
 	*t = -b / k;
 	if (*t < 0)
 		*t = NO_ROOTS;
+	return (*t == NO_ROOTS);
 }
