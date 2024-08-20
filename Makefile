@@ -154,25 +154,29 @@ l leakcheck: re
 # TODO: benchmark between ft_printf and printf
 ### Don't recompile, just check for forbidden functions
 fi forbidden-funcs-internal:
-	@# - memset and bzero can be ignored from nm (they are added by compiler)
+	@# - memset, bzero, puts can be ignored from nm (they are added by compiler)
 	@# - open, close, read, write, printf, malloc, free, perror, strerror,
 	@#   and exit are from the subject
 	@# - ... are from the math library (-lm)
 	@# - ... are from the minilibx library (-lmlx)
+	@# - sqrt is from the math library
 	@# - the functions below starting with underscore are added by the compiler
 	@printf '\n'
 	@$(NM) -u $(NAME)      | \
 		grep -v ' bzero@'     | \
 		grep -v ' memset@'    | \
+		grep -v ' puts@'      | \
 		grep -v ' read@'         | \
 		grep -v ' free@'         | \
 		grep -v ' open@'         | \
 		grep -v ' exit@'         | \
+		grep -v ' printf@'         | \
 		grep -v ' write@'        | \
 		grep -v ' close@'        | \
 		grep -v ' malloc@'       | \
 		grep -v ' perror@'       | \
 		grep -v ' strerror@'     | \
+		grep -v ' sqrt@'            | \
 		grep -v ' __gmon_start__'              | \
 		grep -v ' _ITM_registerTMCloneTable'   | \
 		grep -v ' _ITM_deregisterTMCloneTable' | \
