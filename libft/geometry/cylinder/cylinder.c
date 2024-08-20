@@ -148,6 +148,24 @@ static void	choose_root(double *t, double *x)
 	*t = min_x;
 }
 
+static void	is_real_cylinder(double *x, t_cylinder *cylinder, t_ray *ray)//can be put in choose_root
+{
+	t_vec3 root1;
+	t_vec3 root2;
+	double max_distance_squared;
+
+	max_distance_squared = cylinder->radius
+		* cylinder->radius + cylinder->height* cylinder->height;
+	ray_at(ray, *x, &root1);
+	substract_vec3(&root1, cylinder->center);
+	if (length_squared_vec3(&root1) > max_distance_squared)
+		*x = NO_ROOTS;
+	ray_at(ray, *(x + 1), &root2);
+	substract_vec3(&root2, cylinder->center);
+	if (length_squared_vec3(&root2) > max_distance_squared)
+		*(x + 1) = NO_ROOTS;
+}
+
 void intersection_cylinder(double *t, t_cylinder *cylinder, t_ray *ray)
 {
 /*
@@ -247,7 +265,8 @@ void intersection_cylinder(double *t, t_cylinder *cylinder, t_ray *ray)
 	}
 	discriminant = sqrt(discriminant);
 	x[0] = (-sec[1] - discriminant) / (2 * sec[0]);
-	x[1] = (-sec[1] + discriminant) / (2 * sec[0]);//todo: check if roots are in the "real range"
+	x[1] = (-sec[1] + discriminant) / (2 * sec[0]);
+	is_real_cylinder(x, cylinder, ray);
 	intersection_cylinder_sides(x + 2, cylinder, ray);
 	choose_root(t, x);
 }
