@@ -46,9 +46,9 @@ LDFLAGS += -L$(LIBFT_DIR)
 LDFLAGS += -L$(MINILIBX_DIR)
 
 LDLIBS :=
-LDLIBS += -lm
 LDLIBS += -l$(LIBFT_LIB)
 LDLIBS += -l$(MINILIBX_LIB)
+LDLIBS += -lm
 
 # DEBUG=1 make re # include debugging information in the binary
 ifeq ($(DEBUG), 1)
