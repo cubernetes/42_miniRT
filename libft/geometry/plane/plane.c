@@ -6,7 +6,7 @@
 /*   By: nam-vu <nam-vu@student.42berlin.de>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 01:19:06 by nam-vu            #+#    #+#             */
-/*   Updated: 2024/08/17 01:19:06 by nam-vu           ###   ########.fr       */
+/*   Updated: 2024/08/20 23:04:40 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,6 @@ void	print_plane(t_plane *this)
 	print_vec3(this->norm);
 }
 
-void	intersection_plane(double *t, t_plane *plane, t_ray *ray)
-{
 /*
  a - radius-vector of the point of the plane
  p - radius-vecrot of the point of the ray
@@ -62,10 +60,12 @@ void	intersection_plane(double *t, t_plane *plane, t_ray *ray)
  kt + b = 0
 
  if k equal 0:
- 	1) if b equal to 0, then ray is on the plane, take t = 0;
- 	2) if b is not equal to zero, then ray is parallel to the plane, no intersections are possible;
+  1) b == 0, then ray is on the plane, take t = 0;
+  2) b != 0, then ray is parallel to plane, no intersections are possible;
  otherwise, t = -b/k;
 */
+void	intersection_plane(double *t, t_plane *plane, t_ray *ray)
+{
 	t_vec3	v;
 	double	k;
 	double	b;

@@ -6,7 +6,7 @@
 /*   By: nam-vu <nam-vu@student.42berlin.de>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/16 22:52:39 by nam-vu            #+#    #+#             */
-/*   Updated: 2024/08/16 22:52:39 by nam-vu           ###   ########.fr       */
+/*   Updated: 2024/08/20 23:05:00 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,6 @@ void	print_sphere(t_sphere *this)
 	print_vec3(this->center);
 }
 
-void	intersection_sphere(double *t, t_sphere *sphere, t_ray *ray)
-{
 /*
  o - radius-vector of the center of the sphere
  p - radius-vector of the point on the sphere
@@ -79,6 +77,8 @@ void	intersection_sphere(double *t, t_sphere *sphere, t_ray *ray)
  x = x1 >= 0 ? x1 : (x2 >= 0 ? x2 : NaN)
 
 */
+void	intersection_sphere(double *t, t_sphere *sphere, t_ray *ray)
+{
 	double	discriminant;
 	double	a;
 	double	b;

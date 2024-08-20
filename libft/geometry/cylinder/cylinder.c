@@ -6,7 +6,7 @@
 /*   By: nam-vu <nam-vu@student.42berlin.de>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 20:05:14 by nam-vu            #+#    #+#             */
-/*   Updated: 2024/08/20 22:58:19 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/08/20 23:03:28 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,6 @@ void	print_cylinder(t_cylinder *this)
 	print_vec3(this->base_bot);
 }
 
-void	norm_point_to_line(t_vec3 *norm, t_vec3 *point, t_ray *ray)
-{
 /*
  p - radius vector of arbitrary point in space
  h - radius vector of norm base
@@ -98,6 +96,8 @@ void	norm_point_to_line(t_vec3 *norm, t_vec3 *point, t_ray *ray)
  substitute t from (3) into (2):
  h = l0 + (v⋅l / || l || ^ 2) * l
 */
+void	norm_point_to_line(t_vec3 *norm, t_vec3 *point, t_ray *ray)
+{
 	t_vec3	v;
 	t_vec3	offset;
 	double	t;
@@ -110,11 +110,14 @@ void	norm_point_to_line(t_vec3 *norm, t_vec3 *point, t_ray *ray)
 	copy_vec3(norm, ray->terminus);
 	add_vec3(norm, &offset);
 }
-static void	intersection_cylinder_sides(double *x, t_cylinder *cylinder, t_ray *ray)
-{
+
 /*
- get intersections with top/bottom plane and check if the distance to the top/bottom base is not bigger than radius
+ get intersections with top/bottom plane and check if the
+ distance to the top/bottom base is not bigger than radius
 */
+static
+void	intersection_cylinder_sides(double *x, t_cylinder *cylinder, t_ray *ray)
+{
 	t_plane	top;
 	t_plane	bot;
 	t_vec3	at_top;
@@ -137,9 +140,10 @@ static void	intersection_cylinder_sides(double *x, t_cylinder *cylinder, t_ray *
 static void	choose_root(double *t, double *x)
 {
 	double	min_x;
-	int		i = 0;
+	int		i;
 
 	min_x = NO_ROOTS;
+	i = 0;
 	i = -1;
 	while (++i < 4)
 	{
@@ -149,14 +153,15 @@ static void	choose_root(double *t, double *x)
 	*t = min_x;
 }
 
-static void	is_real_cylinder(double *x, t_cylinder *cylinder, t_ray *ray)//can be put in choose_root
+/* can be put in choose_root */
+static void	is_real_cylinder(double *x, t_cylinder *cylinder, t_ray *ray)
 {
-	t_vec3 root1;
-	t_vec3 root2;
-	double max_distance_squared;
+	t_vec3	root1;
+	t_vec3	root2;
+	double	max_distance_squared;
 
 	max_distance_squared = cylinder->radius
-		* cylinder->radius + cylinder->height* cylinder->height;
+		* cylinder->radius + cylinder->height * cylinder->height;
 	ray_at(ray, *x, &root1);
 	substract_vec3(&root1, cylinder->center);
 	if (length_squared_vec3(&root1) > max_distance_squared)
@@ -167,8 +172,6 @@ static void	is_real_cylinder(double *x, t_cylinder *cylinder, t_ray *ray)//can b
 		*(x + 1) = NO_ROOTS;
 }
 
-void intersection_cylinder(double *t, t_cylinder *cylinder, t_ray *ray)
-{
 /*
  v - orientation vector of the axis of the cylinder
  c - center of the cylinder
@@ -206,13 +209,17 @@ void intersection_cylinder(double *t, t_cylinder *cylinder, t_ray *ray)
  || t * l + q || ^ 2 = t ^ 2 * || l || ^ 2 + 2 * t * l⋅q + || q || ^ 2 (4)
 
  convert ((t * l + q)⋅v) ^ 2:
- ((t * l + q)⋅v) ^ 2 = (t * l⋅v + q⋅v) ^ 2 = t ^ 2 * (l⋅v) ^ 2 + 2 * t * (l⋅v) * (q⋅v) + (q⋅v) ^ 2 (5)
+ ((t * l + q)⋅v) ^ 2 = (t * l⋅v + q⋅v) ^ 2
+     = t ^ 2 * (l⋅v) ^ 2 + 2 * t * (l⋅v) * (q⋅v) + (q⋅v) ^ 2 (5)
 
  substitute (4) and (5) into (3):
- t ^ 2 * || l || ^ 2 + 2 * t * l⋅q + || q || ^ 2 + ((t ^ 2 * (l⋅v) ^ 2 + 2 * t * (l⋅v) * (q⋅v) + (q⋅v) ^ 2) * (|| v || ^ 2 - 2)) - r ^ 2 = 0
+ t ^ 2 * || l || ^ 2 + 2 * t * l⋅q + || q || ^ 2 + ((t ^ 2 * (l⋅v) ^ 2
+     + 2 * t * (l⋅v) * (q⋅v) + (q⋅v) ^ 2) * (|| v || ^ 2 - 2)) - r ^ 2 = 0
 
  simplify and transform to a quadratic equation:
- t ^ 2 * (|| l || ^ 2 + (l⋅v) ^ 2 * (|| v || ^ 2 - 2)) + 2 * t * (l⋅q + (l⋅v) * (q⋅v) * (|| v || ^ 2 - 2)) + (|| q || ^ 2 - r ^ 2 + (q⋅v) ^ 2 * (|| v || ^ 2 - 2)) = 0
+ t ^ 2 * (|| l || ^ 2 + (l⋅v) ^ 2 * (|| v || ^ 2 - 2))
+     + 2 * t * (l⋅q + (l⋅v) * (q⋅v) * (|| v || ^ 2 - 2))
+	     + (|| q || ^ 2 - r ^ 2 + (q⋅v) ^ 2 * (|| v || ^ 2 - 2)) = 0
 
  retrieve square equation coefficients
  A = || l || ^ 2 + (l⋅v) ^ 2 * (|| v || ^ 2 - 2)
@@ -243,11 +250,13 @@ void intersection_cylinder(double *t, t_cylinder *cylinder, t_ray *ray)
 
  choose the lowest valid from x1, x2, intersection_top, intersection_bot
  */
+void	intersection_cylinder(double *t, t_cylinder *cylinder, t_ray *ray)
+{
 	t_vec3	q;
-	double d[4];
-	double sec[3];
-	double discriminant;
-	double x[4];
+	double	d[4];
+	double	sec[3];
+	double	discriminant;
+	double	x[4];
 
 	copy_vec3(&q, ray->terminus);
 	substract_vec3(&q, cylinder->center);
@@ -257,7 +266,8 @@ void intersection_cylinder(double *t, t_cylinder *cylinder, t_ray *ray)
 	d[3] = length_squared_vec3(cylinder->axis) - 2;
 	sec[0] = length_squared_vec3(ray->vec) + d[0] * d[0] * d[3];
 	sec[1] = 2 * (d[1] + d[0] * d[2] * d[3]);
-	sec[2] = length_squared_vec3(&q) - cylinder->radius * cylinder->radius + d[2] * d[2] * d[3];
+	sec[2] = length_squared_vec3(&q)
+		- cylinder->radius * cylinder->radius + d[2] * d[2] * d[3];
 	discriminant = sec[1] * sec[1] - 4 * sec[0] * sec[2];
 	if (discriminant < 0)
 	{
