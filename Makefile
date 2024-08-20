@@ -200,6 +200,11 @@ fi forbidden-funcs-internal:
 f forbidden-funcs: re
 	@$(MAKE) forbidden-funcs-internal
 
+## Recompile, run the program and then check for forbidden functions
+fr forbidden-funcs-run: re
+	@$(MAKE) run
+	@$(MAKE) forbidden-funcs-internal
+
 ## -- -- -- -- RECOMMENDED -- -- --
 ## Recompile, run the program with valgrind (and optional arguments), and
 ## then check for forbidden functions
