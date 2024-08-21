@@ -143,6 +143,10 @@ valrun:
 			$(NAME) \
 			$(ARGS)
 
+## Compile, then run the program (with optional arguments)
+rc compile-run: all
+	@$(MAKE) run
+
 ## Recompile, then run the program (with optional arguments)
 r rerun: re
 	@$(MAKE) run
