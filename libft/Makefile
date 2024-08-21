@@ -205,6 +205,12 @@ SRC += plane.c
 vpath %.c geometry/cylinder
 SRC += cylinder.c
 
+vpath %.c geometry/quaternion
+SRC += quat_add.c
+SRC += quat_copy.c
+SRC += quat_helper.c
+SRC += quat_mult.c
+
 # objects
 OBJ := $(SRC:.c=.o)
 OBJ := $(addprefix $(OBJDIR)/,$(OBJ))

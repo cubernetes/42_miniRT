@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 20:07:51 by tosuman           #+#    #+#             */
-/*   Updated: 2024/08/21 00:48:51 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/08/21 03:33:58 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,13 @@
 # define OFFSET_BASIS_64  14695981039346656037UL
 # define FNV_PRIME_64  1099511628211UL
 # define MAX_HT_SIZE 1000
+
+/* geometry */
+# define NO_ROOTS -1
+# define PI 3.1415926535897932384626
+# define DEG_TO_RAD 0.017453292519943295
+# define RAD_TO_DEG 57.29577951308232
+
 /***************** FORWARD DECLARATIONS. *****************/
 typedef struct s_list			t_list;
 typedef struct s_list_node		t_list_node;
@@ -54,6 +61,7 @@ typedef struct s_ray			t_ray;
 typedef struct s_sphere			t_sphere;
 typedef struct s_plane			t_plane;
 typedef struct s_cylinder		t_cylinder;
+typedef struct s_quat			t_quat;
 
 /***************** ENUMS *****************/
 /** Comprehensive enumeration of data types, must match union members of t_data.
@@ -236,8 +244,6 @@ struct s_ray
 	t_vec3	*vec;
 };
 
-# define NO_ROOTS -1
-
 struct s_sphere
 {
 	t_vec3	*center;
@@ -258,6 +264,27 @@ struct s_cylinder
 	t_vec3	*base_bot;
 	double	radius;
 	double	height;
+};
+
+struct s_quat
+{
+	double	real;
+	union
+	{
+		t_vec3	axis;
+		struct
+		{
+			double	i;
+			double	j;
+			double	k;
+		};
+		struct
+		{
+			double	x;
+			double	y;
+			double	z;
+		};
+	};
 };
 
 /***************** PROTOTYPES *****************/
@@ -522,5 +549,19 @@ void							norm_point_to_line(t_vec3 *norm,
 									t_vec3 *point, t_ray *ray);
 int								intersection_cylinder(double *t,
 									t_cylinder *cylinder, t_ray *ray);
+
+/* quaternion */
+int								quat_div(t_quat *quat_a, t_quat *quat_b);
+void							quat_mult(t_quat *quat_a, t_quat *quat_b);
+int								quat_invert(t_quat *quat);
+void							quat_conj(t_quat *quat);
+double							quat_len_squared(t_quat *quat);
+double							quat_len(t_quat *quat);
+void							quat_copy(t_quat *quat_a, t_quat *quat_b);
+void							quat_add(t_quat *quat_a, t_quat *quat_b);
+void							quat_substract(t_quat *quat_a, t_quat *quat_b);
+void							quat_sc_mult(t_quat *quat_a, double sc);
+void							quat_print(t_quat *quat);
+void							rotate_vec3(t_vec3 *vec, t_quat *quat);
 
 #endif /* libft.h. */
