@@ -48,6 +48,8 @@ LDFLAGS += -L$(MINILIBX_DIR)
 LDLIBS :=
 LDLIBS += -l$(LIBFT_LIB)
 LDLIBS += -l$(MINILIBX_LIB)
+LDLIBS += -lXext
+LDLIBS += -lX11
 LDLIBS += -lm
 
 # DEBUG=1 make re # include debugging information in the binary
