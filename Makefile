@@ -168,8 +168,9 @@ fi forbidden-funcs-internal:
 	@# - ... are from the minilibx library (-lmlx)
 	@# - sqrt is from the math library
 	@# - the functions below starting with underscore are added by the compiler
+	@# - and a significant part of functions is also added by the mlx library
 	@printf '\n'
-	@$(NM) -u $(NAME)      | \
+	@$(NM) --undefined-only $(NAME)      | \
 		grep -v ' bzero@'     | \
 		grep -v ' memset@'    | \
 		grep -v ' puts@'      | \
@@ -190,16 +191,117 @@ fi forbidden-funcs-internal:
 		grep -v ' __cxa_finalize@'             | \
 		grep -v ' __errno_location@'           | \
 		grep -v ' __stack_chk_fail@'           | \
-		grep -v ' __libc_start_main@'          && \
+		grep -v ' __libc_start_main@'          | \
+		grep -v ' calloc@'                       | \
+		grep -v ' getenv@'                       | \
+		grep -v ' gethostname@'                  | \
+		grep -v ' shmat@'                        | \
+		grep -v ' shmctl@'                       | \
+		grep -v ' shmdt@'                        | \
+		grep -v ' shmget@'                       | \
+		grep -v ' strlen@'                       | \
+		grep -v ' strncmp@'                      | \
+		grep -v ' XChangeWindowAttributes'       | \
+		grep -v ' XCopyArea'                     | \
+		grep -v ' XCreateColormap'               | \
+		grep -v ' XCreateGC'                     | \
+		grep -v ' XCreateImage'                  | \
+		grep -v ' XCreatePixmap'                 | \
+		grep -v ' XCreateWindow'                 | \
+		grep -v ' XFlush'                        | \
+		grep -v ' XGetVisualInfo'                | \
+		grep -v ' XGetWMNormalHints'             | \
+		grep -v ' XInternAtom'                   | \
+		grep -v ' XkbKeycodeToKeysym'            | \
+		grep -v ' XMapRaised'                    | \
+		grep -v ' XNextEvent'                    | \
+		grep -v ' XOpenDisplay'                  | \
+		grep -v ' XPending'                      | \
+		grep -v ' XPutBackEvent'                 | \
+		grep -v ' XPutImage'                     | \
+		grep -v ' XSetClipOrigin'                | \
+		grep -v ' XSetErrorHandler'              | \
+		grep -v ' XSetWMNormalHints'             | \
+		grep -v ' XSetWMProtocols'               | \
+		grep -v ' XShmAttach'                    | \
+		grep -v ' XShmCreateImage'               | \
+		grep -v ' XShmCreatePixmap'              | \
+		grep -v ' XShmPixmapFormat'              | \
+		grep -v ' XShmPutImage'                  | \
+		grep -v ' XShmQueryVersion'              | \
+		grep -v ' XStoreName'                    | \
+		grep -v ' XSync'                         | \
+		grep -v ' XWindowEvent'                  | \
+		grep -v ' XAutoRepeatOff'                | \
+		grep -v ' XAutoRepeatOn'                 | \
+		grep -v ' XCloseDisplay'                 | \
+		grep -v ' XDestroyWindow'                | \
+		grep -v ' XFreeGC'                       | \
+		grep -v ' XFreePixmap'                   | \
+		grep -v ' XShmDetach'                    | \
+		grep ''                                  && \
 		printf '\033[41;30m%s\033[m\n' "There are forbidden functions!" || \
 		( \
 			grep --include='*.[hc]' \
 				--exclude-dir=minilibx-linux \
-				-R \
+				--color=always \
+				--with-filename \
+				--line-number \
+				--binary-files=without-match \
+				--dereference-recursive \
 				-e 'memset' \
-				-e 'bzero' | \
-			grep -v -e ft_memset -e ft_bzero && \
-			printf '\033[41;30m%s\033[m\n' "You used memset/bzero (forbidden)!" || \
+				-e 'bzero' \
+				-e 'puts' \
+				-e 'calloc' \
+				-e 'getenv' \
+				-e 'gethostname' \
+				-e 'shmat' \
+				-e 'shmctl' \
+				-e 'shmdt' \
+				-e 'shmget' \
+				-e 'strlen' \
+				-e 'strncmp' \
+				-e 'XChangeWindowAttributes' \
+				-e 'XCopyArea' \
+				-e 'XCreateColormap' \
+				-e 'XCreateGC' \
+				-e 'XCreateImage' \
+				-e 'XCreatePixmap' \
+				-e 'XCreateWindow' \
+				-e 'XFlush' \
+				-e 'XGetVisualInfo' \
+				-e 'XGetWMNormalHints' \
+				-e 'XInternAtom' \
+				-e 'XkbKeycodeToKeysym' \
+				-e 'XMapRaised' \
+				-e 'XNextEvent' \
+				-e 'XOpenDisplay' \
+				-e 'XPending' \
+				-e 'XPutBackEvent' \
+				-e 'XPutImage' \
+				-e 'XSetClipOrigin' \
+				-e 'XSetErrorHandler' \
+				-e 'XSetWMNormalHints' \
+				-e 'XSetWMProtocols' \
+				-e 'XShmAttach' \
+				-e 'XShmCreateImage' \
+				-e 'XShmCreatePixmap' \
+				-e 'XShmPixmapFormat' \
+				-e 'XShmPutImage' \
+				-e 'XShmQueryVersion' \
+				-e 'XStoreName' \
+				-e 'XSync' \
+				-e 'XWindowEvent' \
+				-e 'XAutoRepeatOff' \
+				-e 'XAutoRepeatOn' \
+				-e 'XCloseDisplay' \
+				-e 'XDestroyWindow' \
+				-e 'XFreeGC' \
+				-e 'XFreePixmap' \
+				-e 'XShmDetach' \
+				| \
+			grep --invert-match '\<ft_' && \
+			printf '\033[41;30m%s\033[m\n' "You've used a forbidden function!" || \
 			printf '\033[42;30m%s\033[m\n' "No forbidden functions!" \
 		)
 
