@@ -101,7 +101,7 @@ int	destroy_hook(t_gc *gc)
 
 void	setup_hooks(t_gc *gc)
 {
-	mlx_hook(gc->win, DestroyNotify, NoEventMask, destroy_hook, gc);
+	mlx_hook(gc->win, DestroyNotify, NoEventMask, (int (*)(void*))destroy_hook, gc);
 }
 
 void	setup_mlx(t_gc *gc, t_scene *scene)
