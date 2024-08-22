@@ -1,4 +1,5 @@
 #include "libft.h"
+
 #include <stdio.h>
 
 void	new_vec3(t_vec3 *this, double x, double y, double z)
@@ -22,11 +23,11 @@ void	print_vec3(t_vec3 *this)
 		this->x, this->y, this->z);
 }
 
-void	rebase_vec3(t_vec3 *this, t_vec3 **new_basis)
-{
 /*
  implementation of Gaussian elimination
 */
+void	rebase_vec3(t_vec3 *this, t_vec3 **new_basis)
+{
 	t_vec3	eq[3];
 	t_vec3	b;
 	double	coefficient;
@@ -43,7 +44,7 @@ void	rebase_vec3(t_vec3 *this, t_vec3 **new_basis)
 	copy_vec3(&b, this);
 	for (int i = 0; i < 3; i++)
 	{
-		for (int j = i; j < 3; j++)//find a vector with non-zero element on the current position and swap it
+		for (int j = i; j < 3; j++) // find a vector with non-zero element on the current position and swap it
 		{
 			if (eq[j].e[i] != 0)
 			{
@@ -55,13 +56,13 @@ void	rebase_vec3(t_vec3 *this, t_vec3 **new_basis)
 				b.e[j] = t;
 				break ;
 			}
-			if (j == 2)//if there is none, means that basis wasnt linear independent
+			if (j == 2) // if there is none, means that basis wasnt linear independent
 			{
 				ft_dprintf(2, "Error: new basis is not linear independent\n");
 				return ;
 			}
 		}
-		for (int j = i + 1; j < 3; j++)//substract current vector from next vectors
+		for (int j = i + 1; j < 3; j++) // substract current vector from next vectors
 		{
 			coefficient = eq[j].e[i] / eq[i].e[i];
 			copy_vec3(&new_substraction, &eq[i]);
@@ -70,7 +71,7 @@ void	rebase_vec3(t_vec3 *this, t_vec3 **new_basis)
 			b.e[j] -= b.e[i] * coefficient;
 		}
 	}
-	for (int i = 2; i >= 0; i--)//calculate the roots
+	for (int i = 2; i >= 0; i--) // calculate the roots
 	{
 		rhs = b.e[i];
 		for (int j = i + 1; j < 3; j++)
