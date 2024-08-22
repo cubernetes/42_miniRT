@@ -30,7 +30,7 @@ CFLAGS += -Wextra
 CFLAGS += -Werror
 CFLAGS += -pedantic
 CFLAGS += -Wconversion
-CFLAGS += -Wunreachable-code
+#CFLAGS += -Wunreachable-code
 CFLAGS += -Wshadow
 CFLAGS += -Wno-overlength-strings
 CFLAGS += -std=c11
@@ -75,6 +75,7 @@ SRC :=
 vpath %.c src
 SRC += main.c
 SRC += mlx_helpers.c
+SRC += render.c
 
 # objects
 OBJ := $(SRC:.c=.o)
