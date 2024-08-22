@@ -1,7 +1,7 @@
 #! /bin/sh
 
-# TODO: Create GitHub Releases
-# TODO: use float (e.g. sqrtf) instead of double (e.g. sqrt), benchmark it!
+# TODO: create GitHub Releases
+# TODO: benchmark float (e.g. sqrtf) against double (e.g. sqrt)
 # TODO: fix that mlx valgrind error regarding writing to uninitialized bytes
 
 # TODO: ONLY remove this file when the following command doesn't print anything anymore (except for this file)

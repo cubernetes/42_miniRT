@@ -5,8 +5,7 @@
 #include <stdlib.h>
 #include "float.h" // wtf norminette doesn't like angle brackets + float header
 
-// todo: add quaternions
-// todo: add transformations
+// TODO: add transformations
 
 void	init(void)
 {

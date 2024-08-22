@@ -50,7 +50,7 @@ int	quat_div(t_quat *quat_a, t_quat *quat_b)
 	return (0);
 }
 
-/* TODO: Use quat_conj instead -> speeeeeeeed */
+/* TODO: use quat_conj instead (might need to be normalized) -> speeeeeeeed */
 void	rotate_vec3(t_vec3 *vec, t_quat *quat)
 {
 	t_quat	res;
