@@ -74,6 +74,7 @@ endif
 SRC :=
 vpath %.c src
 SRC += main.c
+SRC += mlx_helpers.c
 
 # objects
 OBJ := $(SRC:.c=.o)
