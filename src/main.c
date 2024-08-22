@@ -2,10 +2,8 @@
 #include "libft.h"
 #include "mlx.h"
 
-#include <stdio.h>
 #include <stdlib.h>
-#include <math.h>
-#include <float.h>
+#include "float.h" // wtf norminette doesn't like angle brackets + float header
 
 // todo: add quaternions
 // todo: add transformations
@@ -27,23 +25,23 @@ void	finish(int exit_status, t_gc *gc)
 
 int	main2(void)
 {
-	void		*mlx;
-	void		*win;
-	t_rt_img	img;
-	t_sphere	sphere;
-	t_vec3		center;
-	double		radius = 20;
-	t_vec3		terminus;
-	t_vec3		orientation;
-	t_ray		ray;
-	double		old_t;
-	double		t;
-	t_plane		plane;
-	t_vec3		norm;
-	t_vec3		point;
-	t_plane		plane2;
-	t_vec3		norm2;
-	t_vec3		point2;
+	void			*mlx;
+	void			*win;
+	t_rt_img		img;
+	t_sphere		sphere;
+	t_vec3			center;
+	const double	radius = 20;
+	t_vec3			terminus;
+	t_vec3			orientation;
+	t_ray			ray;
+	double			old_t;
+	double			t;
+	t_plane			plane;
+	t_vec3			norm;
+	t_vec3			point;
+	t_plane			plane2;
+	t_vec3			norm2;
+	t_vec3			point2;
 
 	new_vec3(&terminus, 0, 0, 0);
 	new_vec3(&center, 0, 0, -25);
@@ -101,6 +99,7 @@ int	destroy_hook(t_gc *gc)
 }
 
 #include <X11/X.h>
+
 void	setup_hooks(t_gc *gc)
 {
 	mlx_hook(gc->win, DestroyNotify, NoEventMask, destroy_hook, gc);
@@ -112,9 +111,9 @@ void	setup_mlx(t_gc *gc, t_scene *scene)
 	gc->win = mlx_new_window(gc->mlx, scene->wwidth, scene->wheight, "miniRT"); // TODO: check NULL
 	gc->img.img = mlx_new_image(gc->mlx, scene->wwidth, scene->wheight); // TODO: check NULL
 	gc->img.addr = mlx_get_data_addr(
-		gc->img.img, &gc->img.bpp,
-		&gc->img.line_length,
-		&gc->img.endian); // TODO: check NULL
+			gc->img.img, &gc->img.bpp,
+			&gc->img.line_length,
+			&gc->img.endian); // TODO: check NULL
 	setup_hooks(gc);
 }
 
@@ -122,6 +121,23 @@ void	setup_scene(t_scene *scene)
 {
 	scene->wwidth = 800;
 	scene->wheight = 600;
+}
+
+void	test_render(t_gc *gc, t_scene *scene)
+{
+	int	x;
+	int	y;
+
+	y = -1;
+	while (++y < scene->wheight)
+	{
+		x = -1;
+		while (++x < scene->wwidth)
+		{
+			mlx_pixel_put_buf(&gc->img, x, scene->wheight - y, 0x00f68656);
+		}
+	}
+	mlx_put_image_to_window(gc->mlx, gc->win, gc->img.img, 0, 0);
 }
 
 int	main(void)
@@ -132,6 +148,7 @@ int	main(void)
 	init();
 	setup_scene(&scene);
 	setup_mlx(&gc, &scene);
+	test_render(&gc, &scene);
 	mlx_loop(gc.mlx);
 	finish(0, &gc);
 }
