@@ -62,6 +62,7 @@ typedef struct s_sphere			t_sphere;
 typedef struct s_plane			t_plane;
 typedef struct s_cylinder		t_cylinder;
 typedef struct s_quat			t_quat;
+typedef unsigned int			t_color;
 
 /***************** ENUMS *****************/
 /** Comprehensive enumeration of data types, must match union members of t_data.
@@ -563,5 +564,16 @@ void							quat_substract(t_quat *quat_a, t_quat *quat_b);
 void							quat_sc_mult(t_quat *quat_a, double sc);
 void							quat_print(t_quat *quat);
 void							rotate_vec3(t_vec3 *vec, t_quat *quat);
+
+/* colors */
+int								get_alpha(t_color *color);
+int								get_red(t_color *color);
+int								get_green(t_color *color);
+int								get_blue(t_color *color);
+void							set_alpha(t_color *color, unsigned int value);
+void							set_red(t_color *color, unsigned int value);
+void							set_green(t_color *color, unsigned int value);
+void							set_blue(t_color *color, unsigned int value);
+void							apply_light(t_color *color, double ratio);
 
 #endif /* libft.h. */

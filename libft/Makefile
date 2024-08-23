@@ -211,6 +211,10 @@ SRC += quat_copy.c
 SRC += quat_helper.c
 SRC += quat_mult.c
 
+vpath %.c colors
+SRC += colors.c
+SRC += colors_getters.c
+
 # objects
 OBJ := $(SRC:.c=.o)
 OBJ := $(addprefix $(OBJDIR)/,$(OBJ))
