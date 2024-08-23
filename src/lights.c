@@ -61,7 +61,7 @@ t_color	calculate_lighting(t_vec3 *point, t_obj *objects, t_scene *scene)
 
 	res = 0;
 	i = -1;
-	while (++i < scene->nb_lights)//0-th lighting that is located in [0, 0, 0] is an ambience lighting
+	while (++i < scene->nb_lights)//todo: 0-th lighting that is located in [0, 0, 0] is an ambience lighting; could be changed
 	{
 		t = NO_ROOTS;
 		copy_vec3(&orientation, scene->lights[i].point);
