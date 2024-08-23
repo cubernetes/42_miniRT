@@ -574,6 +574,5 @@ void							set_alpha(t_color *color, unsigned int value);
 void							set_red(t_color *color, unsigned int value);
 void							set_green(t_color *color, unsigned int value);
 void							set_blue(t_color *color, unsigned int value);
-void							apply_light(t_color *color, double ratio);
 
 #endif /* libft.h. */

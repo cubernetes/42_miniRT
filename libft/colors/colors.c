@@ -51,16 +51,3 @@ void	set_blue(t_color *color, unsigned int value)
 	}
 	*color = ((*color) & 0xFFFFFF00) | (value);
 }
-
-void	apply_light(t_color *color, double ratio)
-{
-	if (ratio < 0.0 || ratio > 1.0)
-	{
-		ft_dprintf(2, "Error: lighting ratio "
-			"should be in the range [0.0, 1.0]\n");
-		return ;
-	}
-	set_red(color, (unsigned int)(get_red(color) * ratio));
-	set_green(color, (unsigned int)(get_green(color) * ratio));
-	set_blue(color, (unsigned int)(get_blue(color) * ratio));
-}
