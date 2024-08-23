@@ -20,7 +20,7 @@ int	ray_at(t_ray *this, double t, t_vec3 *res)
 
 	if (t < 0)
 	{
-		ft_dprintf(2, "Error: 't' cannot be negative (sometimes can tho)\n");
+//		ft_dprintf(2, "Error: 't' cannot be negative (sometimes can tho)\n");
 		res->x = 0;
 		res->y = 0;
 		res->z = 0;

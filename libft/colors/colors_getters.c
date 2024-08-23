@@ -12,22 +12,22 @@
 
 #include "libft.h"
 
-int	get_alpha(t_color *color)
+unsigned int	get_alpha(t_color *color)
 {
 	return ((*color >> 24) & 0xFF);
 }
 
-int	get_red(t_color *color)
+unsigned int	get_red(t_color *color)
 {
 	return ((*color >> 16) & 0xFF);
 }
 
-int	get_green(t_color *color)
+unsigned int	get_green(t_color *color)
 {
 	return ((*color >> 8) & 0xFF);
 }
 
-int	get_blue(t_color *color)
+unsigned int	get_blue(t_color *color)
 {
 	return (*color & 0xFF);
 }

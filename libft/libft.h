@@ -566,13 +566,14 @@ void							quat_print(t_quat *quat);
 void							rotate_vec3(t_vec3 *vec, t_quat *quat);
 
 /* colors */
-int								get_alpha(t_color *color);
-int								get_red(t_color *color);
-int								get_green(t_color *color);
-int								get_blue(t_color *color);
+unsigned int					get_alpha(t_color *color);
+unsigned int					get_red(t_color *color);
+unsigned int					get_green(t_color *color);
+unsigned int					get_blue(t_color *color);
 void							set_alpha(t_color *color, unsigned int value);
 void							set_red(t_color *color, unsigned int value);
 void							set_green(t_color *color, unsigned int value);
 void							set_blue(t_color *color, unsigned int value);
+void							print_color(t_color *color);
 
 #endif /* libft.h. */
