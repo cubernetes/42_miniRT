@@ -21,17 +21,28 @@ void	finish(int exit_status, t_gc *gc)
 	exit(exit_status);
 }
 
+#include <X11/X.h>
+#include <X11/keysym.h>
+
 int	destroy_hook(t_gc *gc)
 {
 	finish(0, gc);
 	return (0);
 }
 
-#include <X11/X.h>
+int	keydown_hook(int keycode, t_gc *gc)
+{
+	if (keycode == XK_Escape || keycode == 'q')
+		destroy_hook(gc);
+	else
+		ft_printf("Pressed '%c' (keycode: %d)\n", keycode, keycode);
+	return (0);
+}
 
 void	setup_hooks(t_gc *gc)
 {
-	mlx_hook(gc->win, DestroyNotify, NoEventMask, (int (*)(void*))destroy_hook, gc);
+	mlx_hook(gc->win, DestroyNotify, NoEventMask, (t_hook)destroy_hook, gc);
+	mlx_hook(gc->win, KeyPress, KeyPressMask, (t_hook)keydown_hook, gc);
 }
 
 void	setup_mlx(t_gc *gc, t_scene *scene)

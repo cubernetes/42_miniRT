@@ -30,7 +30,7 @@ CFLAGS += -Wextra
 CFLAGS += -Werror
 CFLAGS += -pedantic
 CFLAGS += -Wconversion
-#CFLAGS += -Wunreachable-code
+CFLAGS += -Wunreachable-code
 CFLAGS += -Wshadow
 CFLAGS += -Wno-overlength-strings
 CFLAGS += -std=c11

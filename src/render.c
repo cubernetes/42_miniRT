@@ -6,7 +6,7 @@
 /*   By: nam-vu <nam-vu@student.42berlin.de>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 23:05:03 by nam-vu            #+#    #+#             */
-/*   Updated: 2024/08/22 23:05:03 by nam-vu           ###   ########.fr       */
+/*   Updated: 2024/08/23 05:19:03 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 #include "mlx.h"
 #include <stdlib.h>
 
-int	cast_ray(double *t, t_ray *ray, t_obj *objects, int nb_objs)//todo: handle no objects edge case
+/* todo: handle no objects edge case */
+int	cast_ray(double *t, t_ray *ray, t_obj *objects, int nb_objs)
 {
 	int		i;
 	double	old_t;
@@ -42,6 +43,7 @@ int	cast_ray(double *t, t_ray *ray, t_obj *objects, int nb_objs)//todo: handle n
 	return (res_color);
 }
 
+/* todo: change to FOV */
 void	render(t_gc *gc, t_scene *scene, t_obj *objects)
 {
 	int				x;
@@ -52,7 +54,7 @@ void	render(t_gc *gc, t_scene *scene, t_obj *objects)
 	t_vec3			orientation;
 	double			t;
 	const double	scale = 4.0;
-	const double	focal_distance = -10.0;//todo: change to FOV
+	const double	focal_distance = -10.0;
 
 	new_vec3(&terminus, 0, 0, 0);
 	y = -1;
@@ -70,18 +72,23 @@ void	render(t_gc *gc, t_scene *scene, t_obj *objects)
 	mlx_put_image_to_window(gc->mlx, gc->win, gc->img.img, 0, 0);
 }
 
-int	parse_input(t_obj **objects, t_scene *scene)//todo: make array of pointers instead of normal array
+/* todo: make array of pointers instead of normal array */
+/* todo: use vec3 structs instead of pointers to vec3 structs,
+ * reduces fragmentation and the number of calls to (ft_)malloc
+ */
+int	parse_input(t_obj **objects, t_scene *scene)
 {
 	const double	radius = 5;
 
-	*objects = ft_malloc(4 * sizeof(t_obj));
+	scene->nb_objs = 3;
+	*objects = ft_malloc(sizeof(t_obj) * (size_t)scene->nb_objs);
 	(*objects)[0].type = SPHERE;
 	(*objects)[0].color = 0x00da2b27;
 	(*objects)[0].sphere.center = ft_malloc(sizeof(t_vec3));
 	new_vec3((*objects)[0].sphere.center, 0, 0, -10);
 	new_sphere(&(*objects)[0].sphere, (*objects)[0].sphere.center, radius);
 	(*objects)[1].type = PLANE;
-	(*objects)[1].color = 0x00CE9D52;
+	(*objects)[1].color = 0x00ce9d52;
 	(*objects)[1].plane.norm = ft_malloc(sizeof(t_vec3));
 	new_vec3((*objects)[1].plane.norm, 0, 1, 0);
 	(*objects)[1].plane.point = ft_malloc(sizeof(t_vec3));
@@ -94,6 +101,5 @@ int	parse_input(t_obj **objects, t_scene *scene)//todo: make array of pointers i
 	(*objects)[2].plane.point = ft_malloc(sizeof(t_vec3));
 	new_vec3((*objects)[2].plane.point, 0, 29, 0);
 	new_plane(&(*objects)[2].plane, (*objects)[2].plane.point, (*objects)[2].plane.norm);
-	scene->nb_objs = 3;
 	return (EXIT_SUCCESS);
 }

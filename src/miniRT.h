@@ -1,73 +1,80 @@
 #ifndef MINIRT_H
-# define MINIRT_H	1
+# define MINIRT_H 1
 
-// # include "mlx_int.h"
 # include "libft.h"
-/* forward declarations */
 
-typedef struct s_rt_img	t_rt_img;
-typedef struct s_gc		t_gc;
-typedef struct s_scene	t_scene;
-typedef struct s_obj	t_obj;
-
-/* enums */
-enum	e_obj_type
+/********** enums **********/
+enum					e_obj_type
 {
 	PLANE,
 	SPHERE,
 	CYLINDER,
 };
 
-typedef enum e_obj_type	t_obj_type;
 
-/* struct defintions */
-struct s_rt_img
+/************* typedefs ***************/
+typedef enum e_obj_type	t_obj_type;
+typedef int				(*t_hook)(void *);
+
+/* forward declarations */
+typedef struct s_rt_img	t_rt_img;
+typedef struct s_gc		t_gc;
+typedef struct s_scene	t_scene;
+typedef struct s_obj	t_obj;
+
+
+/********** struct defintions **********/
+struct					s_rt_img
 {
-	void		*img;
-	char		*addr;
-	int			bpp;
-	int			line_length;
-	int			endian;
+	void				*img;
+	char				*addr;
+	int					bpp;
+	int					line_length;
+	int					endian;
 };
 
 /* gc == graphics context */
-struct s_gc
+struct					s_gc
 {
-	void		*mlx;
-	void		*win;
-	t_rt_img	img;
+	void				*mlx;
+	void				*win;
+	t_rt_img			img;
 };
 
-struct s_scene
+struct					s_scene
 {
-	int	wheight;
-	int	wwidth;
-	int	nb_objs;
+	int					wheight;
+	int					wwidth;
+	int					nb_objs;
 };
 
-struct s_obj
+struct					s_obj
 {
-	t_obj_type	type;
-	int			color;
+	t_obj_type			type;
+	int					color;
 	union
 	{
-		t_plane		plane;
-		t_sphere	sphere;
-		t_cylinder	cylinder;
+		t_plane			plane;
+		t_sphere		sphere;
+		t_cylinder		cylinder;
 	};
 };
 
+
+/***************** prototypes ****************/
 /* main.c */
-void	finish(int exit_status, t_gc *gc);
+void					finish(int exit_status, t_gc *gc);
 
 /* mlx_helpers.c */
-void	mlx_pixel_put_buf(t_rt_img *data, int x, int y, int color);
+void					mlx_pixel_put_buf(t_rt_img *data, int x, int y,
+							int color);
 // void	*mlx_new_resizable_window(t_xvar *xvar, int size_x, int size_y,
 // 			char *title);
 
-/* reder.c */
-int		cast_ray(double *t, t_ray *ray, t_obj *objects, int nb_objs);
-void	render(t_gc *gc, t_scene *scene, t_obj *objects);
-int		parse_input(t_obj **objects, t_scene *scene);
+/* render.c */
+int						cast_ray(double *t, t_ray *ray, t_obj *objects,
+							int nb_objs);
+void					render(t_gc *gc, t_scene *scene, t_obj *objects);
+int						parse_input(t_obj **objects, t_scene *scene);
 
 #endif /* miniRT.h */
