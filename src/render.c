@@ -66,6 +66,7 @@ void	render(t_gc *gc, t_scene *scene, t_obj *objects)
 			new_vec3(&orientation, (x - scene->wwidth / 2.0) / scale, (y - scene->wheight / 2.0) / scale, focal_distance);
 			new_ray(&ray, &terminus, &orientation);
 			res_color = cast_ray(&t, &ray, objects, scene->nb_objs);
+			apply_light(&res_color, scene->amb_light);
 			mlx_pixel_put_buf(&gc->img, x, scene->wheight - y, res_color);
 		}
 	}
