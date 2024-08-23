@@ -64,15 +64,9 @@ int	intersection_plane(double *t, t_plane *plane, t_ray *ray)
 	k = dot_product_vec3(ray->vec, plane->norm);
 	b = dot_product_vec3(&v, plane->norm);
 	if (k == 0)
-	{
-		if (b == 0)
-			*t = 0;
-		else
-			*t = NO_ROOTS;
 		return (*t == NO_ROOTS);
-	}
 	*t = -b / k;
-	if (*t < 0)
+	if (*t <= 0)
 		*t = NO_ROOTS;
 	return (*t == NO_ROOTS);
 }

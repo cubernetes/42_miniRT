@@ -86,13 +86,13 @@ int	intersection_sphere(double *t, t_sphere *sphere, t_ray *ray)
 	}
 	discriminant = sqrt(discriminant);
 	*t = -b - discriminant;
-	if (*t >= 0)
+	if (*t > 0)
 	{
 		*t /= 2 * a;
 		return (1);
 	}
 	*t = -b + discriminant;
-	if (*t >= 0)
+	if (*t > 0)
 	{
 		*t /= 2 * a;
 		return (1);

@@ -144,7 +144,7 @@ static void	choose_root(double *t, double *x)
 	i = -1;
 	while (++i < 4)
 	{
-		if ((x[i] >= 0) && (min_x == -1 || x[i] < min_x))
+		if ((x[i] > 0) && (min_x == -1 || x[i] < min_x))
 			min_x = x[i];
 	}
 	*t = min_x;
