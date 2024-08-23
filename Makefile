@@ -76,6 +76,8 @@ vpath %.c src
 SRC += main.c
 SRC += mlx_helpers.c
 SRC += render.c
+SRC += lights.c
+SRC += parse.c
 
 # objects
 OBJ := $(SRC:.c=.o)

@@ -54,6 +54,6 @@ void	set_blue(t_color *color, unsigned int value)
 
 void	print_color(t_color *color)
 {
-	ft_printf("COLOR: R: %i G: %i B: %i",
+	ft_printf("COLOR: R: %i G: %i B: %i\n",
 		get_red(color), get_green(color), get_blue(color));
 }
