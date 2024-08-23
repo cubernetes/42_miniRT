@@ -46,12 +46,13 @@ struct					s_scene
 	int					wheight;
 	int					wwidth;
 	int					nb_objs;
+	double				amb_light;
 };
 
 struct					s_obj
 {
 	t_obj_type			type;
-	int					color;
+	t_color				color;
 	union
 	{
 		t_plane			plane;
@@ -67,12 +68,12 @@ void					finish(int exit_status, t_gc *gc);
 
 /* mlx_helpers.c */
 void					mlx_pixel_put_buf(t_rt_img *data, int x, int y,
-							int color);
+							t_color color);
 // void	*mlx_new_resizable_window(t_xvar *xvar, int size_x, int size_y,
 // 			char *title);
 
 /* render.c */
-int						cast_ray(double *t, t_ray *ray, t_obj *objects,
+t_color					cast_ray(double *t, t_ray *ray, t_obj *objects,
 							int nb_objs);
 void					render(t_gc *gc, t_scene *scene, t_obj *objects);
 int						parse_input(t_obj **objects, t_scene *scene);

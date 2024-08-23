@@ -16,11 +16,11 @@
 #include <stdlib.h>
 
 /* todo: handle no objects edge case */
-int	cast_ray(double *t, t_ray *ray, t_obj *objects, int nb_objs)
+t_color	cast_ray(double *t, t_ray *ray, t_obj *objects, int nb_objs)
 {
 	int		i;
 	double	old_t;
-	int		res_color;
+	t_color	res_color;
 
 	i = -1;
 	*t = NO_ROOTS;
@@ -48,7 +48,7 @@ void	render(t_gc *gc, t_scene *scene, t_obj *objects)
 {
 	int				x;
 	int				y;
-	int				res_color;
+	t_color			res_color;
 	t_ray			ray;
 	t_vec3			terminus;
 	t_vec3			orientation;
@@ -80,6 +80,7 @@ int	parse_input(t_obj **objects, t_scene *scene)
 {
 	const double	radius = 5;
 
+	scene->amb_light = 0.5;
 	scene->nb_objs = 3;
 	*objects = ft_malloc(sizeof(t_obj) * (size_t)scene->nb_objs);
 	(*objects)[0].type = SPHERE;
