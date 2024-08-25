@@ -6,15 +6,16 @@
 /*   By: nam-vu <nam-vu@student.42berlin.de>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/23 18:22:39 by nam-vu            #+#    #+#             */
-/*   Updated: 2024/08/23 18:22:39 by nam-vu           ###   ########.fr       */
+/*   Updated: 2024/08/25 09:58:18 by tosuman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
+/* TODO: casting to (int) otherwise won't compile, but is that even right? */
 void	set_alpha(t_color *color, unsigned int value)
 {
-	if (value < 0 || value > 255)
+	if ((int)value < 0 || value > 255)
 	{
 		ft_dprintf(2, "Error: color ratio should be in the range [0-255]\n");
 		return ;
@@ -24,7 +25,7 @@ void	set_alpha(t_color *color, unsigned int value)
 
 void	set_red(t_color *color, unsigned int value)
 {
-	if (value < 0 || value > 255)
+	if ((int)value < 0 || value > 255)
 	{
 		ft_dprintf(2, "Error: color ratio should be in the range [0-255]\n");
 		return ;
@@ -34,7 +35,7 @@ void	set_red(t_color *color, unsigned int value)
 
 void	set_green(t_color *color, unsigned int value)
 {
-	if (value < 0 || value > 255)
+	if ((int)value < 0 || value > 255)
 	{
 		ft_dprintf(2, "Error: color ratio should be in the range [0-255]\n");
 		return ;
@@ -44,7 +45,7 @@ void	set_green(t_color *color, unsigned int value)
 
 void	set_blue(t_color *color, unsigned int value)
 {
-	if (value < 0 || value > 255)
+	if ((int)value < 0 || value > 255)
 	{
 		ft_dprintf(2, "Error: color ratio should be in the range [0-255]\n");
 		return ;

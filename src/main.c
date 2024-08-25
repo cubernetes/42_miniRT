@@ -3,6 +3,7 @@
 
 #include <stdlib.h>
 #include "float.h" // wtf norminette doesn't like angle brackets + float header
+#include <stdarg.h>
 
 // TODO: add transformations
 
@@ -24,16 +25,32 @@ void	finish(int exit_status, t_gc *gc)
 #include <X11/X.h>
 #include <X11/keysym.h>
 
-int	destroy_hook(t_gc *gc)
+int	destroy_hook(void *arg1, ...)
 {
+	t_gc	*gc;
+
+	gc = arg1;
 	finish(0, gc);
 	return (0);
 }
 
-int	keydown_hook(int keycode, t_gc *gc)
+#include <stdint.h>
+
+/* cast to intptr_t and then int needed. only way to make this generic */
+int	keydown_hook(void *arg1, ...)
 {
+	int		keycode;
+	va_list	ap;
+	t_gc	*gc;
+
+	keycode = (int)(intptr_t)arg1;
 	if (keycode == XK_Escape || keycode == 'q')
+	{
+		va_start(ap, arg1);
+		gc = va_arg(ap, t_gc *);
+		va_end(ap);
 		destroy_hook(gc);
+	}
 	else
 		ft_printf("Pressed '%c' (keycode: %d)\n", keycode, keycode);
 	return (0);

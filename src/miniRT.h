@@ -13,7 +13,7 @@ enum					e_obj_type
 
 /************* typedefs ***************/
 typedef enum e_obj_type	t_obj_type;
-typedef int				(*t_hook)(void *);
+typedef int				(*t_hook)(void *, ...);
 
 /* forward declarations */
 typedef struct s_rt_img	t_rt_img;
