@@ -164,7 +164,7 @@ l leakcheck: re
 # TODO: benchmark between ft_printf and printf
 ### Don't recompile, just check for forbidden functions
 fi forbidden-funcs-internal:
-	@# - memset, bzero, puts can be ignored from nm (they are added by compiler)
+	@# - memset, bzero, ... can be ignored from nm (they are added by compiler)
 	@# - open, close, read, write, printf, malloc, free, perror, strerror,
 	@#   and exit are from the subject
 	@# - ... are from the math library (-lm)
@@ -177,6 +177,7 @@ fi forbidden-funcs-internal:
 		grep -v ' bzero@'     | \
 		grep -v ' memset@'    | \
 		grep -v ' puts@'      | \
+		grep -v ' putchar@'      | \
 		grep -v ' read@'         | \
 		grep -v ' free@'         | \
 		grep -v ' open@'         | \
@@ -255,6 +256,7 @@ fi forbidden-funcs-internal:
 				-e 'memset' \
 				-e 'bzero' \
 				-e 'puts' \
+				-e 'putchar' \
 				-e 'calloc' \
 				-e 'getenv' \
 				-e 'gethostname' \
