@@ -55,6 +55,7 @@ int	keydown_hook(void *arg1, ...)
 		ft_printf("Pressed '%c' (keycode: %d)\n", keycode, keycode);
 	return (0);
 }
+/* TODO: Remove 'pressed' debug output */
 
 void	setup_hooks(t_gc *gc)
 {
