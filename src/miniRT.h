@@ -86,7 +86,7 @@ void					render(t_gc *gc, t_scene *scene, t_obj *objects);
 
 /* lights.c */
 void					apply_light(t_color *color, t_color light);
-t_color					calculate_lighting(t_vec3 *point,
+t_color					calculate_lighting(t_vec3 *point, t_vec3 *init_orient,
 							t_obj *objects, t_scene *scene);
 
 /* parse.c */

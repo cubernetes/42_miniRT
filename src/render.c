@@ -69,7 +69,7 @@ void	render(t_gc *gc, t_scene *scene, t_obj *objects)
 			new_ray(&ray, &terminus, &orientation);
 			res_color = cast_ray(&t, &ray, objects, scene->nb_objs);
 			if (!ray_at(&ray, t, &intersection))//todo: add ambience lighting for void
-				apply_light(&res_color, calculate_lighting(&intersection, objects, scene));
+				apply_light(&res_color, calculate_lighting(&intersection, &orientation, objects, scene));
 			mlx_pixel_put_buf(&gc->img, x, scene->wheight - y, res_color);
 		}
 	}
