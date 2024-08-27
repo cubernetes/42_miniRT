@@ -64,7 +64,7 @@ t_color	calculate_lighting(t_vec3 *point, t_obj *objects, t_scene *scene)
 	double	t;
 	t_color	res;
 	t_vec3	first;
-	
+
 	res = 0;
 	i = -1;
 	while (++i < scene->nb_lights)//todo: 0-th lighting that is located in [0, 0, 0] is an ambience lighting; could be changed
@@ -83,6 +83,8 @@ t_color	calculate_lighting(t_vec3 *point, t_obj *objects, t_scene *scene)
 			if (length_squared_vec3(&first) <= 0.000000001)
 				combine_light(&res, &(scene->lights[i]));
 		}
+//		else
+//			print_double_byte_by_byte(t);
 	}
 	return (res);
 }
