@@ -9,9 +9,9 @@ AR := ar rcs
 RM := /bin/rm -f
 MKDIR := /bin/mkdir -p
 
-# flags
-CFLAGS :=
-CFLAGS += -O3
+# general compile flags
+CFLAGS += -std=c11
+# compile warning flags
 CFLAGS += -Wall
 CFLAGS += -Wextra
 CFLAGS += -Werror
@@ -19,10 +19,27 @@ CFLAGS += -pedantic
 CFLAGS += -Wconversion
 CFLAGS += -Wunreachable-code
 CFLAGS += -Wshadow
-CFLAGS += -std=c11
+CFLAGS += -Wno-overlength-strings
+# performance flags
+CFLAGS := -Ofast
+CFLAGS += -march=native
+CFLAGS += -fno-signed-zeros
+CFLAGS += -funroll-loops
+# Unsafe performance flags
+CFLAGS += -fomit-frame-pointer
+CFLAGS += -ffast-math
+CFLAGS += -fno-math-errno
+CFLAGS += -funsafe-math-optimizations
+CFLAGS += -fassociative-math
+CFLAGS += -freciprocal-math
+CFLAGS += -ffinite-math-only
+CFLAGS += -fno-signed-zeros
+CFLAGS += -fno-trapping-math
+CFLAGS += -frounding-math
 
 CPPFLAGS :=
 CPPFLAGS += -MD
+CPPFLAGS += -MP
 CPPFLAGS += -I$(SRCDIR)
 
 ifeq ($(DEBUG), 1)

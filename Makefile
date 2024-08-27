@@ -23,8 +23,9 @@ MKDIR := /bin/mkdir -p
 NM := nm
 NORMINETTE_EXCLUDE_DIRS := ./norminette_exclude_dirs
 
-# flags
-CFLAGS := -O3
+# general compile flags
+CFLAGS += -std=c11
+# compile warning flags
 CFLAGS += -Wall
 CFLAGS += -Wextra
 CFLAGS += -Werror
@@ -33,18 +34,37 @@ CFLAGS += -Wconversion
 CFLAGS += -Wunreachable-code
 CFLAGS += -Wshadow
 CFLAGS += -Wno-overlength-strings
-CFLAGS += -std=c11
+# performance flags
+CFLAGS := -Ofast
+CFLAGS += -march=native
+CFLAGS += -fno-signed-zeros
+CFLAGS += -funroll-loops
+# Unsafe performance flags
+CFLAGS += -fomit-frame-pointer
+CFLAGS += -ffast-math
+CFLAGS += -fno-math-errno
+CFLAGS += -funsafe-math-optimizations
+CFLAGS += -fassociative-math
+CFLAGS += -freciprocal-math
+CFLAGS += -ffinite-math-only
+CFLAGS += -fno-signed-zeros
+CFLAGS += -fno-trapping-math
+CFLAGS += -frounding-math
 
+# preprocessor flags
 CPPFLAGS :=
 CPPFLAGS += -MD
+CPPFLAGS += -MP
 CPPFLAGS += -I$(LIBFT_DIR)
 CPPFLAGS += -I$(MINILIBX_DIR)
 CPPFLAGS += -I$(SRCDIR)
 
+# linker flags
 LDFLAGS :=
 LDFLAGS += -L$(LIBFT_DIR)
 LDFLAGS += -L$(MINILIBX_DIR)
 
+# linker libraries
 LDLIBS :=
 LDLIBS += -l$(LIBFT_LIB)
 LDLIBS += -l$(MINILIBX_LIB)
@@ -196,6 +216,7 @@ fi forbidden-funcs-internal:
 		grep -v ' __errno_location@'           | \
 		grep -v ' __stack_chk_fail@'           | \
 		grep -v ' __libc_start_main@'          | \
+		grep -v ' __printf_chk@'               | \
 		grep -v ' calloc@'                       | \
 		grep -v ' getenv@'                       | \
 		grep -v ' gethostname@'                  | \
@@ -253,6 +274,14 @@ fi forbidden-funcs-internal:
 				--line-number \
 				--binary-files=without-match \
 				--dereference-recursive \
+				-e ' __gmon_start__' \
+				-e ' _ITM_registerTMCloneTable' \
+				-e ' _ITM_deregisterTMCloneTable' \
+				-e ' __cxa_finalize@' \
+				-e ' __errno_location@' \
+				-e ' __stack_chk_fail@' \
+				-e ' __libc_start_main@' \
+				-e ' __printf_chk@' \
 				-e 'memset' \
 				-e 'bzero' \
 				-e 'puts' \
