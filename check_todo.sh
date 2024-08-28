@@ -4,6 +4,11 @@
 # TODO: benchmark float (e.g. sqrtf) against double (e.g. sqrt)
 # TODO: fix that mlx valgrind error regarding writing to uninitialized bytes
 
+# TODO: add precision functions (round, etc.)
+# TODO: add diffuse lighting
+# TODO: understand and fix lighting artefacts
+# TODO: rotations for objects and camera
+
 # TODO: ONLY remove this file when the following command doesn't print anything anymore (except for this file)
 grep --color=always \
 	--exclude-dir=.git/ \
