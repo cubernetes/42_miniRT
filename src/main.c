@@ -1,11 +1,14 @@
 #include "miniRT.h"
 #include "mlx.h"
 
+#include <math.h>
 #include <stdlib.h>
 #include "float.h" // wtf norminette doesn't like angle brackets + float header
 #include <stdarg.h>
 
 // TODO: add transformations
+
+void	print_double_byte_by_byte(double value);
 
 void	init(void)
 {
@@ -44,12 +47,70 @@ int	keydown_hook(void *arg1, ...)
 	t_gc	*gc;
 
 	keycode = (int)(intptr_t)arg1;
+	va_start(ap, arg1);
+	gc = va_arg(ap, t_gc *);
+	va_end(ap);
 	if (keycode == XK_Escape || keycode == 'q')
-	{
-		va_start(ap, arg1);
-		gc = va_arg(ap, t_gc *);
-		va_end(ap);
 		destroy_hook(gc);
+	else if (keycode == 'd')
+	{
+		gc->scene->lights[1].point->x += 0.00000000001;
+		render(gc, gc->scene, gc->scene->objects);
+	}
+	else if (keycode == 'a')
+	{
+		gc->scene->lights[1].point->x -= 0.00000000001;
+		render(gc, gc->scene, gc->scene->objects);
+	}
+	else if (keycode == 'w')
+	{
+		gc->scene->lights[1].point->z -= 0.00000000001;
+		render(gc, gc->scene, gc->scene->objects);
+	}
+	else if (keycode == 's')
+	{
+		gc->scene->lights[1].point->z += 0.00000000001;
+		render(gc, gc->scene, gc->scene->objects);
+	}
+	else if (keycode == 'l')
+	{
+		gc->scene->lights[1].point->x += 0.00000001;
+		render(gc, gc->scene, gc->scene->objects);
+	}
+	else if (keycode == 'h')
+	{
+		gc->scene->lights[1].point->x -= 0.00000001;
+		render(gc, gc->scene, gc->scene->objects);
+	}
+	else if (keycode == 'k')
+	{
+		gc->scene->lights[1].point->z -= 0.00000001;
+		render(gc, gc->scene, gc->scene->objects);
+	}
+	else if (keycode == 'j')
+	{
+		gc->scene->lights[1].point->z += 0.00000001;
+		render(gc, gc->scene, gc->scene->objects);
+	}
+	else if (keycode == 'p')
+	{
+		gc->scene->lights[1].point->x += 0.01;
+		render(gc, gc->scene, gc->scene->objects);
+	}
+	else if (keycode == 'o')
+	{
+		gc->scene->lights[1].point->x -= 0.01;
+		render(gc, gc->scene, gc->scene->objects);
+	}
+	else if (keycode == '2')
+	{
+		gc->scene->lights[1].point->x += 100;
+		render(gc, gc->scene, gc->scene->objects);
+	}
+	else if (keycode == '1')
+	{
+		gc->scene->lights[1].point->x -= 100;
+		render(gc, gc->scene, gc->scene->objects);
 	}
 	else
 		ft_printf("Pressed '%c' (keycode: %d)\n", keycode, keycode);
@@ -95,6 +156,8 @@ int	main(void)
 		ft_dprintf(2, "Error: wrong input format\n");
 		return (EXIT_FAILURE);
 	}
+	scene.objects = objects; /* put this is dedicated function or so */
+	gc.scene = &scene; /* put this is dedicated function or so */
 	render(&gc, &scene, objects);
 	mlx_loop(gc.mlx);
 	finish(0, &gc);

@@ -6,12 +6,14 @@
 /*   By: nam-vu <nam-vu@student.42berlin.de>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/23 19:56:03 by nam-vu            #+#    #+#             */
-/*   Updated: 2024/08/23 19:56:03 by nam-vu           ###   ########.fr       */
+/*   Updated: 2024/08/28 02:40:21 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
 #include "miniRT.h"
 #include <stdio.h>
+#include <math.h>
 
 void	apply_light(t_color *color, t_color ratio)
 {
@@ -48,9 +50,12 @@ void print_double_byte_by_byte(double value) {
 	for (int i = 0; (unsigned int)i < sizeof(double); i++) {
 		printf("%02X ", bytePtr[i]);
 	}
-	printf("\n");
+	printf(" : %f\n", value);
 }
 
+/* expensive function, is run:
+ *     wwidth * wheight * nb_lights * nb_objs times (roughly 3 mil.)
+ */
 t_color	calculate_lighting(t_vec3 *point, t_obj *objects, t_scene *scene)
 {
 	t_ray	ray;
@@ -58,22 +63,26 @@ t_color	calculate_lighting(t_vec3 *point, t_obj *objects, t_scene *scene)
 	int		i;
 	double	t;
 	t_color	res;
-
+	t_vec3	first;
+	
 	res = 0;
 	i = -1;
 	while (++i < scene->nb_lights)//todo: 0-th lighting that is located in [0, 0, 0] is an ambience lighting; could be changed
 	{
 		t = NO_ROOTS;
-		copy_vec3(&orientation, scene->lights[i].point);
-		substract_vec3(&orientation, point);
-		new_ray(&ray, point, &orientation);
+		copy_vec3(&orientation, point);
+		substract_vec3(&orientation, scene->lights[i].point);
+		unit_vec3(&orientation);
+		new_ray(&ray, scene->lights[i].point, &orientation);
 		cast_ray(&t, &ray, objects, scene->nb_objs);
-		if ((int)t <= 0 || t > 1.0)
-		{
+		if (ray_at(&ray, t, &first))
 			combine_light(&res, &(scene->lights[i]));
+		else
+		{
+			substract_vec3(&first, point);
+			if (length_squared_vec3(&first) <= 0.000000001)
+				combine_light(&res, &(scene->lights[i]));
 		}
-//		else
-//			print_double_byte_by_byte(t);
 	}
 	return (res);
 }

@@ -38,6 +38,7 @@ struct					s_gc
 	void				*mlx;
 	void				*win;
 	t_rt_img			img;
+	t_scene				*scene;
 };
 
 struct					s_scene
@@ -47,6 +48,7 @@ struct					s_scene
 	int					nb_objs;
 	t_light				*amb_light;
 	t_light				*lights;
+	t_obj				*objects;
 	int					nb_lights;
 };
 
