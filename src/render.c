@@ -20,58 +20,48 @@
 #include <stdio.h> // TODO: remove
 
 /* todo: handle no objects edge case */
-t_color	cast_ray(double *t, t_ray *ray, t_obj *objects, int nb_objs)
+int	cast_ray(t_hit *hit, t_ray *ray, t_obj *objects, int nb_objs)
 {
 	int		i;
 	double	old_t;
-	t_color	res_color;
 
 	i = -1;
-	*t = NO_ROOTS;
+	hit->t = NO_ROOTS;
 	old_t = INFINITY;
-	res_color = 0x00000000;
+	hit->color = 0x00000000;
 	while (++i < nb_objs)
 	{
 		if (objects[i].type == PLANE)
-			intersection_plane(t, &objects[i].plane, ray);
+			intersection_plane(&hit->t, &objects[i].plane, ray);
 		else if (objects[i].type == SPHERE)
 		{
-			intersection_sphere(t, &objects[i].sphere, ray);
-			/* if (ray->terminus->x != 0 || ray->terminus->y != 0 || ray->terminus->z != 0) */
-			/* { */
-				/* if (*t < 0) */
-					/* printf("negative:%f\n", *t); */
-				/* else */
-					/* printf("positive:%f\n", *t); */
-			/* } */
+			intersection_sphere(&hit->t, &objects[i].sphere, ray);
 		}
 		else if (objects[i].type == CYLINDER)
-			intersection_cylinder(t, &objects[i].cylinder, ray);
-		if ((*t > 0) && (*t < old_t || old_t == NO_ROOTS))
+			intersection_cylinder(&hit->t, &objects[i].cylinder, ray);
+		if ((hit->t > 0) && (hit->t < old_t || old_t == NO_ROOTS))
 		{
-			old_t = *t;
-			res_color = objects[i].color;
+			old_t = hit->t;
+			hit->object = &objects[i];
+			hit->color = objects[i].color;
 		}
 	}
 	if (old_t == INFINITY)
-		*t = NO_ROOTS;
+		hit->t = NO_ROOTS;
 	else
-		*t = old_t;
-	return (res_color);
+		hit->t = old_t;
+	return (ray_at(ray, hit->t, &hit->point));
 }
 
-#include <stdio.h>
 /* todo: change to FOV */
 void	render(t_gc *gc, t_scene *scene, t_obj *objects)
 {
 	int				x;
 	int				y;
-	t_color			res_color;
 	t_ray			ray;
 	t_vec3			terminus;
-	t_vec3			intersection;
 	t_vec3			orientation;
-	double			t;
+	t_hit			hit;
 	const double	scale = 16.0;
 	const double	focal_distance = -10.0;
 
@@ -84,14 +74,11 @@ void	render(t_gc *gc, t_scene *scene, t_obj *objects)
 		{
 			new_vec3(&orientation, (x - scene->wwidth / 2.0) / scale, (y - scene->wheight / 2.0) / scale, focal_distance);
 			new_ray(&ray, &terminus, &orientation);
-			res_color = cast_ray(&t, &ray, objects, scene->nb_objs);
-			if (x == 407 && y == 300)
-				printf("t = %f\n", t);
-			if (!ray_at(&ray, t, &intersection))
-				apply_light(&res_color, calculate_lighting(&intersection, objects, scene));
-			if (x == 407 && y == 300)
-				print_color(&res_color);
-			mlx_pixel_put_buf(&gc->img, x, scene->wheight - y, res_color);
+			if (!cast_ray(&hit, &ray, objects, scene->nb_objs))
+			{
+				apply_light(&(hit.color), calculate_lighting(&hit, objects, scene));
+			}
+			mlx_pixel_put_buf(&gc->img, x, scene->wheight - y, hit.color);
 		}
 	}
 	mlx_put_image_to_window(gc->mlx, gc->win, gc->img.img, 0, 0);

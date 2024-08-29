@@ -22,6 +22,7 @@ typedef struct s_gc		t_gc;
 typedef struct s_scene	t_scene;
 typedef struct s_obj	t_obj;
 typedef struct s_light	t_light;
+typedef struct s_hit	t_hit;
 
 /********** struct defintions **********/
 struct					s_rt_img
@@ -72,6 +73,14 @@ struct					s_light
 	double				ratio;
 };
 
+struct					s_hit
+{
+	double				t;
+	t_vec3				point;
+	t_obj				*object;
+	t_color				color;
+};
+
 /***************** prototypes ****************/
 /* main.c */
 void					finish(int exit_status, t_gc *gc);
@@ -83,13 +92,13 @@ void					mlx_pixel_put_buf(t_rt_img *data, int x, int y,
 // 			char *title);
 
 /* render.c */
-t_color					cast_ray(double *t, t_ray *ray, t_obj *objects,
+int						cast_ray(t_hit *hit, t_ray *ray, t_obj *objects,
 							int nb_objs);
 void					render(t_gc *gc, t_scene *scene, t_obj *objects);
 
 /* lights.c */
 void					apply_light(t_color *color, t_color light);
-t_color					calculate_lighting(t_vec3 *point,
+t_color					calculate_lighting(t_hit *hit,
 							t_obj *objects, t_scene *scene);
 
 /* parse.c */

@@ -57,30 +57,30 @@ void print_double_byte_by_byte(double value) {
  *     wwidth * wheight * nb_lights * nb_objs times (roughly 3 mil.)
  */
 #include <stdlib.h>
-t_color	calculate_lighting(t_vec3 *point, t_obj *objects, t_scene *scene)
+t_color	calculate_lighting(t_hit *hit, t_obj *objects, t_scene *scene)
 {
 	t_ray	ray;
 	t_vec3	orientation;
 	int		i;
-	double	t;
-	t_color	res;
+	t_hit	shadow_hit;
 	t_vec3	first;
+	t_color	res;
 
 	res = 0;
 	i = -1;
 	while (++i < scene->nb_lights)//todo: 0-th lighting that is located in [0, 0, 0] is an ambience lighting; could be changed
 	{
-		t = NO_ROOTS;
-		copy_vec3(&orientation, point);
+		shadow_hit.t = NO_ROOTS;
+		copy_vec3(&orientation, &hit->point);
 		substract_vec3(&orientation, scene->lights[i].point);
 		unit_vec3(&orientation);
 		new_ray(&ray, scene->lights[i].point, &orientation);
-		cast_ray(&t, &ray, objects, scene->nb_objs);
-		if (ray_at(&ray, t, &first))
+		if (cast_ray(&shadow_hit, &ray, objects, scene->nb_objs))
 			combine_light(&res, &(scene->lights[i]));
 		else
 		{
-			substract_vec3(&first, point);
+			copy_vec3(&first, &(shadow_hit.point));
+			substract_vec3(&first, &hit->point);
 			if (length_squared_vec3(&first) <= 0.001)
 				combine_light(&res, &(scene->lights[i]));
 		}
