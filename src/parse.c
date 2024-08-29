@@ -30,7 +30,7 @@ int	parse_input(t_obj **objects, t_scene *scene)
 	scene->lights[1].ratio = 0.5;
 	scene->lights[1].point = ft_malloc(sizeof(t_vec3));
 	scene->lights[1].color = 0x00FFFFFF;
-	new_vec3(scene->lights[1].point, 50, 0, -41);
+	new_vec3(scene->lights[1].point, 1000, 0, -41);//500
 	scene->nb_objs = 3;
 	*objects = ft_malloc(sizeof(t_obj) * (size_t)scene->nb_objs);
 	(*objects)[0].type = SPHERE;

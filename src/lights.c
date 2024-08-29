@@ -56,6 +56,7 @@ void print_double_byte_by_byte(double value) {
 /* expensive function, is run:
  *     wwidth * wheight * nb_lights * nb_objs times (roughly 3 mil.)
  */
+#include <stdlib.h>
 t_color	calculate_lighting(t_vec3 *point, t_obj *objects, t_scene *scene)
 {
 	t_ray	ray;
@@ -80,7 +81,7 @@ t_color	calculate_lighting(t_vec3 *point, t_obj *objects, t_scene *scene)
 		else
 		{
 			substract_vec3(&first, point);
-			if (length_squared_vec3(&first) <= 0.000000001)
+			if (length_squared_vec3(&first) <= 0.001)
 				combine_light(&res, &(scene->lights[i]));
 		}
 //		else

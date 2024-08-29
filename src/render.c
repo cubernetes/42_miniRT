@@ -69,8 +69,8 @@ void	render(t_gc *gc, t_scene *scene, t_obj *objects)
 	t_color			res_color;
 	t_ray			ray;
 	t_vec3			terminus;
-	t_vec3			orientation;
 	t_vec3			intersection;
+	t_vec3			orientation;
 	double			t;
 	const double	scale = 16.0;
 	const double	focal_distance = -10.0;
@@ -85,8 +85,12 @@ void	render(t_gc *gc, t_scene *scene, t_obj *objects)
 			new_vec3(&orientation, (x - scene->wwidth / 2.0) / scale, (y - scene->wheight / 2.0) / scale, focal_distance);
 			new_ray(&ray, &terminus, &orientation);
 			res_color = cast_ray(&t, &ray, objects, scene->nb_objs);
-			if (!ray_at(&ray, t, &intersection))//todo: add ambience lighting for void
-				apply_light(&res_color, calculate_lighting(&intersection, &orientation, objects, scene));
+			if (x == 407 && y == 300)
+				printf("t = %f\n", t);
+			if (!ray_at(&ray, t, &intersection))
+				apply_light(&res_color, calculate_lighting(&intersection, objects, scene));
+			if (x == 407 && y == 300)
+				print_color(&res_color);
 			mlx_pixel_put_buf(&gc->img, x, scene->wheight - y, res_color);
 		}
 	}

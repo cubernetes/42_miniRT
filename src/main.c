@@ -104,12 +104,12 @@ int	keydown_hook(void *arg1, ...)
 	}
 	else if (keycode == '2')
 	{
-		gc->scene->lights[1].point->x += 100;
+		gc->scene->lights[1].point->x += 1000000;
 		render(gc, gc->scene, gc->scene->objects);
 	}
 	else if (keycode == '1')
 	{
-		gc->scene->lights[1].point->x -= 100;
+		gc->scene->lights[1].point->x -= 1000000;
 		render(gc, gc->scene, gc->scene->objects);
 	}
 	else
