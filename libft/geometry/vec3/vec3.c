@@ -81,3 +81,8 @@ void	rebase_vec3(t_vec3 *this, t_vec3 **new_basis)
 		this->e[i] = rhs / eq[i].e[i];
 	}
 }
+
+double	cos_vec3(t_vec3 *a, t_vec3 *b)
+{
+	return (dot_product_vec3(a, b) / sqrt(length_squared_vec3(a) * length_squared_vec3(b)));
+}

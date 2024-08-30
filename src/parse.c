@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   parse.c                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: nam-vu <nam-vu@student.42berlin.de>        +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/23 20:34:56 by nam-vu            #+#    #+#             */
-/*   Updated: 2024/08/28 03:40:05 by tischmid         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "miniRT.h"
 #include <stdlib.h>
 
@@ -23,11 +11,11 @@ int	parse_input(t_obj **objects, t_scene *scene)
 
 	scene->nb_lights = 2;
 	scene->lights = ft_malloc((unsigned int)scene->nb_lights * sizeof(t_light));
-	scene->lights[0].ratio = 0.0;//ambience lighting
+	scene->lights[0].ratio = 1.0;//ambience lighting
 	scene->lights[0].point = ft_malloc(sizeof(t_vec3));
 	scene->lights[0].color = 0x00FFFFFF;
-	new_vec3(scene->lights[0].point, 0, 0, -16);
-	scene->lights[1].ratio = 0.5;
+	new_vec3(scene->lights[0].point, 0, 0, 0);
+	scene->lights[1].ratio = 0.0;
 	scene->lights[1].point = ft_malloc(sizeof(t_vec3));
 	scene->lights[1].color = 0x00FFFFFF;
 	new_vec3(scene->lights[1].point, 1000, 0, -41);//500

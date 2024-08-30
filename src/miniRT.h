@@ -77,6 +77,8 @@ struct					s_hit
 {
 	double				t;
 	t_vec3				point;
+	t_vec3				norm;
+	t_vec3				ray_dir;
 	t_obj				*object;
 	t_color				color;
 };
@@ -95,7 +97,7 @@ void					mlx_pixel_put_buf(t_rt_img *data, int x, int y,
 int						cast_ray(t_hit *hit, t_ray *ray, t_obj *objects,
 							int nb_objs);
 void					render(t_gc *gc, t_scene *scene, t_obj *objects);
-
+void					assert_norm(t_hit *hit, int index);
 /* lights.c */
 void					apply_light(t_color *color, t_color light);
 t_color					calculate_lighting(t_hit *hit,

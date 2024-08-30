@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   lights.c                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: nam-vu <nam-vu@student.42berlin.de>        +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/23 19:56:03 by nam-vu            #+#    #+#             */
-/*   Updated: 2024/08/23 19:56:03 by nam-vu           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "libft.h"
 #include "miniRT.h"
 #include <stdio.h>
@@ -22,11 +10,13 @@ void	apply_light(t_color *color, t_color ratio)
 	set_blue(color, (unsigned int)(get_blue(color) * get_blue(&ratio) / 256));
 }
 
-void	combine_light(t_color *color, t_light *light)
+#include <stdlib.h>
+
+void	combine_light(t_color *color, t_light *light, double diffusion_factor)
 {
-	const unsigned int	new_red = (unsigned int)(get_red(color) + get_red(&light->color) * light->ratio);
-	const unsigned int	new_green = (unsigned int)(get_green(color) + get_green(&light->color) * light->ratio);
-	const unsigned int	new_blue = (unsigned int)(get_blue(color) + get_blue(&light->color) * light->ratio);
+	const unsigned int	new_red = (unsigned int)(get_red(color) + get_red(&light->color) * light->ratio * diffusion_factor);
+	const unsigned int	new_green = (unsigned int)(get_green(color) + get_green(&light->color) * light->ratio * diffusion_factor);
+	const unsigned int	new_blue = (unsigned int)(get_blue(color) + get_blue(&light->color) * light->ratio * diffusion_factor);
 
 	if (new_red > 255)
 		set_red(color, 255);
@@ -56,7 +46,6 @@ void print_double_byte_by_byte(double value) {
 /* expensive function, is run:
  *     wwidth * wheight * nb_lights * nb_objs times (roughly 3 mil.)
  */
-#include <stdlib.h>
 t_color	calculate_lighting(t_hit *hit, t_obj *objects, t_scene *scene)
 {
 	t_ray	ray;
@@ -65,6 +54,7 @@ t_color	calculate_lighting(t_hit *hit, t_obj *objects, t_scene *scene)
 	t_hit	shadow_hit;
 	t_vec3	first;
 	t_color	res;
+	int		same_half_space;
 
 	res = 0;
 	i = -1;
@@ -75,14 +65,17 @@ t_color	calculate_lighting(t_hit *hit, t_obj *objects, t_scene *scene)
 		substract_vec3(&orientation, scene->lights[i].point);
 		unit_vec3(&orientation);
 		new_ray(&ray, scene->lights[i].point, &orientation);
-		if (cast_ray(&shadow_hit, &ray, objects, scene->nb_objs))
-			combine_light(&res, &(scene->lights[i]));
+		same_half_space = dot_product_vec3(&hit->norm, ray.vec) * dot_product_vec3(&hit->norm, &hit->ray_dir) > 0.0;
+		if (cast_ray(&shadow_hit, &ray, objects, scene->nb_objs) && same_half_space)
+		{
+			combine_light(&res, &(scene->lights[i]), fabs(cos_vec3(&hit->norm, ray.vec)));
+		}
 		else
 		{
 			copy_vec3(&first, &(shadow_hit.point));
 			substract_vec3(&first, &hit->point);
-			if (length_squared_vec3(&first) <= 0.001)
-				combine_light(&res, &(scene->lights[i]));
+			if (length_squared_vec3(&first) <= 0.0000001  && same_half_space)
+				combine_light(&res, &(scene->lights[i]), fabs (cos_vec3(&hit->norm, ray.vec)));
 		}
 //		else
 //			print_double_byte_by_byte(t);
