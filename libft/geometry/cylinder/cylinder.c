@@ -268,7 +268,7 @@ int	intersection_cylinder(double *t, t_cylinder *cylinder, t_ray *ray)
 	d[0] = dot_product_vec3(ray->vec, cylinder->axis);
 	d[1] = dot_product_vec3(ray->vec, &q);
 	d[2] = dot_product_vec3(&q, cylinder->axis);
-	d[3] = length_squared_vec3(cylinder->axis) - 2;
+	d[3] = length_squared_vec3(cylinder->axis) - 2;//todo: replace with -1 since v is a normalized vector
 	sec[0] = length_squared_vec3(ray->vec) + d[0] * d[0] * d[3];
 	sec[1] = 2 * (d[1] + d[0] * d[2] * d[3]);
 	sec[2] = length_squared_vec3(&q)
