@@ -17,20 +17,20 @@ void	new_cylinder(t_cylinder *this, t_cylinder *cylinder_params)
 		ft_dprintf(2, "Error: height of the cylinder should be positive\n");
 		return ;
 	}
-	this->center = cylinder_params->center;
-	this->axis = cylinder_params->axis;
+	copy_vec3(this->center, cylinder_params->center);
+	copy_vec3(this->axis, cylinder_params->axis);
 	this->radius = cylinder_params->radius;
 	this->height = cylinder_params->height;
-	ratio = cylinder_params->height * cylinder_params->height
-		/ (4 * length_squared_vec3(cylinder_params->axis));
+	ratio = cylinder_params->height
+		/ (2 * length_vec3(cylinder_params->axis));
+	sc_mult_vec3(this->axis, ratio);
 	this->base_top = ft_calloc(sizeof(t_vec3), 1);
-	copy_vec3(this->base_top, cylinder_params->axis);
-	sc_mult_vec3(this->base_top, sqrt(ratio));
-	add_vec3(this->base_top, cylinder_params->center);
+	copy_vec3(this->base_top, cylinder_params->center);
+	add_vec3(this->base_top, cylinder_params->axis);
 	this->base_bot = ft_calloc(sizeof(t_vec3), 1);
-	copy_vec3(this->base_bot, cylinder_params->axis);
-	sc_mult_vec3(this->base_bot, -sqrt(ratio));
-	add_vec3(this->base_bot, cylinder_params->center);
+	copy_vec3(this->base_bot, cylinder_params->center);
+	substract_vec3(this->base_bot, cylinder_params->axis);
+	unit_vec3(this->axis);
 	print_cylinder(this);
 }
 
@@ -117,7 +117,7 @@ void	intersection_cylinder_sides(double *x, t_cylinder *cylinder, t_ray *ray)
 	{
 		(void)ray_at(ray, *x, &at_top);
 		substract_vec3(&at_top, cylinder->base_top);
-		if (length_squared_vec3(&at_top) > cylinder->radius * cylinder->radius)
+		if (length_squared_vec3(&at_top) - cylinder->radius * cylinder->radius > 0.0001)
 			*x = NO_ROOTS;
 	}
 	else
@@ -127,7 +127,7 @@ void	intersection_cylinder_sides(double *x, t_cylinder *cylinder, t_ray *ray)
 	{
 		(void)ray_at(ray, *(x + 1), &at_bot);
 		substract_vec3(&at_bot, cylinder->base_bot);
-		if (length_squared_vec3(&at_bot) > cylinder->radius * cylinder->radius)
+		if (length_squared_vec3(&at_bot) - cylinder->radius * cylinder->radius > 0.0001)
 			*(x + 1) = NO_ROOTS;
 	}
 	else
@@ -140,7 +140,6 @@ static void	choose_root(double *t, double *x)
 	int		i;
 
 	min_x = NO_ROOTS;
-	i = 0;
 	i = -1;
 	while (++i < 4)
 	{
@@ -178,7 +177,7 @@ static void	is_real_cylinder(double *x, t_cylinder *cylinder, t_ray *ray)
 }
 
 /*
- v - orientation vector of the axis of the cylinder
+ v - normalized orientation vector of the axis of the cylinder
  c - center of the cylinder
  r - radius of the cylinder
  p - intersection point

@@ -67,15 +67,13 @@ t_color	calculate_lighting(t_hit *hit, t_obj *objects, t_scene *scene)
 		new_ray(&ray, scene->lights[i].point, &orientation);
 		same_half_space = dot_product_vec3(&hit->norm, ray.vec) * dot_product_vec3(&hit->norm, &hit->ray_dir) > 0.0;
 		if (cast_ray(&shadow_hit, &ray, objects, scene->nb_objs) && same_half_space)
-		{
-			combine_light(&res, &(scene->lights[i]), fabs(cos_vec3(&hit->norm, ray.vec)));
-		}
+				combine_light(&res, &(scene->lights[i]), fabs(cos_vec3(&hit->norm, ray.vec)));
 		else
 		{
 			copy_vec3(&first, &(shadow_hit.point));
 			substract_vec3(&first, &hit->point);
 			if (length_squared_vec3(&first) <= 0.0000001  && same_half_space)
-				combine_light(&res, &(scene->lights[i]), fabs (cos_vec3(&hit->norm, ray.vec)));
+					combine_light(&res, &(scene->lights[i]), fabs (cos_vec3(&hit->norm, ray.vec)));
 		}
 //		else
 //			print_double_byte_by_byte(t);

@@ -25,8 +25,8 @@ void	print_plane(t_plane *this)
 
 int mod(int a, int b)
 {
-    int r = a % b;
-    return r < 0 ? r + b : r;
+	int r = a % b;
+	return r < 0 ? r + b : r;
 }
 
 /*
@@ -76,11 +76,11 @@ int	intersection_plane(double *t, t_plane *plane, t_ray *ray)
 		*t = NO_ROOTS;
 	if (ray->terminus->x == 0 && ray->terminus->y == 0 &&  ray->terminus->z == 0 && !ray_at(ray, *t, &v))
 	{
-		if ((mod((int)v.x, 20) < 10) && (mod((int)v.z, 20) < 10))
-		{
-			*t = NO_ROOTS;
-			return (1);
-		}
+//		if ((mod((int)v.x, 20) < 10) && (mod((int)v.z, 20) < 10))
+//		{
+//			*t = NO_ROOTS;
+//			return (1);
+//		}
 		return (0);
 	}
 	return (*t == NO_ROOTS);
