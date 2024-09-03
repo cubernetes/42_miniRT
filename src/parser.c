@@ -159,7 +159,8 @@ int	parse_objects(char *line, t_list *objects)
 	}
 	else if (!ft_strncmp(arr[0], "cy", 3))
 	{
-		if (!arr[0] || !arr[1] || !arr[2] || !arr[3] || !arr[4] || !arr[5] || arr[6])
+		if (!arr[0] || !arr[1] || !arr[2] || !arr[3] || !arr[4] || !arr[5]
+			|| arr[6])
 			return (EXIT_FAILURE);
 		temp = ft_malloc(sizeof(t_obj));
 		temp->type = TOK_CYLINDER;
@@ -218,7 +219,8 @@ int	read_rt_file(char *filename, t_scene *scene)
 				flag = parse_camera(line, scene);
 			else if (!ft_strncmp(line, "A ", 2) || !ft_strncmp(line, "L ", 2))
 				flag = parse_lights(line, lights);
-			else if (!ft_strncmp(line, "sp ", 3) || !ft_strncmp(line, "pl ", 3) || !ft_strncmp(line, "cy ", 3))
+			else if (!ft_strncmp(line, "sp ", 3) || !ft_strncmp(line, "pl ", 3)
+				|| !ft_strncmp(line, "cy ", 3))
 				flag = parse_objects(line, objects);
 			else
 				flag = EXIT_FAILURE;

@@ -162,7 +162,7 @@ int	main(int ac, char **av)
 	if (ac != 2 || read_rt_file(av[1], &scene))
 	{
 		ft_dprintf(2, "Error: wrong input format\n");
-		return (EXIT_FAILURE);
+		finish(EXIT_FAILURE, &gc);
 	} /* put this is dedicated function or so */
 	gc.scene = &scene; /* put this is dedicated function or so */
 	render(&gc, &scene);
