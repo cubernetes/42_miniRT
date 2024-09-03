@@ -97,7 +97,6 @@ SRC += main.c
 SRC += mlx_helpers.c
 SRC += render.c
 SRC += lights.c
-SRC += parse.c
 SRC += hoarding_disorder.c
 SRC += parser.c
 
