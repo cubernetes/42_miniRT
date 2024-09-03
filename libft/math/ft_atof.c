@@ -20,7 +20,6 @@ double	ft_atof(const char *nptr)
 	long double	value_after_point;
 	int			sign;
 	int			precision;
-	int			i;
 
 	value = 0.0;
 	value_after_point = 0.0;
@@ -36,8 +35,9 @@ double	ft_atof(const char *nptr)
 	nptr += (*nptr == '.');
 	while (ft_isdigit(*nptr) && ++precision)
 		value_after_point = value_after_point * 10 + *nptr - 48;
-	i = -1;
-	while (++i < precision)
+	if (*nptr != 0)
+		return (INFINITY);
+	while (--precision >= 0)
 		value_after_point /= 100;
 	return (sign * (value + value_after_point));
 }
