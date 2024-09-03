@@ -31,7 +31,6 @@ void	new_cylinder(t_cylinder *this, t_cylinder *cylinder_params)
 	copy_vec3(this->base_bot, cylinder_params->center);
 	substract_vec3(this->base_bot, cylinder_params->axis);
 	unit_vec3(this->axis);
-	print_cylinder(this);
 }
 
 void	copy_cylinder(t_cylinder *this, t_cylinder *cylinder)
