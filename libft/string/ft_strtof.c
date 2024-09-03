@@ -13,13 +13,12 @@
 #include "libft.h"
 #include <math.h>
 #include "float.h"
+#include <stdio.h>
 
 static double	get_real_part(long double *number, const char **s)
 {
 	while (ft_isdigit(**s))
 	{
-		if ((*number > DBL_MAX) || (*number < DBL_MIN))
-			return (NAN);
 		*number = 10.0 * *number + (**s - '0');
 		(*s)++;
 	}
@@ -43,8 +42,6 @@ double	ft_strtof(const char *s)
 		++s;
 	while (ft_isdigit(*s))
 	{
-		if ((number > DBL_MAX) || (number < DBL_MIN))
-			return (NAN);
 		number = 10.0 * number + (*s - '0');
 		power *= 10.0;
 		++s;
