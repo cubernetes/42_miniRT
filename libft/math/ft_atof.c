@@ -29,14 +29,14 @@ double	ft_atof(const char *nptr)
 	while (ft_isdigit(*nptr))
 	{
 		if (value > DBL_MAX || value < DBL_MIN)
-			return (INFINITY);
+			return (NAN);
 		value = value * 10 + *nptr - 48;
 	}
 	nptr += (*nptr == '.');
 	while (ft_isdigit(*nptr) && ++precision)
 		value_after_point = value_after_point * 10 + *nptr - 48;
 	if (*nptr != 0)
-		return (INFINITY);
+		return (NAN);
 	while (--precision >= 0)
 		value_after_point /= 100;
 	return (sign * (value + value_after_point));

@@ -8,7 +8,7 @@ void assert_norm(t_hit *hit, int index)
 		(fabs(hit->point.z + 30.747532) <= 0.0001))
 	{
 
-		if (hit->object->type != SPHERE)
+		if (hit->object->type != TOK_SPHERE)
 			exit(printf("NOT A SPHERE\n"));
 		if (fabs(length_squared_vec3(&hit->norm) - hit->object->sphere.radius * hit->object->sphere.radius) > 0.0001)
 		{

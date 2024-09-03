@@ -14,14 +14,14 @@ void	calculate_norm(t_hit *hit)
 	t_ray	ray;
 	double	norm_len_squared;
 
-	if (hit->object->type == PLANE)
+	if (hit->object->type == TOK_PLANE)
 		copy_vec3(&hit->norm, hit->object->plane.norm);
-	else if (hit->object->type == SPHERE)
+	else if (hit->object->type == TOK_SPHERE)
 	{
 		copy_vec3(&hit->norm, &hit->point);
 		substract_vec3(&hit->norm, hit->object->sphere.center);
 	}
-	else if (hit->object->type == CYLINDER)
+	else if (hit->object->type == TOK_CYLINDER)
 	{
 		new_ray(&ray, hit->object->cylinder.center, hit->object->cylinder.axis);
 		norm_point_to_line(&norm_base, &hit->point, &ray);
@@ -52,11 +52,11 @@ int	cast_ray(t_hit *hit, t_ray *ray, t_obj *objects, int nb_objs)
 	hit->color = 0x00000000;
 	while (++i < nb_objs)
 	{
-		if (objects[i].type == PLANE)
+		if (objects[i].type == TOK_PLANE)
 			intersection_plane(&hit->t, &objects[i].plane, ray);
-		else if (objects[i].type == SPHERE)
+		else if (objects[i].type == TOK_SPHERE)
 			intersection_sphere(&hit->t, &objects[i].sphere, ray);
-		else if (objects[i].type == CYLINDER)
+		else if (objects[i].type == TOK_CYLINDER)
 			intersection_cylinder(&hit->t, &objects[i].cylinder, ray);
 		if ((hit->t > 0) && (hit->t < old_t || old_t == NO_ROOTS))
 		{

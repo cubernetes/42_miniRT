@@ -99,6 +99,7 @@ SRC += render.c
 SRC += lights.c
 SRC += parse.c
 SRC += hoarding_disorder.c
+SRC += parser.c
 
 # objects
 OBJ := $(SRC:.c=.o)

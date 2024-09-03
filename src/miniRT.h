@@ -5,15 +5,20 @@
 # include <stdlib.h>
 
 /********** enums **********/
-enum					e_obj_type
+
+enum					e_token_rt
 {
-	PLANE,
-	SPHERE,
-	CYLINDER,
+	TOK_AMB_LIGHT = 0,
+	TOK_CAMERA,
+	TOK_LIGHT,
+	TOK_SPHERE,
+	TOK_PLANE,
+	TOK_CYLINDER,
+	TOK_ERROR,
 };
 
 /************* typedefs ***************/
-typedef enum e_obj_type	t_obj_type;
+typedef enum e_token_rt	t_token_rt;
 typedef int				(*t_hook)(void *, ...);
 
 /* forward declarations */
@@ -23,6 +28,7 @@ typedef struct s_scene	t_scene;
 typedef struct s_obj	t_obj;
 typedef struct s_light	t_light;
 typedef struct s_hit	t_hit;
+typedef struct s_camera	t_camera;
 
 /********** struct defintions **********/
 struct					s_rt_img
@@ -52,11 +58,14 @@ struct					s_scene
 	t_light				*lights;
 	t_obj				*objects;
 	int					nb_lights;
+	t_vec3				camera_pos;
+	t_vec3				camera_dir;
+	double				fov;
 };
 
 struct					s_obj
 {
-	t_obj_type			type;
+	t_token_rt			type;
 	t_color				color;
 	union
 	{
