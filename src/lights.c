@@ -46,7 +46,7 @@ void print_double_byte_by_byte(double value) {
 /* expensive function, is run:
  *     wwidth * wheight * nb_lights * nb_objs times (roughly 3 mil.)
  */
-t_color	calculate_lighting(t_hit *hit, t_obj *objects, t_scene *scene)
+t_color	calculate_lighting(t_hit *hit, t_obj **objects, t_scene *scene)
 {
 	t_ray	ray;
 	t_vec3	orientation;
@@ -62,18 +62,18 @@ t_color	calculate_lighting(t_hit *hit, t_obj *objects, t_scene *scene)
 	{
 		shadow_hit.t = NO_ROOTS;
 		copy_vec3(&orientation, &hit->point);
-		substract_vec3(&orientation, scene->lights[i].point);
+		substract_vec3(&orientation, scene->lights[i]->point);
 		unit_vec3(&orientation);
-		new_ray(&ray, scene->lights[i].point, &orientation);
+		new_ray(&ray, scene->lights[i]->point, &orientation);
 		same_half_space = dot_product_vec3(&hit->norm, ray.vec) * dot_product_vec3(&hit->norm, &hit->ray_dir) > 0.0;
 		if (cast_ray(&shadow_hit, &ray, objects, scene->nb_objs) && same_half_space)
-				combine_light(&res, &(scene->lights[i]), fabs(cos_vec3(&hit->norm, ray.vec)));
+				combine_light(&res, scene->lights[i], fabs(cos_vec3(&hit->norm, ray.vec)));
 		else
 		{
 			copy_vec3(&first, &(shadow_hit.point));
 			substract_vec3(&first, &hit->point);
 			if (length_squared_vec3(&first) <= 0.0000001  && same_half_space)
-					combine_light(&res, &(scene->lights[i]), fabs (cos_vec3(&hit->norm, ray.vec)));
+					combine_light(&res, scene->lights[i], fabs (cos_vec3(&hit->norm, ray.vec)));
 		}
 //		else
 //			print_double_byte_by_byte(t);

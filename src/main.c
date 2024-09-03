@@ -54,62 +54,62 @@ int	keydown_hook(void *arg1, ...)
 		destroy_hook(gc);
 	else if (keycode == 'd')
 	{
-		gc->scene->lights[1].point->x += 0.00000000001;
+		gc->scene->lights[1]->point->x += 0.00000000001;
 		render(gc, gc->scene, gc->scene->objects);
 	}
 	else if (keycode == 'a')
 	{
-		gc->scene->lights[1].point->x -= 0.00000000001;
+		gc->scene->lights[1]->point->x -= 0.00000000001;
 		render(gc, gc->scene, gc->scene->objects);
 	}
 	else if (keycode == 'w')
 	{
-		gc->scene->lights[1].point->z -= 0.00000000001;
+		gc->scene->lights[1]->point->z -= 0.00000000001;
 		render(gc, gc->scene, gc->scene->objects);
 	}
 	else if (keycode == 's')
 	{
-		gc->scene->lights[1].point->z += 0.00000000001;
+		gc->scene->lights[1]->point->z += 0.00000000001;
 		render(gc, gc->scene, gc->scene->objects);
 	}
 	else if (keycode == 'l')
 	{
-		gc->scene->lights[1].point->x += 0.00000001;
+		gc->scene->lights[1]->point->x += 0.00000001;
 		render(gc, gc->scene, gc->scene->objects);
 	}
 	else if (keycode == 'h')
 	{
-		gc->scene->lights[1].point->x -= 0.00000001;
+		gc->scene->lights[1]->point->x -= 0.00000001;
 		render(gc, gc->scene, gc->scene->objects);
 	}
 	else if (keycode == 'k')
 	{
-		gc->scene->lights[1].point->z -= 0.00000001;
+		gc->scene->lights[1]->point->z -= 0.00000001;
 		render(gc, gc->scene, gc->scene->objects);
 	}
 	else if (keycode == 'j')
 	{
-		gc->scene->lights[1].point->z += 0.00000001;
+		gc->scene->lights[1]->point->z += 0.00000001;
 		render(gc, gc->scene, gc->scene->objects);
 	}
 	else if (keycode == 'p')
 	{
-		gc->scene->lights[1].point->x += 0.01;
+		gc->scene->lights[1]->point->x += 0.01;
 		render(gc, gc->scene, gc->scene->objects);
 	}
 	else if (keycode == 'o')
 	{
-		gc->scene->lights[1].point->x -= 0.01;
+		gc->scene->lights[1]->point->x -= 0.01;
 		render(gc, gc->scene, gc->scene->objects);
 	}
 	else if (keycode == '2')
 	{
-		gc->scene->lights[1].point->x += 1000000;
+		gc->scene->lights[1]->point->x += 1000000;
 		render(gc, gc->scene, gc->scene->objects);
 	}
 	else if (keycode == '1')
 	{
-		gc->scene->lights[1].point->x -= 1000000;
+		gc->scene->lights[1]->point->x -= 1000000;
 		render(gc, gc->scene, gc->scene->objects);
 	}
 	else
@@ -146,7 +146,7 @@ int	main(void)
 {
 	t_gc	gc;
 	t_scene	scene;
-	t_obj	*objects;
+	t_obj	**objects;
 
 	init();
 	setup_scene(&scene);

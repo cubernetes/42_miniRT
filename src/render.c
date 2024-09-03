@@ -41,7 +41,7 @@ void	calculate_norm(t_hit *hit)
 }
 
 /* todo: handle no objects edge case */
-int	cast_ray(t_hit *hit, t_ray *ray, t_obj *objects, int nb_objs)
+int	cast_ray(t_hit *hit, t_ray *ray, t_obj **objects, int nb_objs)
 {
 	int		i;
 	double	old_t;
@@ -52,17 +52,17 @@ int	cast_ray(t_hit *hit, t_ray *ray, t_obj *objects, int nb_objs)
 	hit->color = 0x00000000;
 	while (++i < nb_objs)
 	{
-		if (objects[i].type == TOK_PLANE)
-			intersection_plane(&hit->t, &objects[i].plane, ray);
-		else if (objects[i].type == TOK_SPHERE)
-			intersection_sphere(&hit->t, &objects[i].sphere, ray);
-		else if (objects[i].type == TOK_CYLINDER)
-			intersection_cylinder(&hit->t, &objects[i].cylinder, ray);
+		if (objects[i]->type == TOK_PLANE)
+			intersection_plane(&hit->t, &objects[i]->plane, ray);
+		else if (objects[i]->type == TOK_SPHERE)
+			intersection_sphere(&hit->t, &objects[i]->sphere, ray);
+		else if (objects[i]->type == TOK_CYLINDER)
+			intersection_cylinder(&hit->t, &objects[i]->cylinder, ray);
 		if ((hit->t > 0) && (hit->t < old_t || old_t == NO_ROOTS))
 		{
 			old_t = hit->t;
-			hit->object = &(objects[i]);
-			hit->color = objects[i].color;
+			hit->object = objects[i];
+			hit->color = objects[i]->color;
 		}
 	}
 	if (old_t == INFINITY)
@@ -78,7 +78,7 @@ int	cast_ray(t_hit *hit, t_ray *ray, t_obj *objects, int nb_objs)
 }
 
 /* todo: change to FOV */
-void	render(t_gc *gc, t_scene *scene, t_obj *objects)
+void	render(t_gc *gc, t_scene *scene, t_obj **objects)
 {
 	int				x;
 	int				y;

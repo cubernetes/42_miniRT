@@ -53,11 +53,11 @@ struct					s_scene
 {
 	int					wheight;
 	int					wwidth;
-	int					nb_objs;
 	t_light				*amb_light;
-	t_light				*lights;
-	t_obj				*objects;
+	t_light				**lights;
+	t_obj				**objects;
 	int					nb_lights;
+	int					nb_objs;
 	t_vec3				camera_pos;
 	t_vec3				camera_dir;
 	double				fov;
@@ -103,15 +103,15 @@ void					mlx_pixel_put_buf(t_rt_img *data, int x, int y,
 // 			char *title);
 
 /* render.c */
-int						cast_ray(t_hit *hit, t_ray *ray, t_obj *objects,
+int						cast_ray(t_hit *hit, t_ray *ray, t_obj **objects,
 							int nb_objs);
-void					render(t_gc *gc, t_scene *scene, t_obj *objects);
+void					render(t_gc *gc, t_scene *scene, t_obj **objects);
 void					assert_norm(t_hit *hit, int index);
 /* lights.c */
 void					apply_light(t_color *color, t_color light);
 t_color					calculate_lighting(t_hit *hit,
-							t_obj *objects, t_scene *scene);
+							t_obj **objects, t_scene *scene);
 
 /* parse.c */
-int						parse_input(t_obj **objects, t_scene *scene);
+int						parse_input(t_obj ***objects, t_scene *scene);
 #endif /* miniRT.h */

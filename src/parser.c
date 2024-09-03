@@ -214,6 +214,7 @@ int	read_rt_file(char *filename, t_scene *scene)
 		}
 		line = get_next_line(fd);
 	}
+//	scene->lights = ltoarr()
 	close(fd);
 	return (EXIT_SUCCESS);
 }
