@@ -12,7 +12,7 @@
 
 #include "libft.h"
 
-void	**ltoarr(t_list *list)
+void	*ltoarr(t_list *list)
 {
 	void	**arr;
 	int		i;
