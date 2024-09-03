@@ -55,62 +55,62 @@ int	keydown_hook(void *arg1, ...)
 	else if (keycode == 'd')
 	{
 		gc->scene->lights[1]->point->x += 0.00000000001;
-		render(gc, gc->scene, gc->scene->objects);
+		render(gc, gc->scene);
 	}
 	else if (keycode == 'a')
 	{
 		gc->scene->lights[1]->point->x -= 0.00000000001;
-		render(gc, gc->scene, gc->scene->objects);
+		render(gc, gc->scene);
 	}
 	else if (keycode == 'w')
 	{
 		gc->scene->lights[1]->point->z -= 0.00000000001;
-		render(gc, gc->scene, gc->scene->objects);
+		render(gc, gc->scene);
 	}
 	else if (keycode == 's')
 	{
 		gc->scene->lights[1]->point->z += 0.00000000001;
-		render(gc, gc->scene, gc->scene->objects);
+		render(gc, gc->scene);
 	}
 	else if (keycode == 'l')
 	{
 		gc->scene->lights[1]->point->x += 0.00000001;
-		render(gc, gc->scene, gc->scene->objects);
+		render(gc, gc->scene);
 	}
 	else if (keycode == 'h')
 	{
 		gc->scene->lights[1]->point->x -= 0.00000001;
-		render(gc, gc->scene, gc->scene->objects);
+		render(gc, gc->scene);
 	}
 	else if (keycode == 'k')
 	{
 		gc->scene->lights[1]->point->z -= 0.00000001;
-		render(gc, gc->scene, gc->scene->objects);
+		render(gc, gc->scene);
 	}
 	else if (keycode == 'j')
 	{
 		gc->scene->lights[1]->point->z += 0.00000001;
-		render(gc, gc->scene, gc->scene->objects);
+		render(gc, gc->scene);
 	}
 	else if (keycode == 'p')
 	{
 		gc->scene->lights[1]->point->x += 0.01;
-		render(gc, gc->scene, gc->scene->objects);
+		render(gc, gc->scene);
 	}
 	else if (keycode == 'o')
 	{
 		gc->scene->lights[1]->point->x -= 0.01;
-		render(gc, gc->scene, gc->scene->objects);
+		render(gc, gc->scene);
 	}
 	else if (keycode == '2')
 	{
 		gc->scene->lights[1]->point->x += 1000000;
-		render(gc, gc->scene, gc->scene->objects);
+		render(gc, gc->scene);
 	}
 	else if (keycode == '1')
 	{
 		gc->scene->lights[1]->point->x -= 1000000;
-		render(gc, gc->scene, gc->scene->objects);
+		render(gc, gc->scene);
 	}
 	else
 		ft_printf("Pressed '%c' (keycode: %d)\n", keycode, keycode);
@@ -165,7 +165,7 @@ int	main(int ac, char **av)
 		return (EXIT_FAILURE);
 	} /* put this is dedicated function or so */
 	gc.scene = &scene; /* put this is dedicated function or so */
-	render(&gc, &scene, scene.objects);
+	render(&gc, &scene);
 	mlx_loop(gc.mlx);
 	finish(0, &gc);
 	return (EXIT_SUCCESS);

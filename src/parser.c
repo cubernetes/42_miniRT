@@ -91,7 +91,6 @@ int	parse_lights(char *line, t_list *lights)
 	{
 		if (!arr[0] || !arr[1] || !arr[2] || arr[3])
 			return (EXIT_FAILURE);
-		gc_set_context("PERM");
 		temp = ft_malloc(sizeof(t_light));
 		temp->point = ft_malloc(sizeof(t_vec3));
 		new_vec3(temp->point, 0, 0, 0);

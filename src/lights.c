@@ -46,7 +46,8 @@ void print_double_byte_by_byte(double value) {
 /* expensive function, is run:
  *     wwidth * wheight * nb_lights * nb_objs times (roughly 3 mil.)
  */
-t_color	calculate_lighting(t_hit *hit, t_obj **objects, t_scene *scene)
+//todo: remove diffussion from the ambient lighting
+t_color	calculate_lighting(t_hit *hit, t_scene *scene)
 {
 	t_ray	ray;
 	t_vec3	orientation;
@@ -58,7 +59,7 @@ t_color	calculate_lighting(t_hit *hit, t_obj **objects, t_scene *scene)
 
 	res = 0;
 	i = -1;
-	while (++i < scene->nb_lights)//todo: 0-th lighting that is located in [0, 0, 0] is an ambience lighting; could be changed
+	while (++i < scene->nb_lights)
 	{
 		shadow_hit.t = NO_ROOTS;
 		copy_vec3(&orientation, &hit->point);
@@ -66,7 +67,7 @@ t_color	calculate_lighting(t_hit *hit, t_obj **objects, t_scene *scene)
 		unit_vec3(&orientation);
 		new_ray(&ray, scene->lights[i]->point, &orientation);
 		same_half_space = dot_product_vec3(&hit->norm, ray.vec) * dot_product_vec3(&hit->norm, &hit->ray_dir) > 0.0;
-		if (cast_ray(&shadow_hit, &ray, objects, scene->nb_objs) && same_half_space)
+		if (cast_ray(&shadow_hit, &ray, scene) && same_half_space)
 				combine_light(&res, scene->lights[i], fabs(cos_vec3(&hit->norm, ray.vec)));
 		else
 		{

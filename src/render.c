@@ -40,8 +40,7 @@ void	calculate_norm(t_hit *hit)
 	}
 }
 
-/* todo: handle no objects edge case */
-int	cast_ray(t_hit *hit, t_ray *ray, t_obj **objects, int nb_objs)
+int	cast_ray(t_hit *hit, t_ray *ray, t_scene *scene)
 {
 	int		i;
 	double	old_t;
@@ -50,19 +49,19 @@ int	cast_ray(t_hit *hit, t_ray *ray, t_obj **objects, int nb_objs)
 	hit->t = NO_ROOTS;
 	old_t = INFINITY;
 	hit->color = 0x00000000;
-	while (++i < nb_objs)
+	while (++i < scene->nb_objs)
 	{
-		if (objects[i]->type == TOK_PLANE)
-			intersection_plane(&hit->t, &objects[i]->plane, ray);
-		else if (objects[i]->type == TOK_SPHERE)
-			intersection_sphere(&hit->t, &objects[i]->sphere, ray);
-		else if (objects[i]->type == TOK_CYLINDER)
-			intersection_cylinder(&hit->t, &objects[i]->cylinder, ray);
+		if (scene->objects[i]->type == TOK_PLANE)
+			intersection_plane(&hit->t, &scene->objects[i]->plane, ray);
+		else if (scene->objects[i]->type == TOK_SPHERE)
+			intersection_sphere(&hit->t, &scene->objects[i]->sphere, ray);
+		else if (scene->objects[i]->type == TOK_CYLINDER)
+			intersection_cylinder(&hit->t, &scene->objects[i]->cylinder, ray);
 		if ((hit->t > 0) && (hit->t < old_t || old_t == NO_ROOTS))
 		{
 			old_t = hit->t;
-			hit->object = objects[i];
-			hit->color = objects[i]->color;
+			hit->object = scene->objects[i];
+			hit->color = scene->objects[i]->color;
 		}
 	}
 	if (old_t == INFINITY)
@@ -78,7 +77,7 @@ int	cast_ray(t_hit *hit, t_ray *ray, t_obj **objects, int nb_objs)
 }
 
 /* todo: change to FOV */
-void	render(t_gc *gc, t_scene *scene, t_obj **objects)
+void	render(t_gc *gc, t_scene *scene)
 {
 	int				x;
 	int				y;
@@ -98,8 +97,8 @@ void	render(t_gc *gc, t_scene *scene, t_obj **objects)
 		{
 			new_vec3(&orientation, (x - scene->wwidth / 2.0) / scale, (y - scene->wheight / 2.0) / scale, focal_distance);
 			new_ray(&ray, &terminus, &orientation);
-			if (!cast_ray(&hit, &ray, objects, scene->nb_objs))
-				apply_light(&(hit.color), calculate_lighting(&hit, objects, scene));
+			if (!cast_ray(&hit, &ray, scene))
+				apply_light(&(hit.color), calculate_lighting(&hit, scene));
 			mlx_pixel_put_buf(&gc->img, x, scene->wheight - y, hit.color);
 		}
 	}
