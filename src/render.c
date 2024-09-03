@@ -28,11 +28,11 @@ void	calculate_norm(t_hit *hit)
 		copy_vec3(&hit->norm, &hit->point);
 		substract_vec3(&hit->norm, &norm_base);
 		norm_len_squared = length_squared_vec3(&hit->norm);
-		if (hit->object->cylinder.radius * hit->object->cylinder.radius - norm_len_squared > 0.000001)
+		if (hit->object->cylinder.radius * hit->object->cylinder.radius - norm_len_squared > EPSILON2)
 		{
 			copy_vec3(&temp, &hit->point);
 			substract_vec3(&temp, hit->object->cylinder.base_bot);
-			if (norm_len_squared - length_squared_vec3(&temp) > 0.000001)
+			if (norm_len_squared - length_squared_vec3(&temp) > EPSILON2)
 				copy_vec3(&hit->norm, hit->object->cylinder.base_top);
 			else
 				copy_vec3(&hit->norm, hit->object->cylinder.base_bot);

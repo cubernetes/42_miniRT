@@ -73,7 +73,7 @@ t_color	calculate_lighting(t_hit *hit, t_scene *scene)
 		{
 			copy_vec3(&first, &(shadow_hit.point));
 			substract_vec3(&first, &hit->point);
-			if (length_squared_vec3(&first) <= 0.0000001  && same_half_space)
+			if (length_squared_vec3(&first) <= EPSILON2 && same_half_space)
 					combine_light(&res, scene->lights[i], fabs (cos_vec3(&hit->norm, ray.vec)));
 		}
 //		else

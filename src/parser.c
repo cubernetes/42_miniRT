@@ -28,7 +28,7 @@ int	parse_vec3(char *str, t_vec3 *vec, int flag)
 			return (EXIT_FAILURE);
 		ptr = next_ptr + 1;
 	}
-	if (flag == NORM_VEC && (length_squared_vec3(vec) - 1.0) > 0.0001)
+	if (flag == NORM_VEC && (length_squared_vec3(vec) - 1.0) > EPSILON)
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
@@ -188,6 +188,8 @@ int	parse_objects(char *line, t_list *objects)
 
 //todo: add max limit for some elements
 //todo: add permanent context for all the elements in the end
+//todo: add FOV to C (just move the viewport but keep # of pixel same?)
+//      focal_distance = viewport_width / (2 * tan(fov_theta / 2))
 int	read_rt_file(char *filename, t_scene *scene)
 {
 	int			fd;
@@ -212,7 +214,7 @@ int	read_rt_file(char *filename, t_scene *scene)
 	line = get_next_line(fd);
 	while (line)
 	{
-		if (line[0] != '\n')
+		if (line[0] != '\n' && line[0] != '#')
 		{
 			line[ft_strlen(line) - 1] = 0;
 			if (!ft_strncmp(line, "C ", 2))

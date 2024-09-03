@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 20:07:51 by tosuman           #+#    #+#             */
-/*   Updated: 2024/08/21 03:33:58 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/09/03 23:48:17 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -269,10 +269,10 @@ struct s_cylinder
 
 struct s_quat
 {
-	double	real;
+	double	scalar;
 	union
 	{
-		t_vec3	axis;
+		t_vec3	vector;
 		struct
 		{
 			double	i;
@@ -567,6 +567,7 @@ void							quat_substract(t_quat *quat_a, t_quat *quat_b);
 void							quat_sc_mult(t_quat *quat_a, double sc);
 void							quat_print(t_quat *quat);
 void							rotate_vec3(t_vec3 *vec, t_quat *quat);
+void							quat_unit(t_quat *quat);
 
 /* colors */
 unsigned int					get_alpha(t_color *color);

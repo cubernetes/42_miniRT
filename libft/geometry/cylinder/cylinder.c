@@ -30,7 +30,7 @@ void	new_cylinder(t_cylinder *this, t_cylinder *cylinder_params)
 	this->base_bot = ft_calloc(sizeof(t_vec3), 1);
 	copy_vec3(this->base_bot, cylinder_params->center);
 	substract_vec3(this->base_bot, cylinder_params->axis);
-	unit_vec3(this->axis);
+	unit_vec3(this->axis); // why is this needed?
 }
 
 void	copy_cylinder(t_cylinder *this, t_cylinder *cylinder)

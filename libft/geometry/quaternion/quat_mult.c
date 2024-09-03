@@ -2,23 +2,23 @@
 
 void	quat_mult(t_quat *quat_a, t_quat *quat_b)
 {
-	double	real_a;
+	double	scalar_a;
 	t_vec3	tmp1;
 	t_vec3	tmp2;
 	t_vec3	tmp3;
 
-	real_a = quat_a->real;
-	quat_a->real = real_a * quat_b->real
-		- dot_product_vec3(&quat_a->axis, &quat_b->axis);
-	copy_vec3(&tmp1, &quat_b->axis);
-	sc_mult_vec3(&tmp1, real_a);
-	copy_vec3(&tmp2, &quat_a->axis);
-	sc_mult_vec3(&tmp2, quat_b->real);
-	copy_vec3(&tmp3, &quat_a->axis);
-	cross_product_vec3(&tmp3, &quat_b->axis);
+	scalar_a = quat_a->scalar;
+	quat_a->scalar = scalar_a * quat_b->scalar
+		- dot_product_vec3(&quat_a->vector, &quat_b->vector);
+	copy_vec3(&tmp1, &quat_b->vector);
+	sc_mult_vec3(&tmp1, scalar_a);
+	copy_vec3(&tmp2, &quat_a->vector);
+	sc_mult_vec3(&tmp2, quat_b->scalar);
+	copy_vec3(&tmp3, &quat_a->vector);
+	cross_product_vec3(&tmp3, &quat_b->vector);
 	add_vec3(&tmp1, &tmp2);
 	add_vec3(&tmp1, &tmp3);
-	copy_vec3(&quat_a->axis, &tmp1);
+	copy_vec3(&quat_a->vector, &tmp1);
 }
 
 int	quat_invert(t_quat *quat)
@@ -58,11 +58,17 @@ void	rotate_vec3(t_vec3 *vec, t_quat *quat)
 	t_quat	inverted;
 
 	quat_copy(&res, quat);
-	vec_q.real = 0;
-	copy_vec3(&vec_q.axis, vec);
+	vec_q.scalar = 0;
+	copy_vec3(&vec_q.vector, vec);
 	quat_copy(&inverted, quat);
 	quat_invert(&inverted);
 	quat_mult(&res, &vec_q);
 	quat_mult(&res, &inverted);
-	copy_vec3(vec, &res.axis);
+	copy_vec3(vec, &res.vector);
+}
+
+//todo: use the reciprocal trick to make this maybe faster
+void	quat_unit(t_quat *quat)
+{
+	quat_sc_mult(quat, 1 / quat_len(quat));
 }

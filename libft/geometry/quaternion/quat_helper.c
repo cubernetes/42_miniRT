@@ -5,12 +5,12 @@
 
 void	quat_conj(t_quat *quat)
 {
-	reverse_vec3(&quat->axis);
+	reverse_vec3(&quat->vector);
 }
 
 double	quat_len_squared(t_quat *quat)
 {
-	return (quat->real * quat->real + length_squared_vec3(&quat->axis));
+	return (quat->scalar * quat->scalar + length_squared_vec3(&quat->vector));
 }
 
 double	quat_len(t_quat *quat)
@@ -21,5 +21,5 @@ double	quat_len(t_quat *quat)
 void	quat_print(t_quat *quat)
 {
 	printf("Quaternion: [%f, %f, %f, %f]\n",
-		quat->real, quat->i, quat->j, quat->k);
+		quat->scalar, quat->i, quat->j, quat->k);
 }
