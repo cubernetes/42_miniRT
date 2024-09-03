@@ -4,6 +4,9 @@
 # include "libft.h"
 # include <stdlib.h>
 
+#define ANY_VEC 0
+#define NORM_VEC 1
+
 /********** enums **********/
 
 enum					e_token_rt
@@ -53,7 +56,6 @@ struct					s_scene
 {
 	int					wheight;
 	int					wwidth;
-	t_light				*amb_light;
 	t_light				**lights;
 	t_obj				**objects;
 	int					nb_lights;
@@ -114,4 +116,11 @@ t_color					calculate_lighting(t_hit *hit,
 
 /* parse.c */
 int						parse_input(t_obj ***objects, t_scene *scene);
+
+int						parse_vec3(char *str, t_vec3 *vec, int flag);
+int						parse_color(char *str, t_color *color);
+int						parse_camera(char *line, t_scene *scene);
+int						parse_lights(char *line, t_list *lights);
+int						parse_objects(char *line, t_list *objects);
+int						read_rt_file(char *filename, t_scene *scene);
 #endif /* miniRT.h */

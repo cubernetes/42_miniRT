@@ -142,23 +142,30 @@ void	setup_scene(t_scene *scene)
 	scene->wheight = 600;
 }
 
-int	main(void)
+# include <stdio.h>
+void	print_light(t_light *light)
+{
+	printf("SOURCE OF LIGHT ");
+	print_vec3(light->point);
+	printf("RATIO: %f\n", light->ratio);
+	print_color(&light->color);
+}
+
+int	main(int ac, char **av)
 {
 	t_gc	gc;
 	t_scene	scene;
-	t_obj	**objects;
 
 	init();
 	setup_scene(&scene);
 	setup_mlx(&gc, &scene);
-	if (parse_input(&objects, &scene))
+	if (ac != 2 || read_rt_file(av[1], &scene))
 	{
 		ft_dprintf(2, "Error: wrong input format\n");
 		return (EXIT_FAILURE);
-	}
-	scene.objects = objects; /* put this is dedicated function or so */
+	} /* put this is dedicated function or so */
 	gc.scene = &scene; /* put this is dedicated function or so */
-	render(&gc, &scene, objects);
+	render(&gc, &scene, scene.objects);
 	mlx_loop(gc.mlx);
 	finish(0, &gc);
 	return (EXIT_SUCCESS);
