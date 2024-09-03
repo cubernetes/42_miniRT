@@ -37,6 +37,8 @@ double	ft_strtof(const char *s)
 	sign = (('-' != *s) - 1) * 2 + 1;
 	if ('-' == *s || '+' == *s)
 		++s;
+	if (!ft_isdigit(*s))
+		return (NAN);
 	get_real_part(&number, &s);
 	if (*s == '.')
 		++s;
