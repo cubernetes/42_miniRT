@@ -159,6 +159,7 @@ SRC += ft_abs.c
 SRC += ft_min.c
 SRC += cmp_int_desc.c
 SRC += cmp_int_asc.c
+SRC += ft_atof.c
 
 vpath %.c list
 SRC += lswap.c
