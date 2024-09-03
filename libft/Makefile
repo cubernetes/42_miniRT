@@ -188,6 +188,7 @@ SRC += lequal.c
 SRC += ldestroy.c
 SRC += lcopy.c
 SRC += lbackward.c
+SRC += ltoarr.c
 
 vpath %.c data_constructors
 SRC += as_pointer_types.c

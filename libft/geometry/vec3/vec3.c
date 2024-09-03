@@ -1,6 +1,7 @@
 #include "libft.h"
 
 #include <stdio.h>
+#include <math.h>
 
 void	new_vec3(t_vec3 *this, double x, double y, double z)
 {

@@ -470,6 +470,7 @@ t_list							*llast(t_list list[static 1]);
 t_list_node						*lnext(t_list list[static 1]);
 void							lprint(t_list *list,
 									void (print)(t_data data, int n));
+void							**ltoarr(t_list *list);
 /* t_list							*lslice(t_list *list, int start, */
 									/* int end, int step); */
 
