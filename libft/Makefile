@@ -67,6 +67,7 @@ SRC += ft_atoi.c
 SRC += ft_atoi_status.c
 SRC += ft_atol_status.c
 SRC += ft_atof.c
+SRC += ft_strtof.c
 SRC += ft_isalnum.c
 SRC += ft_isalpha.c
 SRC += ft_isascii.c
