@@ -106,7 +106,7 @@ int	keydown_hook(void *arg1, ...)
 	va_start(ap, arg1);
 	gc = va_arg(ap, t_gc *);
 	va_end(ap);
-	if (keycode == XK_Escape)
+	if (keycode == XK_Escape || keycode == 'q')
 		destroy_hook(gc);
 	else if (keycode == 'w')
 		translate_camera(gc->scene, DIR_FORWARD);

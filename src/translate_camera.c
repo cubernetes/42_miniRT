@@ -57,6 +57,4 @@ void	translate_camera(t_scene *scene, t_direction direction)
 		translate_camera_f_b(scene, direction);
 	else
 		translate_camera_l_r(scene, direction);
-	print_vec3(&scene->camera_dir);
-	print_vec3(&scene->camera_pos);
 }
