@@ -6,11 +6,10 @@
 /*   By: tischmid <tischmid@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 00:58:27 by tischmid          #+#    #+#             */
-/*   Updated: 2024/07/05 00:58:27 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/09/04 15:54:05 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 #include "libft.h"
 
 /** Push a data union to the end of a list.

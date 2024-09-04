@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 20:07:51 by tosuman           #+#    #+#             */
-/*   Updated: 2024/08/03 18:14:10 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/09/04 16:10:41 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,13 @@
 # define OFFSET_BASIS_64  14695981039346656037UL
 # define FNV_PRIME_64  1099511628211UL
 # define MAX_HT_SIZE 1000
+
+/* geometry */
+# define NO_ROOTS -1
+# define PI 3.1415926535897932384626
+# define DEG_TO_RAD 0.017453292519943295
+# define RAD_TO_DEG 57.29577951308232
+
 /***************** FORWARD DECLARATIONS. *****************/
 typedef struct s_list			t_list;
 typedef struct s_list_node		t_list_node;
@@ -49,6 +56,13 @@ typedef struct s_ht				t_ht;
 typedef struct s_str_pair		t_str_pair;
 typedef struct s_kv_pair		t_kv_pair;
 typedef struct s_ctx_meta		t_ctx_meta;
+typedef struct s_vec3			t_vec3;
+typedef struct s_ray			t_ray;
+typedef struct s_sphere			t_sphere;
+typedef struct s_plane			t_plane;
+typedef struct s_cylinder		t_cylinder;
+typedef struct s_quat			t_quat;
+typedef unsigned int			t_color;
 
 /***************** ENUMS *****************/
 /** Comprehensive enumeration of data types, must match union members of t_data.
@@ -202,6 +216,85 @@ struct s_ht
 	t_ht		*n;
 };
 
+/* geometry */
+
+/* TODO: This can technically be refactored into `union u_vec3;' afaik */
+struct s_vec3
+{
+	union
+	{
+		double	e[3];
+		struct
+		{
+			double	x;
+			double	y;
+			double	z;
+		};
+		struct
+		{
+			double	r;
+			double	g;
+			double	b;
+		};
+	};
+};
+
+struct s_ray
+{
+	t_vec3	*terminus;
+	t_vec3	*vec;
+};
+
+struct s_sphere
+{
+	t_vec3	*center;
+	double	radius;
+};
+
+struct s_plane
+{
+	t_vec3	*point;
+	t_vec3	*norm;
+};
+
+struct s_cylinder
+{
+	t_vec3	*center;
+	t_vec3	*axis;
+	t_vec3	*base_top;
+	t_vec3	*base_bot;
+	double	radius;
+	double	height;
+};
+
+struct s_quat
+{
+	double	scalar;
+	union
+	{
+		t_vec3	vector;
+		struct
+		{
+			double	i;
+			double	j;
+			double	k;
+		};
+		struct
+		{
+			double	x;
+			double	y;
+			double	z;
+		};
+	};
+};
+
+/******************** UNIONS ********************/
+union u_fast_sqrtf_vars
+{
+	float		f;
+	uint32_t	i;
+};
+
 /***************** PROTOTYPES *****************/
 /* memory */
 void							*ft_memmove(void *dest, void const *src,
@@ -297,6 +390,7 @@ int								ft_atoi(char const *nptr);
 int								ft_atoi_status(char const *nptr, int *status);
 long							ft_atol_status(char const *nptr, int *status);
 double							ft_atof(const char *s);
+double							ft_strtof(const char *s);
 unsigned int					ft_abs(int n);
 int								ft_max(int a, int b);
 int								ft_min(int a, int b);
@@ -384,6 +478,7 @@ t_list							*llast(t_list list[static 1]);
 t_list_node						*lnext(t_list list[static 1]);
 void							lprint(t_list *list,
 									void (print)(t_data data, int n));
+void							*ltoarr(t_list *list);
 /* t_list							*lslice(t_list *list, int start, */
 									/* int end, int step); */
 
@@ -414,5 +509,82 @@ t_list							*ft_getopt_plus(char *const argv[],
 									char valid_opts[static 1],
 									char *erropt,
 									int optind[static 1]);
+
+/* vec3 */
+void							new_vec3(t_vec3 *this,
+									double x, double y, double z);
+void							copy_vec3(t_vec3 *this, t_vec3 *old);
+void							reverse_vec3(t_vec3 *this);
+void							sc_mult_vec3(t_vec3 *this, double k);
+void							div_vec3(t_vec3 *this, double k);
+double							length_vec3(t_vec3 *this);
+double							length_squared_vec3(t_vec3 *this);
+void							print_vec3(t_vec3 *this);
+void							add_vec3(t_vec3 *this, t_vec3 *vec);
+void							substract_vec3(t_vec3 *this, t_vec3 *vec);
+double							dot_product_vec3(t_vec3 *this, t_vec3 *vec);
+void							cross_product_vec3(t_vec3 *this, t_vec3 *vec);
+void							unit_vec3(t_vec3 *this);
+void							rebase_vec3(t_vec3 *this, t_vec3 **new_basis);
+double							cos_vec3(t_vec3 *a, t_vec3 *b);
+/* ray */
+void							new_ray(t_ray *this,
+									t_vec3 *terminus, t_vec3 *vec);
+void							copy_ray(t_ray *this, t_ray *ray);
+int								ray_at(t_ray *this, double t, t_vec3 *res);
+void							print_ray(t_ray *this);
+
+/* sphere */
+void							new_sphere(t_sphere *this,
+									t_vec3 *center, double radius);
+void							copy_sphere(t_sphere *this, t_sphere *sphere);
+void							print_sphere(t_sphere *this);
+int								intersection_sphere(double *t,
+									t_sphere *sphere, t_ray *ray);
+
+/* plane */
+void							new_plane(t_plane *this,
+									t_vec3 *point, t_vec3 *norm);
+void							copy_plane(t_plane *this, t_plane *plane);
+void							print_plane(t_plane *this);
+int								intersection_plane(double *t,
+									t_plane *plane, t_ray *ray);
+
+/* cylinder */
+void							new_cylinder(t_cylinder *this,
+									t_cylinder *cylinder_params);
+void							copy_cylinder(t_cylinder *this,
+									t_cylinder *cylinder);
+void							print_cylinder(t_cylinder *this);
+void							norm_point_to_line(t_vec3 *norm,
+									t_vec3 *point, t_ray *ray);
+int								intersection_cylinder(double *t,
+									t_cylinder *cylinder, t_ray *ray);
+
+/* quaternion */
+int								quat_div(t_quat *quat_a, t_quat *quat_b);
+void							quat_mult(t_quat *quat_a, t_quat *quat_b);
+int								quat_invert(t_quat *quat);
+void							quat_conj(t_quat *quat);
+double							quat_len_squared(t_quat *quat);
+double							quat_len(t_quat *quat);
+void							quat_copy(t_quat *quat_a, t_quat *quat_b);
+void							quat_add(t_quat *quat_a, t_quat *quat_b);
+void							quat_substract(t_quat *quat_a, t_quat *quat_b);
+void							quat_sc_mult(t_quat *quat_a, double sc);
+void							quat_print(t_quat *quat);
+void							rotate_vec3(t_vec3 *vec, t_quat *quat);
+void							quat_unit(t_quat *quat);
+
+/* colors */
+unsigned int					get_alpha(t_color *color);
+unsigned int					get_red(t_color *color);
+unsigned int					get_green(t_color *color);
+unsigned int					get_blue(t_color *color);
+void							set_alpha(t_color *color, unsigned int value);
+void							set_red(t_color *color, unsigned int value);
+void							set_green(t_color *color, unsigned int value);
+void							set_blue(t_color *color, unsigned int value);
+void							print_color(t_color *color);
 
 #endif /* libft.h. */

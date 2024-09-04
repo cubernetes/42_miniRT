@@ -23,8 +23,9 @@ MKDIR := /bin/mkdir -p
 NM := nm
 NORMINETTE_EXCLUDE_DIRS := ./norminette_exclude_dirs
 
-# flags
-CFLAGS := -O3
+# general compile flags
+CFLAGS += -std=c11
+# compile warning flags
 CFLAGS += -Wall
 CFLAGS += -Wextra
 CFLAGS += -Werror
@@ -33,22 +34,43 @@ CFLAGS += -Wconversion
 CFLAGS += -Wunreachable-code
 CFLAGS += -Wshadow
 CFLAGS += -Wno-overlength-strings
-CFLAGS += -std=c11
+# performance flags
+CFLAGS := -Ofast
+CFLAGS += -march=native
+CFLAGS += -fno-signed-zeros
+CFLAGS += -funroll-loops
+# Unsafe performance flags
+CFLAGS += -fomit-frame-pointer
+CFLAGS += -ffast-math
+CFLAGS += -fno-math-errno
+CFLAGS += -funsafe-math-optimizations
+CFLAGS += -fassociative-math
+CFLAGS += -freciprocal-math
+CFLAGS += -ffinite-math-only
+CFLAGS += -fno-signed-zeros
+CFLAGS += -fno-trapping-math
+CFLAGS += -frounding-math
 
+# preprocessor flags
 CPPFLAGS :=
 CPPFLAGS += -MD
+CPPFLAGS += -MP
 CPPFLAGS += -I$(LIBFT_DIR)
 CPPFLAGS += -I$(MINILIBX_DIR)
 CPPFLAGS += -I$(SRCDIR)
 
+# linker flags
 LDFLAGS :=
 LDFLAGS += -L$(LIBFT_DIR)
 LDFLAGS += -L$(MINILIBX_DIR)
 
+# linker libraries
 LDLIBS :=
-LDLIBS += -lm
 LDLIBS += -l$(LIBFT_LIB)
 LDLIBS += -l$(MINILIBX_LIB)
+LDLIBS += -lXext
+LDLIBS += -lX11
+LDLIBS += -lm
 
 # DEBUG=1 make re # include debugging information in the binary
 ifeq ($(DEBUG), 1)
@@ -72,6 +94,12 @@ endif
 SRC :=
 vpath %.c src
 SRC += main.c
+SRC += mlx_helpers.c
+SRC += render.c
+SRC += lights.c
+SRC += hoarding_disorder.c
+SRC += parser.c
+SRC += translate_camera.c
 
 # objects
 OBJ := $(SRC:.c=.o)
@@ -123,7 +151,7 @@ fclean: clean
 re: fclean
 	@$(MAKE) all
 
-### Don't recompile, just run the program (with optional arguments)
+### Don't recompile, just run the program (ARGS optional)
 run:
 	@printf '\n'
 	@# This allows $(NAME) to be run using either an absolute, relative or no path.
@@ -131,7 +159,7 @@ run:
 	@PATH=".$${PATH:+:$${PATH}}" && \
 		$(NAME) $(ARGS)
 
-### Don't recompile, just run the program with valgrind (and optional arguments)
+### Don't recompile, just run the program with valgrind (ARGS optional)
 valrun:
 	@printf '\n'
 	@PATH=".$${PATH:+:$${PATH}}" && \
@@ -143,51 +171,175 @@ valrun:
 			$(NAME) \
 			$(ARGS)
 
-## Recompile, then run the program (with optional arguments)
+## Compile, then run the program (ARGS optional)
+rc compile-run: all
+	@$(MAKE) run
+
+## Recompile, then run the program (ARGS optional)
 r rerun: re
 	@$(MAKE) run
 
-## Recompile, then run the program with valgrind (and optional arguments)
+## Recompile, then run the program with valgrind (ARGS optional)
 l leakcheck: re
 	@$(MAKE) valrun
 
+# TODO: benchmark between ft_printf and printf
 ### Don't recompile, just check for forbidden functions
 fi forbidden-funcs-internal:
-	@# - memset and bzero can be ignored from nm (they are added by compiler)
+	@# - memset, bzero, ... can be ignored from nm (they are added by compiler)
 	@# - open, close, read, write, printf, malloc, free, perror, strerror,
 	@#   and exit are from the subject
 	@# - ... are from the math library (-lm)
 	@# - ... are from the minilibx library (-lmlx)
+	@# - sqrt, cos, sin is from the math library
 	@# - the functions below starting with underscore are added by the compiler
+	@# - and a significant part of functions is also added by the mlx library
 	@printf '\n'
-	@$(NM) -u $(NAME)      | \
+	@$(NM) --undefined-only $(NAME)      | \
 		grep -v ' bzero@'     | \
 		grep -v ' memset@'    | \
+		grep -v ' puts@'      | \
+		grep -v ' putchar@'      | \
 		grep -v ' read@'         | \
 		grep -v ' free@'         | \
 		grep -v ' open@'         | \
 		grep -v ' exit@'         | \
+		grep -v ' printf@'         | \
 		grep -v ' write@'        | \
 		grep -v ' close@'        | \
 		grep -v ' malloc@'       | \
 		grep -v ' perror@'       | \
 		grep -v ' strerror@'     | \
+		grep -v ' sqrt@'            | \
+		grep -v ' cos@'             | \
+		grep -v ' sin@'             | \
 		grep -v ' __gmon_start__'              | \
 		grep -v ' _ITM_registerTMCloneTable'   | \
 		grep -v ' _ITM_deregisterTMCloneTable' | \
 		grep -v ' __cxa_finalize@'             | \
 		grep -v ' __errno_location@'           | \
 		grep -v ' __stack_chk_fail@'           | \
-		grep -v ' __libc_start_main@'          && \
+		grep -v ' __libc_start_main@'          | \
+		grep -v ' __printf_chk@'               | \
+		grep -v ' calloc@'                       | \
+		grep -v ' getenv@'                       | \
+		grep -v ' gethostname@'                  | \
+		grep -v ' shmat@'                        | \
+		grep -v ' shmctl@'                       | \
+		grep -v ' shmdt@'                        | \
+		grep -v ' shmget@'                       | \
+		grep -v ' strlen@'                       | \
+		grep -v ' strncmp@'                      | \
+		grep -v ' XChangeWindowAttributes'       | \
+		grep -v ' XCopyArea'                     | \
+		grep -v ' XCreateColormap'               | \
+		grep -v ' XCreateGC'                     | \
+		grep -v ' XCreateImage'                  | \
+		grep -v ' XCreatePixmap'                 | \
+		grep -v ' XCreateWindow'                 | \
+		grep -v ' XFlush'                        | \
+		grep -v ' XGetVisualInfo'                | \
+		grep -v ' XGetWMNormalHints'             | \
+		grep -v ' XInternAtom'                   | \
+		grep -v ' XkbKeycodeToKeysym'            | \
+		grep -v ' XMapRaised'                    | \
+		grep -v ' XNextEvent'                    | \
+		grep -v ' XOpenDisplay'                  | \
+		grep -v ' XPending'                      | \
+		grep -v ' XPutBackEvent'                 | \
+		grep -v ' XPutImage'                     | \
+		grep -v ' XSetClipOrigin'                | \
+		grep -v ' XSetErrorHandler'              | \
+		grep -v ' XSetWMNormalHints'             | \
+		grep -v ' XSetWMProtocols'               | \
+		grep -v ' XShmAttach'                    | \
+		grep -v ' XShmCreateImage'               | \
+		grep -v ' XShmCreatePixmap'              | \
+		grep -v ' XShmPixmapFormat'              | \
+		grep -v ' XShmPutImage'                  | \
+		grep -v ' XShmQueryVersion'              | \
+		grep -v ' XStoreName'                    | \
+		grep -v ' XSync'                         | \
+		grep -v ' XWindowEvent'                  | \
+		grep -v ' XAutoRepeatOff'                | \
+		grep -v ' XAutoRepeatOn'                 | \
+		grep -v ' XCloseDisplay'                 | \
+		grep -v ' XDestroyWindow'                | \
+		grep -v ' XFreeGC'                       | \
+		grep -v ' XFreePixmap'                   | \
+		grep -v ' XShmDetach'                    | \
+		grep ''                                  && \
 		printf '\033[41;30m%s\033[m\n' "There are forbidden functions!" || \
 		( \
 			grep --include='*.[hc]' \
 				--exclude-dir=minilibx-linux \
-				-R \
+				--color=always \
+				--with-filename \
+				--line-number \
+				--binary-files=without-match \
+				--dereference-recursive \
+				-e ' __gmon_start__' \
+				-e ' _ITM_registerTMCloneTable' \
+				-e ' _ITM_deregisterTMCloneTable' \
+				-e ' __cxa_finalize@' \
+				-e ' __errno_location@' \
+				-e ' __stack_chk_fail@' \
+				-e ' __libc_start_main@' \
+				-e ' __printf_chk@' \
 				-e 'memset' \
-				-e 'bzero' | \
-			grep -v -e ft_memset -e ft_bzero && \
-			printf '\033[41;30m%s\033[m\n' "You used memset/bzero (forbidden)!" || \
+				-e 'bzero' \
+				-e 'puts' \
+				-e 'putchar' \
+				-e 'calloc' \
+				-e 'getenv' \
+				-e 'gethostname' \
+				-e 'shmat' \
+				-e 'shmctl' \
+				-e 'shmdt' \
+				-e 'shmget' \
+				-e 'strlen' \
+				-e 'strncmp' \
+				-e 'XChangeWindowAttributes' \
+				-e 'XCopyArea' \
+				-e 'XCreateColormap' \
+				-e 'XCreateGC' \
+				-e 'XCreateImage' \
+				-e 'XCreatePixmap' \
+				-e 'XCreateWindow' \
+				-e 'XFlush' \
+				-e 'XGetVisualInfo' \
+				-e 'XGetWMNormalHints' \
+				-e 'XInternAtom' \
+				-e 'XkbKeycodeToKeysym' \
+				-e 'XMapRaised' \
+				-e 'XNextEvent' \
+				-e 'XOpenDisplay' \
+				-e 'XPending' \
+				-e 'XPutBackEvent' \
+				-e 'XPutImage' \
+				-e 'XSetClipOrigin' \
+				-e 'XSetErrorHandler' \
+				-e 'XSetWMNormalHints' \
+				-e 'XSetWMProtocols' \
+				-e 'XShmAttach' \
+				-e 'XShmCreateImage' \
+				-e 'XShmCreatePixmap' \
+				-e 'XShmPixmapFormat' \
+				-e 'XShmPutImage' \
+				-e 'XShmQueryVersion' \
+				-e 'XStoreName' \
+				-e 'XSync' \
+				-e 'XWindowEvent' \
+				-e 'XAutoRepeatOff' \
+				-e 'XAutoRepeatOn' \
+				-e 'XCloseDisplay' \
+				-e 'XDestroyWindow' \
+				-e 'XFreeGC' \
+				-e 'XFreePixmap' \
+				-e 'XShmDetach' \
+				| \
+			grep --invert-match '\<ft_' && \
+			printf '\033[41;30m%s\033[m\n' "You've used a forbidden function!" || \
 			printf '\033[42;30m%s\033[m\n' "No forbidden functions!" \
 		)
 
@@ -195,8 +347,20 @@ fi forbidden-funcs-internal:
 f forbidden-funcs: re
 	@$(MAKE) forbidden-funcs-internal
 
+## Compile, run the program (ARGS optional) and then check for
+## forbidden functions
+frc forbidden-funcs-compile-run: all
+	@$(MAKE) run
+	@$(MAKE) forbidden-funcs-internal
+
+## Recompile, run the program (ARGS optional) and then check for
+## forbidden functions
+fr forbidden-funcs-run: re
+	@$(MAKE) run
+	@$(MAKE) forbidden-funcs-internal
+
 ## -- -- -- -- RECOMMENDED -- -- --
-## Recompile, run the program with valgrind (and optional arguments), and
+## Recompile, run the program with valgrind (ARGS optional), and
 ## then check for forbidden functions
 fl forbidden-funcs-leakcheck: leakcheck
 	@$(MAKE) forbidden-funcs-internal
@@ -211,16 +375,25 @@ h help:
 	@<Makefile python3 -c 'exec('"'"'import re\n\nWIDTH = 8\nregex_self_doc = r"## [\\s\\S]*?\\n([a-z][a-zA-Z -]*):"\nmatches = list(re.finditer(regex_self_doc, open(0).read()))\nformatted_targets = []\nfor match in matches:\n    target = match.groups()[0]\n    doc_str = "\\n".join(match.group().split("\\n")[:-1]).replace("\\n", " ").replace("## ", "")\n    doc_str_words = doc_str.split()\n    doc_str_words_folded = [doc_str_words[i:i+WIDTH] for i in range(0, len(doc_str_words), WIDTH)]\n    formatted_doc_str = "\\n\\t".join([" ".join(words) for words in doc_str_words_folded])\n    formatted_targets.append(f"\\033[36m{target}\\033[m:\\n\\t{formatted_doc_str}")\nhelp_str = "\\n".join(formatted_targets)\nprint(help_str)\n'"'"')'
 	@printf '\n\033[31mNOTES:\n\t%s\033[m\n' 'ARGS only makes sense when the target runs the program'
 
-# these targets are not files
-.PHONY: all clean fclean re
-.PHONY: h help
+# these targets are not files (ordered by appearance in Makefile)
+.PHONY: all
 .PHONY: libft
+.PHONY: minilibx
+.PHONY: clean
+.PHONY: fclean
+.PHONY: re
 .PHONY: run
+.PHONY: valrun
+.PHONY: rc compile-run
 .PHONY: r rerun
 .PHONY: l leakcheck
-.PHONY: f forbidden-funcs
 .PHONY: fi forbidden-funcs-internal
+.PHONY: f forbidden-funcs
+.PHONY: frc forbidden-funcs-compile-run
+.PHONY: fr forbidden-funcs-run
 .PHONY: fl forbidden-funcs-leakcheck
+.PHONY: n norm
+.PHONY: h help
 
 # keep intermediate (*.h, *.o, *.d, *.a) targets
 .SECONDARY:

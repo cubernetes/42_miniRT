@@ -9,9 +9,9 @@ AR := ar rcs
 RM := /bin/rm -f
 MKDIR := /bin/mkdir -p
 
-# flags
-CFLAGS :=
-CFLAGS += -O3
+# general compile flags
+CFLAGS += -std=c11
+# compile warning flags
 CFLAGS += -Wall
 CFLAGS += -Wextra
 CFLAGS += -Werror
@@ -19,10 +19,27 @@ CFLAGS += -pedantic
 CFLAGS += -Wconversion
 CFLAGS += -Wunreachable-code
 CFLAGS += -Wshadow
-CFLAGS += -std=c11
+CFLAGS += -Wno-overlength-strings
+# performance flags
+CFLAGS := -Ofast
+CFLAGS += -march=native
+CFLAGS += -fno-signed-zeros
+CFLAGS += -funroll-loops
+# Unsafe performance flags
+CFLAGS += -fomit-frame-pointer
+CFLAGS += -ffast-math
+CFLAGS += -fno-math-errno
+CFLAGS += -funsafe-math-optimizations
+CFLAGS += -fassociative-math
+CFLAGS += -freciprocal-math
+CFLAGS += -ffinite-math-only
+CFLAGS += -fno-signed-zeros
+CFLAGS += -fno-trapping-math
+CFLAGS += -frounding-math
 
 CPPFLAGS :=
 CPPFLAGS += -MD
+CPPFLAGS += -MP
 CPPFLAGS += -I$(SRCDIR)
 
 ifeq ($(DEBUG), 1)
@@ -50,6 +67,7 @@ SRC += ft_atoi.c
 SRC += ft_atoi_status.c
 SRC += ft_atol_status.c
 SRC += ft_atof.c
+SRC += ft_strtof.c
 SRC += ft_isalnum.c
 SRC += ft_isalpha.c
 SRC += ft_isascii.c
@@ -142,6 +160,7 @@ SRC += ft_abs.c
 SRC += ft_min.c
 SRC += cmp_int_desc.c
 SRC += cmp_int_asc.c
+SRC += ft_atof.c
 
 vpath %.c list
 SRC += lswap.c
@@ -170,6 +189,7 @@ SRC += lequal.c
 SRC += ldestroy.c
 SRC += lcopy.c
 SRC += lbackward.c
+SRC += ltoarr.c
 
 vpath %.c data_constructors
 SRC += as_pointer_types.c
@@ -187,6 +207,33 @@ SRC += ht_print.c
 SRC += ht_destroy.c
 SRC += ht_to_list.c
 SRC += ht_hash.c
+
+vpath %.c geometry/vec3
+SRC += vec3.c
+SRC += vec3_operations1.c
+SRC += vec3_operations2.c
+
+vpath %.c geometry/ray
+SRC += ray.c
+
+vpath %.c geometry/sphere
+SRC += sphere.c
+
+vpath %.c geometry/plane
+SRC += plane.c
+
+vpath %.c geometry/cylinder
+SRC += cylinder.c
+
+vpath %.c geometry/quaternion
+SRC += quat_add.c
+SRC += quat_copy.c
+SRC += quat_helper.c
+SRC += quat_mult.c
+
+vpath %.c colors
+SRC += colors.c
+SRC += colors_getters.c
 
 # objects
 OBJ := $(SRC:.c=.o)

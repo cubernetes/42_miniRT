@@ -6,11 +6,12 @@
 /*   By: tischmid <timo42@proton.me>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 20:37:07 by tischmid          #+#    #+#             */
-/*   Updated: 2024/04/14 16:16:22 by tosuman          ###   ########.fr       */
+/*   Updated: 2024/09/04 15:52:11 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+
 #include <stdlib.h>
 
 static size_t	split_arr_len(char const *s, char c)

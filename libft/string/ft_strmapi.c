@@ -6,11 +6,12 @@
 /*   By: tischmid <tischmid@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/22 15:06:35 by tischmid          #+#    #+#             */
-/*   Updated: 2024/02/01 11:21:31 by tosuman          ###   ########.fr       */
+/*   Updated: 2024/09/04 15:51:49 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+
 #include <stdlib.h>
 
 char	*ft_strmapi(char const *s, char (f)(unsigned int, char))
