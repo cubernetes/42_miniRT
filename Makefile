@@ -347,6 +347,11 @@ fi forbidden-funcs-internal:
 f forbidden-funcs: re
 	@$(MAKE) forbidden-funcs-internal
 
+## Compile, run the program and then check for forbidden functions
+frc forbidden-funcs-compile-run: all
+	@$(MAKE) run
+	@$(MAKE) forbidden-funcs-internal
+
 ## Recompile, run the program and then check for forbidden functions
 fr forbidden-funcs-run: re
 	@$(MAKE) run
