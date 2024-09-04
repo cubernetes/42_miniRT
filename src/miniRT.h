@@ -4,10 +4,10 @@
 # include "libft.h"
 # include <stdlib.h>
 
-#define ANY_VEC 0
-#define NORM_VEC 1
-#define EPSILON 0.0001
-#define EPSILON2 0.0001
+# define ANY_VEC 0
+# define NORM_VEC 1
+# define EPSILON 0.0001
+# define EPSILON2 0.0000001
 
 /********** enums **********/
 
