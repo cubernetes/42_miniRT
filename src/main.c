@@ -7,23 +7,35 @@
 #include "float.h" // wtf norminette doesn't like angle brackets + float header
 #include <stdarg.h>
 
+void	rotate_cylinder(t_cylinder *cylinder, t_quat *quat)
+{
+	double	ratio;
+
+	ratio = cylinder->height
+		/ (2 * length_vec3(cylinder->axis));
+	sc_mult_vec3(cylinder->axis, ratio);
+	rotate_vec3(cylinder->axis, quat);
+	copy_vec3(cylinder->base_top, cylinder->center);
+	add_vec3(cylinder->base_top, cylinder->axis);
+	copy_vec3(cylinder->base_bot, cylinder->center);
+	substract_vec3(cylinder->base_bot, cylinder->axis);
+	unit_vec3(cylinder->axis);
+}
+
+void	rotate_plane(t_plane *plane, t_quat *quat)
+{
+	rotate_vec3(plane->norm, quat);
+}
+
 // <START>: put this stuff in separate file
 void	rotate_object(t_obj *obj, t_quat *quat)
 {
 	if (obj->type == TOK_SPHERE)
 		return ;
 	else if (obj->type == TOK_CYLINDER)
-	{
-		rotate_vec3(obj->cylinder.axis, quat);
-		copy_vec3(obj->cylinder.base_top, obj->cylinder.center);
-		add_vec3(obj->cylinder.base_top, obj->cylinder.axis);
-		copy_vec3(obj->cylinder.base_bot, obj->cylinder.center);
-		substract_vec3(obj->cylinder.base_bot, obj->cylinder.axis);
-	}
+		rotate_cylinder(&obj->cylinder, quat);
 	else if (obj->type == TOK_PLANE)
-	{
-		ft_printf("Not implemented\n");
-	}
+		rotate_plane(&obj->plane, quat);
 	else
 		ft_printf("Object type %d doesn't exit!\n", obj->type);
 }
