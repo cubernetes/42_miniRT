@@ -1,0 +1,21 @@
+#! /bin/sh
+
+set -eu
+
+x=${1:?missing x component}
+y=${2:?missing y component}
+z=${3:?missing z component}
+w=${4:?missing w component}
+
+python3 - <<- SCRIPT
+	x = $((x + 0))
+	y = $((y + 0))
+	z = $((z + 0))
+	w = $((w + 0))
+	magnitude = (x ** 2 + y ** 2 + z ** 2 + w ** 2) ** (1/2)
+	x /= magnitude
+	y /= magnitude
+	z /= magnitude
+	w /= magnitude
+	print(x, y, z, w, sep=',')
+SCRIPT
