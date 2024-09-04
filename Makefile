@@ -151,7 +151,7 @@ fclean: clean
 re: fclean
 	@$(MAKE) all
 
-### Don't recompile, just run the program (with optional arguments)
+### Don't recompile, just run the program (ARGS optional)
 run:
 	@printf '\n'
 	@# This allows $(NAME) to be run using either an absolute, relative or no path.
@@ -159,7 +159,7 @@ run:
 	@PATH=".$${PATH:+:$${PATH}}" && \
 		$(NAME) $(ARGS)
 
-### Don't recompile, just run the program with valgrind (and optional arguments)
+### Don't recompile, just run the program with valgrind (ARGS optional)
 valrun:
 	@printf '\n'
 	@PATH=".$${PATH:+:$${PATH}}" && \
@@ -171,15 +171,15 @@ valrun:
 			$(NAME) \
 			$(ARGS)
 
-## Compile, then run the program (with optional arguments)
+## Compile, then run the program (ARGS optional)
 rc compile-run: all
 	@$(MAKE) run
 
-## Recompile, then run the program (with optional arguments)
+## Recompile, then run the program (ARGS optional)
 r rerun: re
 	@$(MAKE) run
 
-## Recompile, then run the program with valgrind (and optional arguments)
+## Recompile, then run the program with valgrind (ARGS optional)
 l leakcheck: re
 	@$(MAKE) valrun
 
@@ -347,18 +347,20 @@ fi forbidden-funcs-internal:
 f forbidden-funcs: re
 	@$(MAKE) forbidden-funcs-internal
 
-## Compile, run the program and then check for forbidden functions
+## Compile, run the program (ARGS optional) and then check for
+## forbidden functions
 frc forbidden-funcs-compile-run: all
 	@$(MAKE) run
 	@$(MAKE) forbidden-funcs-internal
 
-## Recompile, run the program and then check for forbidden functions
+## Recompile, run the program (ARGS optional) and then check for
+## forbidden functions
 fr forbidden-funcs-run: re
 	@$(MAKE) run
 	@$(MAKE) forbidden-funcs-internal
 
 ## -- -- -- -- RECOMMENDED -- -- --
-## Recompile, run the program with valgrind (and optional arguments), and
+## Recompile, run the program with valgrind (ARGS optional), and
 ## then check for forbidden functions
 fl forbidden-funcs-leakcheck: leakcheck
 	@$(MAKE) forbidden-funcs-internal
@@ -373,16 +375,25 @@ h help:
 	@<Makefile python3 -c 'exec('"'"'import re\n\nWIDTH = 8\nregex_self_doc = r"## [\\s\\S]*?\\n([a-z][a-zA-Z -]*):"\nmatches = list(re.finditer(regex_self_doc, open(0).read()))\nformatted_targets = []\nfor match in matches:\n    target = match.groups()[0]\n    doc_str = "\\n".join(match.group().split("\\n")[:-1]).replace("\\n", " ").replace("## ", "")\n    doc_str_words = doc_str.split()\n    doc_str_words_folded = [doc_str_words[i:i+WIDTH] for i in range(0, len(doc_str_words), WIDTH)]\n    formatted_doc_str = "\\n\\t".join([" ".join(words) for words in doc_str_words_folded])\n    formatted_targets.append(f"\\033[36m{target}\\033[m:\\n\\t{formatted_doc_str}")\nhelp_str = "\\n".join(formatted_targets)\nprint(help_str)\n'"'"')'
 	@printf '\n\033[31mNOTES:\n\t%s\033[m\n' 'ARGS only makes sense when the target runs the program'
 
-# these targets are not files
-.PHONY: all clean fclean re
-.PHONY: h help
+# these targets are not files (ordered by appearance in Makefile)
+.PHONY: all
 .PHONY: libft
+.PHONY: minilibx
+.PHONY: clean
+.PHONY: fclean
+.PHONY: re
 .PHONY: run
+.PHONY: valrun
+.PHONY: rc compile-run
 .PHONY: r rerun
 .PHONY: l leakcheck
-.PHONY: f forbidden-funcs
 .PHONY: fi forbidden-funcs-internal
+.PHONY: f forbidden-funcs
+.PHONY: frc forbidden-funcs-compile-run
+.PHONY: fr forbidden-funcs-run
 .PHONY: fl forbidden-funcs-leakcheck
+.PHONY: n norm
+.PHONY: h help
 
 # keep intermediate (*.h, *.o, *.d, *.a) targets
 .SECONDARY:
