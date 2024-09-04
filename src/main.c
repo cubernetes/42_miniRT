@@ -150,8 +150,8 @@ void	setup_mlx(t_gc *gc, t_scene *scene)
 
 void	setup_scene(t_scene *scene)
 {
-	scene->wwidth = 800;
-	scene->wheight = 600;
+	scene->wwidth = 400;
+	scene->wheight = 300;
 }
 
 # include <stdio.h>
