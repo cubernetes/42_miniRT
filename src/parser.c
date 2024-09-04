@@ -199,6 +199,7 @@ int	read_rt_file(char *filename, t_scene *scene)
 	t_list		*objects;
 	t_list		*lights;
 	int			flag;
+	bool		has_cam;
 
 	if (ft_strncmp(filename + ft_strlen(filename) - 3, ".rt", 4))
 	{
@@ -214,13 +215,17 @@ int	read_rt_file(char *filename, t_scene *scene)
 	objects = lnew();
 	lights = lnew();
 	line = get_next_line(fd);
+	has_cam = false;
 	while (line)
 	{
 		if (line[0] != '\n' && line[0] != '#')
 		{
 			line[ft_strlen(line) - 1] = 0;
 			if (!ft_strncmp(line, "C ", 2))
+			{
 				flag = parse_camera(line, scene);
+				has_cam = true;
+			}
 			else if (!ft_strncmp(line, "A ", 2) || !ft_strncmp(line, "L ", 2))
 				flag = parse_lights(line, lights);
 			else if (!ft_strncmp(line, "sp ", 3) || !ft_strncmp(line, "pl ", 3)
@@ -236,6 +241,8 @@ int	read_rt_file(char *filename, t_scene *scene)
 		}
 		line = get_next_line(fd);
 	}
+	if (!has_cam)
+		return (EXIT_FAILURE);
 	scene->objects = ltoarr(objects);
 	scene->nb_objs = objects->len;
 	scene->lights = ltoarr(lights);
