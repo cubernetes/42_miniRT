@@ -22,9 +22,20 @@ enum					e_token_rt
 	TOK_ERROR,
 };
 
+enum						e_direction
+{
+	DIR_UP = 0,
+	DIR_DOWN,
+	DIR_FORWARD,
+	DIR_BACKWARD,
+	DIR_LEFT,
+	DIR_RIGHT,
+};
+
 /************* typedefs ***************/
-typedef enum e_token_rt	t_token_rt;
-typedef int				(*t_hook)(void *, ...);
+typedef enum e_token_rt		t_token_rt;
+typedef enum e_direction	t_direction;
+typedef int					(*t_hook)(void *, ...);
 
 /* forward declarations */
 typedef struct s_rt_img	t_rt_img;
@@ -115,12 +126,17 @@ void					apply_light(t_color *color, t_color light);
 t_color					calculate_lighting(t_hit *hit, t_scene *scene);
 
 /* parse.c */
-int						parse_input(t_obj ***objects, t_scene *scene);
+int							parse_input(t_obj ***objects, t_scene *scene);
 
-int						parse_vec3(char *str, t_vec3 *vec, int flag);
-int						parse_color(char *str, t_color *color);
-int						parse_camera(char *line, t_scene *scene);
-int						parse_lights(char *line, t_list *lights);
-int						parse_objects(char *line, t_list *objects);
-int						read_rt_file(char *filename, t_scene *scene);
+int							parse_vec3(char *str, t_vec3 *vec, int flag);
+int							parse_color(char *str, t_color *color);
+int							parse_camera(char *line, t_scene *scene);
+int							parse_lights(char *line, t_list *lights);
+int							parse_objects(char *line, t_list *objects);
+int							read_rt_file(char *filename, t_scene *scene);
+
+/* translate_camera.c */
+void						translate_camera(t_scene *scene,
+								t_direction direction);
+
 #endif /* miniRT.h */

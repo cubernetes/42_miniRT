@@ -94,79 +94,26 @@ int	keydown_hook(void *arg1, ...)
 	va_start(ap, arg1);
 	gc = va_arg(ap, t_gc *);
 	va_end(ap);
-	if (keycode == XK_Escape || keycode == 'q')
+	if (keycode == XK_Escape)
 		destroy_hook(gc);
-	else if (keycode == 'd')
-	{
-		gc->scene->lights[1]->point->x += 0.00000000001;
-		render(gc, gc->scene);
-	}
-	else if (keycode == 'a')
-	{
-		gc->scene->lights[1]->point->x -= 0.00000000001;
-		render(gc, gc->scene);
-	}
 	else if (keycode == 'w')
-	{
-		gc->scene->lights[1]->point->z -= 0.00000000001;
-		render(gc, gc->scene);
-	}
+		translate_camera(gc->scene, DIR_FORWARD);
 	else if (keycode == 's')
-	{
-		gc->scene->lights[1]->point->z += 0.00000000001;
-		render(gc, gc->scene);
-	}
-	else if (keycode == 'l')
-	{
-		gc->scene->lights[1]->point->x += 0.00000001;
-		render(gc, gc->scene);
-	}
-	else if (keycode == 'h')
-	{
-		gc->scene->lights[1]->point->x -= 0.00000001;
-		render(gc, gc->scene);
-	}
-	else if (keycode == 'k')
-	{
-		gc->scene->lights[1]->point->z -= 0.00000001;
-		render(gc, gc->scene);
-	}
-	else if (keycode == 'j')
-	{
-		gc->scene->lights[1]->point->z += 0.00000001;
-		render(gc, gc->scene);
-	}
-	else if (keycode == 'p')
-	{
-		gc->scene->lights[1]->point->x += 0.01;
-		render(gc, gc->scene);
-	}
-	else if (keycode == 'o')
-	{
-		gc->scene->lights[1]->point->x -= 0.01;
-		render(gc, gc->scene);
-	}
-	else if (keycode == '2')
-	{
-		gc->scene->lights[1]->point->x += 1000000;
-		render(gc, gc->scene);
-	}
-	else if (keycode == '1')
-	{
-		gc->scene->lights[1]->point->x -= 1000000;
-		render(gc, gc->scene);
-	}
+		translate_camera(gc->scene, DIR_BACKWARD);
+	else if (keycode == 'a')
+		translate_camera(gc->scene, DIR_LEFT);
+	else if (keycode == 'd')
+		translate_camera(gc->scene, DIR_RIGHT);
 	else if (keycode == ' ')
-	{
-		t_quat	quat;
-		new_unit_quat(&quat, 30, &(t_vec3){.x = 0, .y = 1, .z = 0});
-		/* new_unit_quat(&quat, 90, &(t_vec3){.x = 0, .y = 0, .z = 1}); */
-		rotate_object(gc->scene->objects[0], &quat);
-		print_cylinder(gc->scene->objects[0]);
-		render(gc, gc->scene);
-	}
+		translate_camera(gc->scene, DIR_UP);
+	else if (keycode == XK_Shift_L)
+		translate_camera(gc->scene, DIR_DOWN);
 	else
+	{
 		ft_printf("Pressed '%c' (keycode: %d)\n", keycode, keycode);
+		return (0);
+	}
+	render(gc, gc->scene);
 	return (0);
 }
 /* TODO: Remove 'pressed' debug output */
@@ -191,8 +138,8 @@ void	setup_mlx(t_gc *gc, t_scene *scene)
 
 void	setup_scene(t_scene *scene)
 {
-	scene->wwidth = 400;
-	scene->wheight = 300;
+	scene->wwidth = 800;
+	scene->wheight = 600;
 }
 
 # include <stdio.h>

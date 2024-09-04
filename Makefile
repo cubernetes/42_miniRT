@@ -99,6 +99,7 @@ SRC += render.c
 SRC += lights.c
 SRC += hoarding_disorder.c
 SRC += parser.c
+SRC += translate_camera.c
 
 # objects
 OBJ := $(SRC:.c=.o)
