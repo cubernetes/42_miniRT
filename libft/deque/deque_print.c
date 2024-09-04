@@ -6,11 +6,12 @@
 /*   By: tischmid <tischmid@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/22 14:37:38 by tischmid          #+#    #+#             */
-/*   Updated: 2024/05/10 04:12:59 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/09/04 15:57:04 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+
 #include <stdbool.h>
 
 void	deque_print(t_deque *deque, void (print)(void *ptr, bool first))

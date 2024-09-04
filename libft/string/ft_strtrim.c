@@ -6,11 +6,12 @@
 /*   By: tischmid <timo42@proton.me>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 19:38:21 by tischmid          #+#    #+#             */
-/*   Updated: 2024/02/01 11:21:20 by tosuman          ###   ########.fr       */
+/*   Updated: 2024/09/04 15:51:26 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+
 #include <stdlib.h>
 
 static size_t	len_after_trim(char const *s1, char const *set)

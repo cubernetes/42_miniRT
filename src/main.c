@@ -1,5 +1,5 @@
-#include "libft.h"
 #include "miniRT.h"
+#include "libft.h"
 #include "mlx.h"
 
 #include <math.h>

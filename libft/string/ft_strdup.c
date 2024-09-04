@@ -6,11 +6,12 @@
 /*   By: tischmid <tischmid@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/22 15:06:11 by tischmid          #+#    #+#             */
-/*   Updated: 2024/05/22 15:13:57 by tosuman          ###   ########.fr       */
+/*   Updated: 2024/09/04 15:52:02 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+
 #include <stdlib.h>
 
 char	*ft_strdup(char const s[static 1])

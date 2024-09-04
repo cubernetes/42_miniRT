@@ -6,11 +6,12 @@
 /*   By: tischmid <tischmid@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 01:04:45 by tischmid          #+#    #+#             */
-/*   Updated: 2024/07/05 01:04:45 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/09/04 15:54:47 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+
 #include <stdbool.h>
 
 /* TODO: Document */

@@ -6,11 +6,10 @@
 /*   By: tischmid <tischmid@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 00:59:17 by tischmid          #+#    #+#             */
-/*   Updated: 2024/07/05 00:59:25 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/09/04 15:54:21 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 #include "libft.h"
 
 /** Start a new backwards-iterator on a list.

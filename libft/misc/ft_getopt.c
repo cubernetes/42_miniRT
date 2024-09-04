@@ -6,12 +6,12 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 20:08:09 by tosuman           #+#    #+#             */
-/*   Updated: 2024/07/05 00:52:29 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/09/04 15:53:53 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 #include "ft_getopt.h"
+#include "libft.h"
 
 #include <stdlib.h>
 

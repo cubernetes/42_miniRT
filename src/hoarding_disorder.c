@@ -1,7 +1,9 @@
 #include "miniRT.h"
 #include "libft.h"
+
 #include <math.h>
 #include <stdio.h>
+
 void assert_norm(t_hit *hit, int index)
 {
 	if ((fabs(hit->point.x + 1.537377) <= EPSILON) && (fabs(hit->point.y - 17.103315) <= EPSILON) &&

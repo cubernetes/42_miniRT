@@ -6,13 +6,15 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 10:26:52 by tosuman           #+#    #+#             */
-/*   Updated: 2024/03/31 14:59:52 by tosuman          ###   ########.fr       */
+/*   Updated: 2024/09/04 15:57:21 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+
 #include <unistd.h>
 #include <stdlib.h>
+
 #define WIDTH 16
 #define DELIMITER " "
 

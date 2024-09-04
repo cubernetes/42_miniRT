@@ -6,11 +6,12 @@
 /*   By: tischmid <tischmid@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 01:02:12 by tischmid          #+#    #+#             */
-/*   Updated: 2024/08/21 01:02:32 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/09/04 15:52:27 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+
 #include <stdlib.h>
 #include <execinfo.h>
 

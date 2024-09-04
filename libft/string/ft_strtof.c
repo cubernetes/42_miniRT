@@ -6,14 +6,14 @@
 /*   By: nam-vu <nam-vu@student.42berlin.de>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 09:26:36 by nam-vu            #+#    #+#             */
-/*   Updated: 2024/09/03 09:26:36 by nam-vu           ###   ########.fr       */
+/*   Updated: 2024/09/04 15:51:09 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+
 #include <math.h>
 #include "float.h"
-#include <stdio.h>
 
 static double	get_real_part(long double *number, const char **s)
 {

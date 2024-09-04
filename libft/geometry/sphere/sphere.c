@@ -1,4 +1,5 @@
 #include "libft.h"
+
 #include <math.h>
 #include <stdio.h>
 

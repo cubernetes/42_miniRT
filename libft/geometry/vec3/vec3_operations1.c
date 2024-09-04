@@ -1,4 +1,5 @@
 #include "libft.h"
+
 #include <math.h>
 
 void	reverse_vec3(t_vec3 *this)

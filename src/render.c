@@ -1,11 +1,9 @@
-#include "libft.h"
 #include "miniRT.h"
-#include "float.h"
+#include "libft.h"
 #include "mlx.h"
 
+#include "float.h"
 #include <math.h>
-
-#include <stdio.h> // TODO: remove
 
 void	calculate_norm(t_hit *hit)
 {

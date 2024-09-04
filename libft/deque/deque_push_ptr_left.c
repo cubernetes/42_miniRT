@@ -6,11 +6,12 @@
 /*   By: tischmid <tischmid@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 09:34:41 by tischmid          #+#    #+#             */
-/*   Updated: 2024/03/27 17:59:11 by tosuman          ###   ########.fr       */
+/*   Updated: 2024/09/04 15:57:06 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+
 #include <stdlib.h>
 
 /* not using perror and exit for compliance */
