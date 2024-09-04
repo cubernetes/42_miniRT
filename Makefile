@@ -191,7 +191,7 @@ fi forbidden-funcs-internal:
 	@#   and exit are from the subject
 	@# - ... are from the math library (-lm)
 	@# - ... are from the minilibx library (-lmlx)
-	@# - sqrt is from the math library
+	@# - sqrt, cos, sin is from the math library
 	@# - the functions below starting with underscore are added by the compiler
 	@# - and a significant part of functions is also added by the mlx library
 	@printf '\n'
@@ -211,6 +211,8 @@ fi forbidden-funcs-internal:
 		grep -v ' perror@'       | \
 		grep -v ' strerror@'     | \
 		grep -v ' sqrt@'            | \
+		grep -v ' cos@'             | \
+		grep -v ' sin@'             | \
 		grep -v ' __gmon_start__'              | \
 		grep -v ' _ITM_registerTMCloneTable'   | \
 		grep -v ' _ITM_deregisterTMCloneTable' | \
