@@ -45,7 +45,7 @@ void print_double_byte_by_byte(double value) {
 }
 
 /* expensive function, is run:
- *     wwidth * wheight * nb_lights * nb_objs times (roughly 3 mil.)
+ *     window_width * window_height * nb_lights * nb_objs times (roughly 3 mil.)
  */
 //todo: remove diffussion from the ambient lighting
 t_color	calculate_lighting(t_hit *hit, t_scene *scene)

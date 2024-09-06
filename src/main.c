@@ -93,7 +93,28 @@ int	destroy_hook(void *arg1, ...)
 	return (0);
 }
 
-#include <stdint.h>
+/* todo: either rotate view direction vector and then recalculate the other 2
+ * OR: rotate each vector using 3 different quaternions? */
+void	rotate_camera(t_camera *camera, t_direction direction)
+{
+	t_quat  quat;
+	t_vec3  left_vec;
+
+	(void)direction;
+	if (direction == DIR_LEFT)
+		new_unit_quat(&quat, 15, &(t_vec3){.x = 0, .y = 1, .z = 0});
+	else
+		new_unit_quat(&quat, -15, &(t_vec3){.x = 0, .y = 1, .z = 0});
+	rotate_vec3(&camera->dir, &quat);
+	copy_vec3(&left_vec, &camera->dir);
+	cross_product_vec3(&left_vec, &(t_vec3){.x = 0, .y = -1, .z = 0});
+	copy_vec3(&camera->right, &left_vec);
+	sc_mult_vec3(&camera->right, -1);
+	copy_vec3(&camera->up, &camera->dir);
+	cross_product_vec3(&camera->up, &left_vec);
+}
+
+#include <stdint.h> /* needed for intptr_t */
 
 /* cast to intptr_t and then int needed. only way to make this generic */
 int	keydown_hook(void *arg1, ...)
@@ -101,7 +122,11 @@ int	keydown_hook(void *arg1, ...)
 	int		keycode;
 	va_list	ap;
 	t_gc	*gc;
+	t_quat	quat;
+	t_quat	quat2;
 
+	new_unit_quat(&quat, 10, &(t_vec3){.x = 0, .y = 1, .z = 0});
+	new_unit_quat(&quat2, -10, &(t_vec3){.x = 0, .y = 1, .z = 0});
 	keycode = (int)(intptr_t)arg1;
 	va_start(ap, arg1);
 	gc = va_arg(ap, t_gc *);
@@ -120,6 +145,14 @@ int	keydown_hook(void *arg1, ...)
 		translate_camera(gc->scene, DIR_UP);
 	else if (keycode == XK_Shift_L)
 		translate_camera(gc->scene, DIR_DOWN);
+	else if (keycode == 'h')
+		rotate_camera(gc->scene->camera, DIR_LEFT);
+	else if (keycode == 'l')
+		rotate_camera(gc->scene->camera, DIR_RIGHT);
+	else if (keycode == '9')
+		rotate_object(gc->scene->objects[0], &quat);
+	else if (keycode == '0')
+		rotate_object(gc->scene->objects[0], &quat2);
 	else
 	{
 		ft_printf("Pressed '%c' (keycode: %d)\n", keycode, keycode);
@@ -139,8 +172,8 @@ void	setup_hooks(t_gc *gc)
 void	setup_mlx(t_gc *gc, t_scene *scene)
 {
 	gc->mlx = gc_add(mlx_init())->last->as_ptr; // TODO: check NULL
-	gc->win = mlx_new_window(gc->mlx, scene->wwidth, scene->wheight, "miniRT"); // TODO: check NULL
-	gc->img.img = mlx_new_image(gc->mlx, scene->wwidth, scene->wheight); // TODO: check NULL
+	gc->win = mlx_new_window(gc->mlx, scene->window_width, scene->window_height, "miniRT"); // TODO: check NULL
+	gc->img.img = mlx_new_image(gc->mlx, scene->window_width, scene->window_height); // TODO: check NULL
 	gc->img.addr = mlx_get_data_addr(
 			gc->img.img, &gc->img.bpp,
 			&gc->img.line_length,
@@ -150,16 +183,24 @@ void	setup_mlx(t_gc *gc, t_scene *scene)
 
 void	setup_scene(t_scene *scene)
 {
-	scene->wwidth = 400;
-	scene->wheight = 300;
+	t_viewport	*viewport;
+	t_camera	*camera;
+
+	scene->window_width = 400;
+	scene->window_height = 300;
+	viewport = ft_malloc(sizeof(*viewport));
+	viewport->width = scene->window_width;
+	viewport->height = scene->window_height;
+	camera = ft_malloc(sizeof(*camera));
+	scene->viewport = viewport;
+	scene->camera = camera;
 }
 
-# include <stdio.h>
 void	print_light(t_light *light)
 {
-	printf("SOURCE OF LIGHT ");
+	ft_printf("SOURCE OF LIGHT ");
 	print_vec3(light->point);
-	printf("RATIO: %f\n", light->ratio);
+	ft_printf("RATIO: %f\n", light->ratio);
 	print_color(&light->color);
 }
 

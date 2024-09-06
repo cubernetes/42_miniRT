@@ -191,7 +191,7 @@ fi forbidden-funcs-internal:
 	@#   and exit are from the subject
 	@# - ... are from the math library (-lm)
 	@# - ... are from the minilibx library (-lmlx)
-	@# - sqrt, cos, sin is from the math library
+	@# - sqrt, cos, sin, tan is from the math library
 	@# - the functions below starting with underscore are added by the compiler
 	@# - and a significant part of functions is also added by the mlx library
 	@printf '\n'
@@ -204,7 +204,7 @@ fi forbidden-funcs-internal:
 		grep -v ' free@'         | \
 		grep -v ' open@'         | \
 		grep -v ' exit@'         | \
-		grep -v ' printf@'         | \
+		grep -v ' printf@'       | \
 		grep -v ' write@'        | \
 		grep -v ' close@'        | \
 		grep -v ' malloc@'       | \
@@ -213,6 +213,7 @@ fi forbidden-funcs-internal:
 		grep -v ' sqrt@'            | \
 		grep -v ' cos@'             | \
 		grep -v ' sin@'             | \
+		grep -v ' tan@'             | \
 		grep -v ' __gmon_start__'              | \
 		grep -v ' _ITM_registerTMCloneTable'   | \
 		grep -v ' _ITM_deregisterTMCloneTable' | \
@@ -268,6 +269,8 @@ fi forbidden-funcs-internal:
 		grep -v ' XFreeGC'                       | \
 		grep -v ' XFreePixmap'                   | \
 		grep -v ' XShmDetach'                    | \
+		grep -v 'XChangeGC'                      | \
+	 grep -v 'XDrawPoint'                     | \
 		grep ''                                  && \
 		printf '\033[41;30m%s\033[m\n' "There are forbidden functions!" || \
 		( \
@@ -337,6 +340,8 @@ fi forbidden-funcs-internal:
 				-e 'XFreeGC' \
 				-e 'XFreePixmap' \
 				-e 'XShmDetach' \
+			-e 'XChangeGC' \
+		 -e 'XDrawPoint' \
 				| \
 			grep --invert-match '\<ft_' && \
 			printf '\033[41;30m%s\033[m\n' "You've used a forbidden function!" || \

@@ -74,6 +74,32 @@ int	cast_ray(t_hit *hit, t_ray *ray, t_scene *scene)
 	return (EXIT_SUCCESS);
 }
 
+/* T = C + C_l * (vw / (2 * tan(theta / 2)) - Cr * vw / 2 + Cu * vh / 2 */
+
+/* rebase_vec3(t_vec3 *this, t_vec3 **new_basis); */
+void	init_viewport_params(t_scene *scene, t_vec3 *terminus)
+{
+	t_vec3	scaled_up;
+	t_vec3	scaled_right;
+	t_vec3	scaled_view;
+	double	focal_distance;
+
+	copy_vec3(&scene->viewport->down_step, &scene->camera->up);
+	sc_mult_vec3(&scene->viewport->down_step, -1);
+	copy_vec3(&scene->viewport->right_step, &scene->camera->right);
+	copy_vec3(&scene->viewport->top_left, terminus);
+	copy_vec3(&scaled_view, &scene->camera->dir);
+	focal_distance = scene->window_width / (2 * tan(scene->fov * PI / 360));
+	sc_mult_vec3(&scaled_view, focal_distance);
+	copy_vec3(&scaled_right, &scene->camera->right);
+	sc_mult_vec3(&scaled_right, scene->window_width / 2.0);
+	copy_vec3(&scaled_up, &scene->camera->up);
+	sc_mult_vec3(&scaled_up, scene->window_height / 2.0);
+	add_vec3(&scene->viewport->top_left, &scaled_view);
+	substract_vec3(&scene->viewport->top_left, &scaled_right);
+	add_vec3(&scene->viewport->top_left, &scaled_up);
+}
+
 /* todo: change to FOV */
 void	render(t_gc *gc, t_scene *scene)
 {
@@ -85,20 +111,29 @@ void	render(t_gc *gc, t_scene *scene)
 	t_hit			hit;
 	const double	scale = 16.0;
 	const double	focal_distance = -10.0;
+	t_vec3			row_start_vec;
+	t_vec3			pixel;
 
+	copy_vec3(&terminus, &scene->camera->pos);
+	init_viewport_params(scene, &terminus);
 	new_vec3(&terminus, 0, 0, 0);
 	y = -1;
-	while (++y < scene->wheight)
+	copy_vec3(&row_start_vec, &scene->viewport->top_left);
+	while (++y < scene->window_height)
 	{
 		x = -1;
-		while (++x < scene->wwidth)
+		copy_vec3(&pixel, &row_start_vec);
+		while (++x < scene->window_width)
 		{
-			new_vec3(&orientation, (x - scene->wwidth / 2.0) / scale, (y - scene->wheight / 2.0) / scale, focal_distance);
-			new_ray(&ray, &terminus, &orientation);
+			/* new_vec3(&orientation, (x - scene->window_width / 2.0) / scale, (y - scene->window_height / 2.0) / scale, focal_distance); */
+			/* new_ray(&ray, &terminus, &orientation); */
+			new_ray(&ray, &terminus, &pixel);
 			if (!cast_ray(&hit, &ray, scene))
 				apply_light(&(hit.color), calculate_lighting(&hit, scene));
-			mlx_pixel_put_buf(&gc->img, x, scene->wheight - y, hit.color);
+			mlx_pixel_put_buf(&gc->img, x, scene->window_height - y, hit.color);
+			add_vec3(&pixel, &scene->viewport->right_step);
 		}
+		add_vec3(&row_start_vec, &scene->viewport->down_step);
 	}
 	mlx_put_image_to_window(gc->mlx, gc->win, gc->img.img, 0, 0);
 }

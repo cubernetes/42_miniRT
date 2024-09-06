@@ -46,8 +46,26 @@ typedef struct s_obj		t_obj;
 typedef struct s_light		t_light;
 typedef struct s_hit		t_hit;
 typedef struct s_camera		t_camera;
+typedef struct s_viewport	t_viewport;
 
 /********** struct defintions **********/
+struct						s_camera
+{
+	t_vec3					pos;
+	t_vec3					dir;
+	t_vec3					up;
+	t_vec3					right;
+};
+
+struct						s_viewport
+{
+	double					width;
+	double					height;
+	t_vec3					right_step;
+	t_vec3					down_step;
+	t_vec3					top_left;
+};
+
 struct						s_rt_img
 {
 	void					*img;
@@ -68,14 +86,14 @@ struct						s_gc
 
 struct						s_scene
 {
-	int						wheight;
-	int						wwidth;
+	int						window_height;
+	int						window_width;
 	t_light					**lights;
 	t_obj					**objects;
 	int						nb_lights;
 	int						nb_objs;
-	t_vec3					camera_pos;
-	t_vec3					camera_dir;
+	t_camera				*camera;
+	t_viewport				*viewport;
 	double					fov;
 };
 

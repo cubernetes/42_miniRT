@@ -69,17 +69,24 @@ int	parse_color(char *str, t_color *color)
 int	parse_camera(char *line, t_scene *scene)
 {
 	char	**arr;
+	t_vec3	tmp;
 
 	arr = ft_split(line, ' ');
 	if (!arr[0] || !arr[1] || !arr[2] || !arr[3] || arr[4])
 		return (EXIT_FAILURE);
-	if (parse_vec3(arr[1], &scene->camera_pos, ANY_VEC))
+	if (parse_vec3(arr[1], &scene->camera->pos, ANY_VEC))
 		return (EXIT_FAILURE);
-	if (parse_vec3(arr[2], &scene->camera_dir, NORM_VEC))
+	if (parse_vec3(arr[2], &scene->camera->dir, NORM_VEC))
 		return (EXIT_FAILURE);
 	scene->fov = ft_strtof(arr[3]);
 	if (isnan(scene->fov) || scene->fov < 0.0 || scene->fov > 180.0)
 		return (EXIT_FAILURE);
+	copy_vec3(&scene->camera->up, &scene->camera->dir);
+	copy_vec3(&tmp, &scene->camera->dir);
+	cross_product_vec3(&tmp, &(t_vec3){.x = 0, .y = -1, .z = 0});
+	cross_product_vec3(&scene->camera->up, &tmp);
+	sc_mult_vec3(&tmp, -1);
+	copy_vec3(&scene->camera->right, &tmp);
 	return (EXIT_SUCCESS);
 }
 
