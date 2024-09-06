@@ -156,6 +156,6 @@ int							read_rt_file(char *filename, t_scene *scene);
 
 /* translate_camera.c */
 void						translate_camera(t_scene *scene,
-								t_direction direction);
+								t_direction direction, double amount);
 
 #endif /* miniRT.h */

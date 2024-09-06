@@ -4,6 +4,7 @@
 
 #include "float.h"
 #include <math.h>
+#include <stdio.h>
 
 void	calculate_norm(t_hit *hit)
 {
@@ -30,10 +31,9 @@ void	calculate_norm(t_hit *hit)
 		{
 			copy_vec3(&temp, &hit->point);
 			substract_vec3(&temp, hit->object->cylinder.base_bot);
-			if (norm_len_squared - length_squared_vec3(&temp) > EPSILON2)
-				copy_vec3(&hit->norm, hit->object->cylinder.base_top);
-			else
-				copy_vec3(&hit->norm, hit->object->cylinder.base_bot);
+			copy_vec3(&hit->norm, hit->object->cylinder.axis);
+			if (ft_abs(norm_len_squared - length_squared_vec3(&temp)) > EPSILON2)
+				sc_mult_vec3(&hit->norm, -1);
 		}
 	}
 }
@@ -98,6 +98,7 @@ void	init_viewport_params(t_scene *scene, t_vec3 *terminus)
 	add_vec3(&scene->viewport->top_left, &scaled_view);
 	substract_vec3(&scene->viewport->top_left, &scaled_right);
 	add_vec3(&scene->viewport->top_left, &scaled_up);
+	substract_vec3(&scene->viewport->top_left, &scene->camera->pos);
 }
 
 /* todo: change to FOV */
@@ -113,10 +114,11 @@ void	render(t_gc *gc, t_scene *scene)
 	const double	focal_distance = -10.0;
 	t_vec3			row_start_vec;
 	t_vec3			pixel;
+	int				counter = 0;
 
+	copy_vec3(scene->lights[0]->point, &scene->camera->pos);
 	copy_vec3(&terminus, &scene->camera->pos);
 	init_viewport_params(scene, &terminus);
-	new_vec3(&terminus, 0, 0, 0);
 	y = -1;
 	copy_vec3(&row_start_vec, &scene->viewport->top_left);
 	while (++y < scene->window_height)
@@ -129,7 +131,11 @@ void	render(t_gc *gc, t_scene *scene)
 			/* new_ray(&ray, &terminus, &orientation); */
 			new_ray(&ray, &terminus, &pixel);
 			if (!cast_ray(&hit, &ray, scene))
+			{
+				if (hit.object->type == TOK_CYLINDER)
+					counter++;
 				apply_light(&(hit.color), calculate_lighting(&hit, scene));
+			}
 			mlx_pixel_put_buf(&gc->img, x, scene->window_height - y, hit.color);
 			add_vec3(&pixel, &scene->viewport->right_step);
 		}

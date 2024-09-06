@@ -95,16 +95,16 @@ int	destroy_hook(void *arg1, ...)
 
 /* todo: either rotate view direction vector and then recalculate the other 2
  * OR: rotate each vector using 3 different quaternions? */
-void	rotate_camera(t_camera *camera, t_direction direction)
+void	rotate_camera(t_camera *camera, t_direction direction, double degrees)
 {
-	t_quat  quat;
-	t_vec3  left_vec;
+	t_quat	quat;
+	t_vec3	left_vec;
 
 	(void)direction;
 	if (direction == DIR_LEFT)
-		new_unit_quat(&quat, 15, &(t_vec3){.x = 0, .y = 1, .z = 0});
+		new_unit_quat(&quat, degrees, &(t_vec3){.x = 0, .y = 1, .z = 0});
 	else
-		new_unit_quat(&quat, -15, &(t_vec3){.x = 0, .y = 1, .z = 0});
+		new_unit_quat(&quat, -degrees, &(t_vec3){.x = 0, .y = 1, .z = 0});
 	rotate_vec3(&camera->dir, &quat);
 	copy_vec3(&left_vec, &camera->dir);
 	cross_product_vec3(&left_vec, &(t_vec3){.x = 0, .y = -1, .z = 0});
@@ -134,25 +134,29 @@ int	keydown_hook(void *arg1, ...)
 	if (keycode == XK_Escape || keycode == 'q')
 		destroy_hook(gc);
 	else if (keycode == 'w')
-		translate_camera(gc->scene, DIR_FORWARD);
+		translate_camera(gc->scene, DIR_FORWARD, 1);
 	else if (keycode == 's')
-		translate_camera(gc->scene, DIR_BACKWARD);
+		translate_camera(gc->scene, DIR_BACKWARD, 1);
 	else if (keycode == 'a')
-		translate_camera(gc->scene, DIR_LEFT);
+		translate_camera(gc->scene, DIR_LEFT, 1);
 	else if (keycode == 'd')
-		translate_camera(gc->scene, DIR_RIGHT);
+		translate_camera(gc->scene, DIR_RIGHT, 1);
 	else if (keycode == ' ')
-		translate_camera(gc->scene, DIR_UP);
+		translate_camera(gc->scene, DIR_UP, 1);
 	else if (keycode == XK_Shift_L)
-		translate_camera(gc->scene, DIR_DOWN);
+		translate_camera(gc->scene, DIR_DOWN, 1);
 	else if (keycode == 'h')
-		rotate_camera(gc->scene->camera, DIR_LEFT);
+		rotate_camera(gc->scene->camera, DIR_LEFT, 15);
 	else if (keycode == 'l')
-		rotate_camera(gc->scene->camera, DIR_RIGHT);
+		rotate_camera(gc->scene->camera, DIR_RIGHT, 15);
 	else if (keycode == '9')
 		rotate_object(gc->scene->objects[0], &quat);
 	else if (keycode == '0')
 		rotate_object(gc->scene->objects[0], &quat2);
+	else if (keycode == '7')
+		gc->scene->fov -= 1;
+	else if (keycode == '8')
+		gc->scene->fov += 1;
 	else
 	{
 		ft_printf("Pressed '%c' (keycode: %d)\n", keycode, keycode);
@@ -186,8 +190,8 @@ void	setup_scene(t_scene *scene)
 	t_viewport	*viewport;
 	t_camera	*camera;
 
-	scene->window_width = 400;
-	scene->window_height = 300;
+	scene->window_width = 100;
+	scene->window_height = 75;
 	viewport = ft_malloc(sizeof(*viewport));
 	viewport->width = scene->window_width;
 	viewport->height = scene->window_height;
@@ -204,10 +208,14 @@ void	print_light(t_light *light)
 	print_color(&light->color);
 }
 
+#include <unistd.h>
+
 int	main(int ac, char **av)
 {
-	t_gc	gc;
-	t_scene	scene;
+	t_gc			gc;
+	t_scene			scene;
+	const double	angle = 15;
+	const double	amount = 2 * 400 * sin(angle * PI / 180);
 
 	init();
 	setup_scene(&scene);
@@ -218,7 +226,13 @@ int	main(int ac, char **av)
 		finish(EXIT_FAILURE, &gc);
 	} // put this is dedicated function or so
 	gc.scene = &scene; // put this is dedicated function or so
-	render(&gc, &scene);
+	for (int i = 0; i < 24 * 2; ++i)
+	{
+		render(&gc, &scene);
+		rotate_camera(scene.camera, DIR_RIGHT, angle);
+		translate_camera(&scene, DIR_LEFT, amount);
+		rotate_camera(scene.camera, DIR_RIGHT, angle);
+	}
 	mlx_loop(gc.mlx);
 	finish(0, &gc);
 	return (EXIT_SUCCESS);

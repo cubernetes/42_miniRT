@@ -4,15 +4,15 @@
 #include <math.h>
 
 // todo: check why it's wrong
-static void	translate_camera_u_d(t_scene *scene, t_direction direction)
+static void	translate_camera_u_d(t_scene *scene, t_direction direction, double amount)
 {
 	if (direction == DIR_UP)
-		scene->camera->pos.y -= 1;
+		scene->camera->pos.y -= amount;
 	else
-		scene->camera->pos.y += 1;
+		scene->camera->pos.y += amount;
 }
 
-static void	translate_camera_f_b(t_scene *scene, t_direction direction)
+static void	translate_camera_f_b(t_scene *scene, t_direction direction, double amount)
 {
 	t_vec3	direction_vector;
 
@@ -24,13 +24,14 @@ static void	translate_camera_f_b(t_scene *scene, t_direction direction)
 	copy_vec3(&direction_vector, &scene->camera->dir);
 	direction_vector.y = 0;
 	unit_vec3(&direction_vector);
+	sc_mult_vec3(&direction_vector, amount);
 	if (direction == DIR_FORWARD)
 		add_vec3(&scene->camera->pos, &direction_vector);
 	else
 		substract_vec3(&scene->camera->pos, &direction_vector);
 }
 
-static void	translate_camera_l_r(t_scene *scene, t_direction direction)
+static void	translate_camera_l_r(t_scene *scene, t_direction direction, double amount)
 {
 	t_vec3			direction_vector;
 	static t_vec3	upwards_vector = {.x = 0, .y = 1, .z = 0};
@@ -44,18 +45,19 @@ static void	translate_camera_l_r(t_scene *scene, t_direction direction)
 	direction_vector.y = 0;
 	unit_vec3(&direction_vector);
 	cross_product_vec3(&direction_vector, &upwards_vector);
+	sc_mult_vec3(&direction_vector, amount);
 	if (direction == DIR_LEFT)
 		substract_vec3(&scene->camera->pos, &direction_vector);
 	else
 		add_vec3(&scene->camera->pos, &direction_vector);
 }
 
-void	translate_camera(t_scene *scene, t_direction direction)
+void	translate_camera(t_scene *scene, t_direction direction, double amount)
 {
 	if (direction == DIR_UP || direction == DIR_DOWN)
-		translate_camera_u_d(scene, direction);
+		translate_camera_u_d(scene, direction, amount);
 	else if (direction == DIR_FORWARD || direction == DIR_BACKWARD)
-		translate_camera_f_b(scene, direction);
+		translate_camera_f_b(scene, direction, amount);
 	else
-		translate_camera_l_r(scene, direction);
+		translate_camera_l_r(scene, direction, amount);
 }
