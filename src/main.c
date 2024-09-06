@@ -190,8 +190,8 @@ void	setup_scene(t_scene *scene)
 	t_viewport	*viewport;
 	t_camera	*camera;
 
-	scene->window_width = 100;
-	scene->window_height = 75;
+	scene->window_width = 1600;
+	scene->window_height = 1200;
 	viewport = ft_malloc(sizeof(*viewport));
 	viewport->width = scene->window_width;
 	viewport->height = scene->window_height;
@@ -214,8 +214,8 @@ int	main(int ac, char **av)
 {
 	t_gc			gc;
 	t_scene			scene;
-	const double	angle = 15;
-	const double	amount = 2 * 400 * sin(angle * PI / 180);
+	const double	angle = 2;
+	const double	amount = 2 * 200 * sin(angle * PI / 180);
 
 	init();
 	setup_scene(&scene);
@@ -232,6 +232,7 @@ int	main(int ac, char **av)
 		rotate_camera(scene.camera, DIR_RIGHT, angle);
 		translate_camera(&scene, DIR_LEFT, amount);
 		rotate_camera(scene.camera, DIR_RIGHT, angle);
+		usleep(10000);
 	}
 	mlx_loop(gc.mlx);
 	finish(0, &gc);
