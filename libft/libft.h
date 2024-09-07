@@ -560,6 +560,11 @@ void							norm_point_to_line(t_vec3 *norm,
 									t_vec3 *point, t_ray *ray);
 int								intersection_cylinder(double *t,
 									t_cylinder *cylinder, t_ray *ray);
+void							choose_root(double *t, double *x);
+void							calculate_products_cylinder(double *d, t_cylinder *cylinder,
+									t_ray *ray, t_vec3 *q);
+void							calculate_sec_cylinder(double *sec, t_cylinder *cylinder,
+									t_ray *ray, double *d);
 
 /* quaternion */
 int								quat_div(t_quat *quat_a, t_quat *quat_b);

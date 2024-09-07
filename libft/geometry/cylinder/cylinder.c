@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cylinder.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nam-vu <nam-vu@student.42berlin.de>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/07 22:35:53 by nam-vu            #+#    #+#             */
+/*   Updated: 2024/09/07 22:35:53 by nam-vu           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libft.h"
 
 #include <math.h>
@@ -7,14 +19,10 @@ void	new_cylinder(t_cylinder *this, t_cylinder *cylinder_params)
 {
 	double	ratio;
 
-	if (cylinder_params->radius <= 0)
+	if (cylinder_params->radius <= 0 || cylinder_params->height <= 0)
 	{
-		ft_dprintf(2, "Error: radius of the cylinder should be positive\n");
-		return ;
-	}
-	if (cylinder_params->height <= 0)
-	{
-		ft_dprintf(2, "Error: height of the cylinder should be positive\n");
+		ft_dprintf(2, "Error: radius and height of the"
+			" cylinder should be positive\n");
 		return ;
 	}
 	copy_vec3(this->center, cylinder_params->center);
@@ -31,30 +39,6 @@ void	new_cylinder(t_cylinder *this, t_cylinder *cylinder_params)
 	copy_vec3(this->base_bot, cylinder_params->center);
 	substract_vec3(this->base_bot, cylinder_params->axis);
 	unit_vec3(this->axis);
-}
-
-void	copy_cylinder(t_cylinder *this, t_cylinder *cylinder)
-{
-	copy_vec3(this->center, cylinder->center);
-	copy_vec3(this->axis, cylinder->axis);
-	this->radius = cylinder->radius;
-	this->height = cylinder->height;
-	this->base_top = cylinder->base_top;
-	this->base_bot = cylinder->base_bot;
-}
-
-void	print_cylinder(t_cylinder *this)
-{
-	printf("Cylinder:\n");
-	printf("\tCylinder radius = %f\n\tCylinder"
-		" height = %f\n\tCylinder center: ", this->radius, this->height);
-	print_vec3(this->center);
-	printf("\tCylinder axis: ");
-	print_vec3(this->axis);
-	printf("\tCylinder base top: ");
-	print_vec3(this->base_top);
-	printf("\tCylinder base bot: ");
-	print_vec3(this->base_bot);
 }
 
 /*
@@ -103,49 +87,34 @@ void	norm_point_to_line(t_vec3 *norm, t_vec3 *point, t_ray *ray)
  get intersections with top/bottom plane and check if the
  distance to the top/bottom base is not bigger than radius
 */
-static
-void	intersection_cylinder_sides(double *x, t_cylinder *cylinder, t_ray *ray)
+static void	intersection_cylinder_sides(double *x,
+	t_cylinder *cylinder, t_ray *ray)
 {
 	t_plane	top;
 	t_plane	bot;
 	t_vec3	at_top;
 	t_vec3	at_bot;
 
+	*x = NO_ROOTS;
 	new_plane(&top, cylinder->base_top, cylinder->axis);
 	if (!intersection_plane(x, &top, ray))
 	{
 		(void)ray_at(ray, *x, &at_top);
 		substract_vec3(&at_top, cylinder->base_top);
-		if (length_squared_vec3(&at_top) - cylinder->radius * cylinder->radius > 0.0001)
+		if (length_squared_vec3(&at_top)
+			- cylinder->radius * cylinder->radius > 0.0001)
 			*x = NO_ROOTS;
 	}
-	else
-		*x = NO_ROOTS;
+	*(x + 1) = NO_ROOTS;
 	new_plane(&bot, cylinder->base_bot, cylinder->axis);
 	if (!intersection_plane(x + 1, &bot, ray))
 	{
 		(void)ray_at(ray, *(x + 1), &at_bot);
 		substract_vec3(&at_bot, cylinder->base_bot);
-		if (length_squared_vec3(&at_bot) - cylinder->radius * cylinder->radius > 0.0001)
+		if (length_squared_vec3(&at_bot)
+			- cylinder->radius * cylinder->radius > 0.0001)
 			*(x + 1) = NO_ROOTS;
 	}
-	else
-		*(x + 1) = NO_ROOTS;
-}
-
-static void	choose_root(double *t, double *x)
-{
-	double	min_x;
-	int		i;
-
-	min_x = NO_ROOTS;
-	i = -1;
-	while (++i < 4)
-	{
-		if ((x[i] > 0) && (min_x == -1 || x[i] < min_x))
-			min_x = x[i];
-	}
-	*t = min_x;
 }
 
 /* can be put in choose_root */
@@ -256,22 +225,16 @@ static void	is_real_cylinder(double *x, t_cylinder *cylinder, t_ray *ray)
 int	intersection_cylinder(double *t, t_cylinder *cylinder, t_ray *ray)
 {
 	t_vec3	q;
-	double	d[4];
+	double	d[3];
 	double	sec[3];
 	double	discriminant;
 	double	x[4];
 
-	ft_memmove(x, &(double []){-1, -1, -1, -1}, sizeof(double) * 4);
-	copy_vec3(&q, ray->terminus);
-	substract_vec3(&q, cylinder->center);
-	d[0] = dot_product_vec3(ray->vec, cylinder->axis);
-	d[1] = dot_product_vec3(ray->vec, &q);
-	d[2] = dot_product_vec3(&q, cylinder->axis);
-	d[3] = length_squared_vec3(cylinder->axis) - 2;//todo: replace with -1 since v is a normalized vector
-	sec[0] = length_squared_vec3(ray->vec) + d[0] * d[0] * d[3];
-	sec[1] = 2 * (d[1] + d[0] * d[2] * d[3]);
+	ft_memmove(x, &(double []){-1, -1, -1}, sizeof(double) * 3);
+	calculate_products_cylinder(d, cylinder, ray, &q);
+	calculate_sec_cylinder(sec, cylinder, ray, d);
 	sec[2] = length_squared_vec3(&q)
-		- cylinder->radius * cylinder->radius + d[2] * d[2] * d[3];
+		- cylinder->radius * cylinder->radius - d[2] * d[2];
 	discriminant = sec[1] * sec[1] - 4 * sec[0] * sec[2];
 	if (discriminant < 0)
 		*t = NO_ROOTS;

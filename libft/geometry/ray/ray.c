@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ray.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nam-vu <nam-vu@student.42berlin.de>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/07 22:07:58 by nam-vu            #+#    #+#             */
+/*   Updated: 2024/09/07 22:07:58 by nam-vu           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libft.h"
 
 #include <stdio.h>
@@ -20,7 +32,6 @@ int	ray_at(t_ray *this, double t, t_vec3 *res)
 
 	if (t < 0)
 	{
-//		ft_dprintf(2, "Error: 't' cannot be negative (sometimes can tho)\n");
 		res->x = 0;
 		res->y = 0;
 		res->z = 0;

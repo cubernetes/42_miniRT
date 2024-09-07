@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   plane.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nam-vu <nam-vu@student.42berlin.de>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/07 22:11:47 by nam-vu            #+#    #+#             */
+/*   Updated: 2024/09/07 22:11:47 by nam-vu           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libft.h"
 
 #include <stdio.h>
@@ -23,10 +35,13 @@ void	print_plane(t_plane *this)
 	print_vec3(this->norm);
 }
 
-int mod(int a, int b)
+int	mod(int a, int b)
 {
-	int r = a % b;
-	return r < 0 ? r + b : r;
+	const int	r = a % b;
+
+	if (r < 0)
+		return (r + b);
+	return (r);
 }
 
 /*
@@ -70,18 +85,12 @@ int	intersection_plane(double *t, t_plane *plane, t_ray *ray)
 	k = dot_product_vec3(ray->vec, plane->norm);
 	b = dot_product_vec3(&v, plane->norm);
 	if (k == 0)
-		return (*t == NO_ROOTS); // TODO: sus, should be *t = NO_ROOTS right?
+	{
+		*t = NO_ROOTS;
+		return (1);
+	}
 	*t = -b / k;
 	if (*t <= 0)
 		*t = NO_ROOTS;
-	if (ray->terminus->x == 0 && ray->terminus->y == 0 &&  ray->terminus->z == 0 && !ray_at(ray, *t, &v))
-	{
-//		if ((mod((int)v.x, 20) < 10) && (mod((int)v.z, 20) < 10))
-//		{
-//			*t = NO_ROOTS;
-//			return (1);
-//		}
-		return (0);
-	}
 	return (*t == NO_ROOTS);
 }

@@ -1,5 +1,16 @@
-#include "libft.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   sphere.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nam-vu <nam-vu@student.42berlin.de>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/07 22:06:44 by nam-vu            #+#    #+#             */
+/*   Updated: 2024/09/07 22:06:44 by nam-vu           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
+#include "libft.h"
 #include <math.h>
 #include <stdio.h>
 
@@ -69,34 +80,26 @@ void	print_sphere(t_sphere *this)
 int	intersection_sphere(double *t, t_sphere *sphere, t_ray *ray)
 {
 	double	discriminant;
-	double	a;
-	double	b;
-	double	c;
+	double	a[3];
 	t_vec3	v;
 
 	copy_vec3(&v, ray->terminus);
 	substract_vec3(&v, sphere->center);
-	a = length_squared_vec3(ray->vec);
-	b = 2 * dot_product_vec3(ray->vec, &v);
-	c = length_squared_vec3(&v) - sphere->radius * sphere->radius;
-	discriminant = b * b - 4 * a * c;
-	if (discriminant < 0)
+	a[0] = length_squared_vec3(ray->vec);
+	a[1] = 2 * dot_product_vec3(ray->vec, &v);
+	a[2] = length_squared_vec3(&v) - sphere->radius * sphere->radius;
+	discriminant = a[1] * a[1] - 4 * a[0] * a[2];
+	if (discriminant >= 0)
 	{
-		*t = NO_ROOTS;
-		return (1);
-	}
-	discriminant = sqrt(discriminant);
-	*t = -b - discriminant;
-	if (*t > 0)
-	{
-		*t /= 2 * a;
-		return (1);
-	}
-	*t = -b + discriminant;
-	if (*t > 0)
-	{
-		*t /= 2 * a;
-		return (1);
+		discriminant = sqrt(discriminant);
+		*t = -a[1] - discriminant;
+		if (*t <= 0)
+			*t = -a[2] + discriminant;
+		if (*t > 0)
+		{
+			*t /= 2 * a[0];
+			return (1);
+		}
 	}
 	*t = NO_ROOTS;
 	return (0);

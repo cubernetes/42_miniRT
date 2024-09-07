@@ -224,6 +224,7 @@ SRC += plane.c
 
 vpath %.c geometry/cylinder
 SRC += cylinder.c
+SRC += cylinder_utils.c
 
 vpath %.c geometry/quaternion
 SRC += quat_add.c
