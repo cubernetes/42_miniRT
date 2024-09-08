@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   render.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nam-vu <nam-vu@student.42berlin.de>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/08 02:59:34 by nam-vu            #+#    #+#             */
+/*   Updated: 2024/09/08 02:59:34 by nam-vu           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "miniRT.h"
 #include "libft.h"
 #include "mlx.h"
@@ -6,76 +18,7 @@
 #include <math.h>
 #include <stdio.h>
 
-void	calculate_norm(t_hit *hit)
-{
-	t_vec3	norm_base;
-	t_vec3	temp;
-	t_ray	ray;
-	double	norm_len_squared;
-
-	if (hit->object->type == TOK_PLANE)
-		copy_vec3(&hit->norm, hit->object->plane.norm);
-	else if (hit->object->type == TOK_SPHERE)
-	{
-		copy_vec3(&hit->norm, &hit->point);
-		substract_vec3(&hit->norm, hit->object->sphere.center);
-	}
-	else if (hit->object->type == TOK_CYLINDER)
-	{
-		new_ray(&ray, hit->object->cylinder.center, hit->object->cylinder.axis);
-		norm_point_to_line(&norm_base, &hit->point, &ray);
-		copy_vec3(&hit->norm, &hit->point);
-		substract_vec3(&hit->norm, &norm_base);
-		norm_len_squared = length_squared_vec3(&hit->norm);
-		if (hit->object->cylinder.radius * hit->object->cylinder.radius - norm_len_squared > EPSILON2)
-		{
-			copy_vec3(&temp, &hit->point);
-			substract_vec3(&temp, hit->object->cylinder.base_bot);
-			copy_vec3(&hit->norm, hit->object->cylinder.axis);
-			if (ft_abs(norm_len_squared - length_squared_vec3(&temp)) > EPSILON2)
-				sc_mult_vec3(&hit->norm, -1);
-		}
-	}
-}
-
-int	cast_ray(t_hit *hit, t_ray *ray, t_scene *scene)
-{
-	int		i;
-	double	old_t;
-
-	i = -1;
-	hit->t = NO_ROOTS;
-	old_t = INFINITY;
-	hit->color = 0x00000000;
-	while (++i < scene->nb_objs)
-	{
-		if (scene->objects[i]->type == TOK_PLANE)
-			intersection_plane(&hit->t, &scene->objects[i]->plane, ray);
-		else if (scene->objects[i]->type == TOK_SPHERE)
-			intersection_sphere(&hit->t, &scene->objects[i]->sphere, ray);
-		else if (scene->objects[i]->type == TOK_CYLINDER)
-			intersection_cylinder(&hit->t, &scene->objects[i]->cylinder, ray);
-		if ((hit->t > 0) && (hit->t < old_t || old_t == NO_ROOTS))
-		{
-			old_t = hit->t;
-			hit->object = scene->objects[i];
-			hit->color = scene->objects[i]->color;
-		}
-	}
-	if (old_t == INFINITY)
-	{
-		hit->t = NO_ROOTS;
-		return (EXIT_FAILURE);
-	}
-	hit->t = old_t;
-	(void)ray_at(ray, hit->t, &(hit->point));
-	calculate_norm(hit);
-	copy_vec3(&hit->ray_dir, ray->vec);
-	return (EXIT_SUCCESS);
-}
-
 /* T = C + C_l * (vw / (2 * tan(theta / 2)) - Cr * vw / 2 + Cu * vh / 2 */
-
 /* rebase_vec3(t_vec3 *this, t_vec3 **new_basis); */
 void	init_viewport_params(t_scene *scene, t_vec3 *terminus)
 {
@@ -101,45 +44,38 @@ void	init_viewport_params(t_scene *scene, t_vec3 *terminus)
 	substract_vec3(&scene->viewport->top_left, &scene->camera->pos);
 }
 
-/* todo: change to FOV */
+void	init_render(t_scene *scene, t_vec3 *terminus)
+{
+	copy_vec3(scene->lights[0]->point, &scene->camera->pos);
+	copy_vec3(terminus, &scene->camera->pos);
+	init_viewport_params(scene, terminus);
+}
+
 void	render(t_gc *gc, t_scene *scene)
 {
-	int				x;
-	int				y;
+	int				i[2];
 	t_ray			ray;
 	t_vec3			terminus;
-	t_vec3			orientation;
 	t_hit			hit;
-	const double	scale = 16.0;
-	const double	focal_distance = -10.0;
-	t_vec3			row_start_vec;
-	t_vec3			pixel;
-	int				counter = 0;
+	t_vec3			vec[2];
 
-	copy_vec3(scene->lights[0]->point, &scene->camera->pos);
-	copy_vec3(&terminus, &scene->camera->pos);
-	init_viewport_params(scene, &terminus);
-	y = -1;
-	copy_vec3(&row_start_vec, &scene->viewport->top_left);
-	while (++y < scene->window_height)
+	init_render(scene, &terminus);
+	i[Y] = -1;
+	copy_vec3(&vec[ROW_START_VEC], &scene->viewport->top_left);
+	while (++(i[Y]) < scene->window_height)
 	{
-		x = -1;
-		copy_vec3(&pixel, &row_start_vec);
-		while (++x < scene->window_width)
+		i[X] = -1;
+		copy_vec3(&vec[PIXEL], &vec[ROW_START_VEC]);
+		while (++(i[X]) < scene->window_width)
 		{
-			/* new_vec3(&orientation, (x - scene->window_width / 2.0) / scale, (y - scene->window_height / 2.0) / scale, focal_distance); */
-			/* new_ray(&ray, &terminus, &orientation); */
-			new_ray(&ray, &terminus, &pixel);
+			new_ray(&ray, &terminus, &vec[PIXEL]);
 			if (!cast_ray(&hit, &ray, scene))
-			{
-				if (hit.object->type == TOK_CYLINDER)
-					counter++;
 				apply_light(&(hit.color), calculate_lighting(&hit, scene));
-			}
-			mlx_pixel_put_buf(&gc->img, x, scene->window_height - y, hit.color);
-			add_vec3(&pixel, &scene->viewport->right_step);
+			mlx_pixel_put_buf(&gc->img, i[X],
+				scene->window_height - i[Y], hit.color);
+			add_vec3(&vec[PIXEL], &scene->viewport->right_step);
 		}
-		add_vec3(&row_start_vec, &scene->viewport->down_step);
+		add_vec3(&vec[ROW_START_VEC], &scene->viewport->down_step);
 	}
 	mlx_put_image_to_window(gc->mlx, gc->win, gc->img.img, 0, 0);
 }
