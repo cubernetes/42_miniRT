@@ -71,8 +71,7 @@ void	render(t_gc *gc, t_scene *scene)
 			new_ray(&ray, &terminus, &vec[PIXEL]);
 			if (!cast_ray(&hit, &ray, scene))
 				apply_light(&(hit.color), calculate_lighting(&hit, scene));
-			mlx_pixel_put_buf(&gc->img, i[X],
-				scene->window_height - i[Y], hit.color);
+			mlx_pixel_put_buf(&gc->img, i[X], i[Y], hit.color);
 			add_vec3(&vec[PIXEL], &scene->viewport->right_step);
 		}
 		add_vec3(&vec[ROW_START_VEC], &scene->viewport->down_step);
