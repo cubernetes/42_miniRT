@@ -6,7 +6,7 @@
 /*   By: nam-vu <nam-vu@student.42berlin.de>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 22:11:47 by nam-vu            #+#    #+#             */
-/*   Updated: 2024/09/10 21:08:06 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/09/10 22:17:18 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,6 @@ void	print_plane(t_plane *this)
 	print_vec3(this->point);
 	printf("\tnorm vector of the plane: ");
 	print_vec3(this->norm);
-}
-
-void	rotate_plane(t_plane *plane, t_quat *quat)
-{
-	rotate_vec3(plane->norm, quat);
 }
 
 /* todo: remove this? */

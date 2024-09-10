@@ -224,8 +224,10 @@ SRC += sphere.c
 
 vpath %.c geometry/plane
 SRC += plane.c
+SRC += plane_rotate.c
 
 vpath %.c geometry/cylinder
+SRC += cylinder_rotate.c
 SRC += cylinder.c
 SRC += cylinder_utils.c
 
