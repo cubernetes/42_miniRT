@@ -4,7 +4,6 @@
 
 #include "float.h"
 #include <math.h>
-#include <stdio.h>
 
 void	calculate_norm(t_hit *hit)
 {
@@ -45,7 +44,7 @@ int	cast_ray(t_hit *hit, t_ray *ray, t_scene *scene)
 
 	i = -1;
 	hit->t = NO_ROOTS;
-	old_t = INFINITY;
+	old_t = NO_ROOTS;
 	hit->color = 0x00000000;
 	while (++i < scene->nb_objs)
 	{
@@ -62,7 +61,7 @@ int	cast_ray(t_hit *hit, t_ray *ray, t_scene *scene)
 			hit->color = scene->objects[i]->color;
 		}
 	}
-	if (old_t == INFINITY)
+	if (old_t == NO_ROOTS)
 	{
 		hit->t = NO_ROOTS;
 		return (EXIT_FAILURE);

@@ -1,3 +1,6 @@
+#define _XOPEN_SOURCE 600
+#include <unistd.h> /* usleep */
+
 #include "miniRT.h"
 #include "libft.h"
 #include "mlx.h"
@@ -207,8 +210,6 @@ void	print_light(t_light *light)
 	ft_printf("RATIO: %f\n", light->ratio);
 	print_color(&light->color);
 }
-
-#include <unistd.h>
 
 int	main(int ac, char **av)
 {
