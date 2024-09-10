@@ -6,7 +6,7 @@
 /*   By: nam-vu <nam-vu@student.42berlin.de>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 09:26:36 by nam-vu            #+#    #+#             */
-/*   Updated: 2024/09/04 15:51:09 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/09/08 11:04:11 by tosuman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include <math.h>
 #include "float.h"
 
-static double	get_real_part(long double *number, const char **s)
+static void	get_real_part(long double *number, const char **s)
 {
 	while (ft_isdigit(**s))
 	{
@@ -50,5 +50,5 @@ double	ft_strtof(const char *s)
 	}
 	if (*s != 0)
 		return (NAN);
-	return (sign * number / power);
+	return ((double)(sign * number / power));
 }

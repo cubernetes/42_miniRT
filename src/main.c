@@ -150,8 +150,17 @@ void	setup_mlx(t_gc *gc, t_scene *scene)
 
 void	setup_scene(t_scene *scene)
 {
-	scene->wwidth = 400;
-	scene->wheight = 300;
+	t_viewport	*viewport;
+	t_camera	*camera;
+
+	scene->window_width = 200;
+	scene->window_height = 150;
+	viewport = ft_malloc(sizeof(*viewport));
+	viewport->width = scene->window_width;
+	viewport->height = scene->window_height;
+	camera = ft_malloc(sizeof(*camera));
+	scene->viewport = viewport;
+	scene->camera = camera;
 }
 
 # include <stdio.h>
@@ -177,7 +186,18 @@ int	main(int ac, char **av)
 		finish(EXIT_FAILURE, &gc);
 	} // put this is dedicated function or so
 	gc.scene = &scene; // put this is dedicated function or so
+<<<<<<< Updated upstream
 	render(&gc, &scene);
+=======
+	for (int i = 0; i < 24 * 2; ++i)
+	{
+		render(&gc, &scene);
+		rotate_camera(scene.camera, DIR_RIGHT, angle);
+		translate_camera(&scene, DIR_LEFT, amount);
+		rotate_camera(scene.camera, DIR_RIGHT, angle);
+		/* usleep(10000); */
+	}
+>>>>>>> Stashed changes
 	mlx_loop(gc.mlx);
 	finish(0, &gc);
 	return (EXIT_SUCCESS);
