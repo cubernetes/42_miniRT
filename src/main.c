@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 19:40:05 by tosuman           #+#    #+#             */
-/*   Updated: 2024/09/10 22:26:55 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/09/10 23:13:47 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,8 @@ void	setup_scene(t_scene *scene)
 	t_viewport	*viewport;
 	t_camera	*camera;
 
-	scene->window_width = 1920;
-	scene->window_height = 1080;
+	scene->window_width = 800;
+	scene->window_height = 600;
 	viewport = ft_malloc(sizeof(*viewport));
 	viewport->width = scene->window_width;
 	viewport->height = scene->window_height;
@@ -58,7 +58,7 @@ void	parse_args(int ac, char **av, t_scene *scene, t_gc *gc)
 	}
 	else if (read_rt_file(av[1], scene))
 	{
-		ft_dprintf(2, "Error: scene file is corrupt");
+		ft_dprintf(2, "Error: scene file is invalid or corrupt\n");
 		gc_free_all();
 		exit(EXIT_FAILURE);
 	}
