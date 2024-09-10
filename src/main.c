@@ -6,12 +6,13 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 19:40:05 by tosuman           #+#    #+#             */
-/*   Updated: 2024/09/10 20:56:46 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/09/10 22:26:55 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdlib.h>
 #define _XOPEN_SOURCE 600 /* only needed for <unistd.h> and usleep */
-#include <unistd.h> /* usleep(3) */
+#include <unistd.h> /* usleep(3); todo: remove */
 
 #include "miniRT.h"
 #include "libft.h"
@@ -52,12 +53,14 @@ void	parse_args(int ac, char **av, t_scene *scene, t_gc *gc)
 	if (ac != 2)
 	{
 		ft_dprintf(2, "Usage: %s SCENEFILE\n", av[0]);
-		finish(EXIT_FAILURE, gc);
+		gc_free_all();
+		exit(EXIT_FAILURE);
 	}
 	else if (read_rt_file(av[1], scene))
 	{
 		ft_dprintf(2, "Error: scene file is corrupt");
-		finish(EXIT_FAILURE, gc);
+		gc_free_all();
+		exit(EXIT_FAILURE);
 	}
 	gc->scene = scene;
 }
@@ -71,8 +74,8 @@ int	main(int ac, char **av)
 
 	init();
 	setup_scene(&scene);
-	setup_mlx(&gc, &scene);
 	parse_args(ac, av, &scene, &gc);
+	setup_mlx(&gc, &scene);
 	render(&gc, &scene);
 	/* const double	angle = 3; */
 	/* const double	amount = 2 * 200 * sin(angle * 3 / 180); */
