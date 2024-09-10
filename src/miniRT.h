@@ -6,7 +6,7 @@
 /*   By: tischmid <tischmid@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 21:48:04 by tischmid          #+#    #+#             */
-/*   Updated: 2024/09/10 21:48:06 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/09/11 00:45:37 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@
 # define Y 1
 # define ROW_START_VEC 0
 # define PIXEL 1
+
+# define SAMPLE_SIZE 100
 
 /********** enums **********/
 
@@ -102,6 +104,8 @@ struct						s_gc
 	void					*win;
 	t_rt_img				img;
 	t_scene					*scene;
+	int						sample;
+	int						sample_size;
 };
 
 struct						s_scene
@@ -158,7 +162,8 @@ void						mlx_pixel_put_buf(t_rt_img *data, int x, int y,
 
 /* render.c */
 int							cast_ray(t_hit *hit, t_ray *ray, t_scene *scene);
-void						render(t_gc *gc, t_scene *scene);
+void						render(t_gc *gc, t_scene *scene, int sample,
+								int sampling_size);
 void						assert_norm(t_hit *hit, int index);
 /* lights.c */
 void						apply_light(t_color *color, t_color light);

@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 19:40:05 by tosuman           #+#    #+#             */
-/*   Updated: 2024/09/10 23:13:47 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/09/11 00:44:31 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,12 @@
 #include "libft.h"
 #include "mlx.h"
 
-void	init(void)
+void	init(t_gc *gc)
 {
 	(void)set_allocator(gc_malloc);
 	(void)gc_set_context("DEFAULT");
+	gc->sample = 0;
+	gc->sample_size = SAMPLE_SIZE;
 }
 
 void	finish(int exit_status, t_gc *gc)
@@ -38,8 +40,8 @@ void	setup_scene(t_scene *scene)
 	t_viewport	*viewport;
 	t_camera	*camera;
 
-	scene->window_width = 800;
-	scene->window_height = 600;
+	scene->window_width = 1920;
+	scene->window_height = 1080;
 	viewport = ft_malloc(sizeof(*viewport));
 	viewport->width = scene->window_width;
 	viewport->height = scene->window_height;
@@ -65,6 +67,16 @@ void	parse_args(int ac, char **av, t_scene *scene, t_gc *gc)
 	gc->scene = scene;
 }
 
+int	render_sth(void *arg)
+{
+	t_gc	*gc;
+
+	gc = arg;
+	render(gc, gc->scene, gc->sample, gc->sample_size);
+	gc->sample = (gc->sample + 1) % gc->sample_size;
+	return (0);
+}
+
 /* #include <math.h> */
 
 int	main(int ac, char **av)
@@ -72,11 +84,11 @@ int	main(int ac, char **av)
 	t_gc			gc;
 	t_scene			scene;
 
-	init();
+	init(&gc);
 	setup_scene(&scene);
 	parse_args(ac, av, &scene, &gc);
 	setup_mlx(&gc, &scene);
-	render(&gc, &scene);
+	/* render(&gc, &scene, gc->sample_size); */
 	/* const double	angle = 3; */
 	/* const double	amount = 2 * 200 * sin(angle * 3 / 180); */
 	/* for (int i = 0; i < 120 * 1; ++i) */
@@ -87,6 +99,7 @@ int	main(int ac, char **av)
 		/* rotate_camera(scene.camera, DIR_RIGHT, angle); */
 		/* usleep(10000); */
 	/* } */
+	mlx_loop_hook(gc.mlx, render_sth, (void *)&gc);
 	mlx_loop(gc.mlx);
 	finish(0, &gc);
 	return (EXIT_SUCCESS);

@@ -6,7 +6,7 @@
 /*   By: tischmid <tischmid@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 20:42:43 by tischmid          #+#    #+#             */
-/*   Updated: 2024/09/10 21:09:14 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/09/11 00:46:00 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int	keydown_hook(void *arg1, ...)
 		ft_printf("Pressed '%c' (keycode: %d)\n", keycode, keycode);
 		return (0);
 	}
-	render(gc, gc->scene);
+	render(gc, gc->scene, gc->sample, gc->sample_size);
 	return (0);
 }
 /* TODO: Remove 'pressed' debug output */

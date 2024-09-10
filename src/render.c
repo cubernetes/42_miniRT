@@ -6,7 +6,7 @@
 /*   By: nam-vu <nam-vu@student.42berlin.de>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 02:59:34 by nam-vu            #+#    #+#             */
-/*   Updated: 2024/09/10 21:37:19 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/09/11 00:44:56 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,13 +50,13 @@ void	init_render(t_scene *scene, t_vec3 *terminus)
 	init_viewport_params(scene, terminus);
 }
 
-void	render(t_gc *gc, t_scene *scene)
+void	render(t_gc *gc, t_scene *scene, int sample, int sampling_size)
 {
-	int				i[2];
-	t_ray			ray;
-	t_vec3			terminus;
-	t_hit			hit;
-	t_vec3			vec[2];
+	int		i[2];
+	t_ray	ray;
+	t_vec3	terminus;
+	t_hit	hit;
+	t_vec3	vec[2];
 
 	init_render(scene, &terminus);
 	i[Y] = -1;
@@ -67,13 +67,18 @@ void	render(t_gc *gc, t_scene *scene)
 		copy_vec3(&vec[PIXEL], &vec[ROW_START_VEC]);
 		while (++(i[X]) < scene->window_width)
 		{
-			new_ray(&ray, &terminus, &vec[PIXEL]);
-			if (!cast_ray(&hit, &ray, scene))
-				apply_light(&(hit.color), calculate_lighting(&hit, scene));
-			mlx_pixel_put_buf(&gc->img, i[X], i[Y], hit.color);
+			if ((i[Y] * scene->window_height + i[X] - sample)
+				% sampling_size == 0)
+			{
+				new_ray(&ray, &terminus, &vec[PIXEL]);
+				if (!cast_ray(&hit, &ray, scene))
+					apply_light(&(hit.color), calculate_lighting(&hit, scene));
+				mlx_pixel_put_buf(&gc->img, i[X], i[Y], hit.color);
+			}
 			add_vec3(&vec[PIXEL], &scene->viewport->right_step);
 		}
 		add_vec3(&vec[ROW_START_VEC], &scene->viewport->down_step);
 	}
 	mlx_put_image_to_window(gc->mlx, gc->win, gc->img.img, 0, 0);
+	mlx_do_sync(gc->mlx);
 }
