@@ -175,6 +175,21 @@ static void	is_real_cylinder(double *x, t_cylinder *cylinder, t_ray *ray)
 		*(x + 1) = NO_ROOTS;
 }
 
+void	rotate_cylinder(t_cylinder *cylinder, t_quat *quat)
+{
+	double	ratio;
+
+	ratio = cylinder->height
+		/ (2 * length_vec3(cylinder->axis));
+	sc_mult_vec3(cylinder->axis, ratio);
+	rotate_vec3(cylinder->axis, quat);
+	copy_vec3(cylinder->base_top, cylinder->center);
+	add_vec3(cylinder->base_top, cylinder->axis);
+	copy_vec3(cylinder->base_bot, cylinder->center);
+	substract_vec3(cylinder->base_bot, cylinder->axis);
+	unit_vec3(cylinder->axis);
+}
+
 /*
  v - normalized orientation vector of the axis of the cylinder
  c - center of the cylinder

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/10 19:40:05 by tosuman           #+#    #+#             */
+/*   Updated: 2024/09/10 19:46:28 by tosuman          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #define _XOPEN_SOURCE 600
 #include <unistd.h> /* usleep */
 
@@ -10,27 +22,6 @@
 #include "float.h" // wtf norminette doesn't like angle brackets + float header
 #include <stdarg.h>
 
-void	rotate_cylinder(t_cylinder *cylinder, t_quat *quat)
-{
-	double	ratio;
-
-	ratio = cylinder->height
-		/ (2 * length_vec3(cylinder->axis));
-	sc_mult_vec3(cylinder->axis, ratio);
-	rotate_vec3(cylinder->axis, quat);
-	copy_vec3(cylinder->base_top, cylinder->center);
-	add_vec3(cylinder->base_top, cylinder->axis);
-	copy_vec3(cylinder->base_bot, cylinder->center);
-	substract_vec3(cylinder->base_bot, cylinder->axis);
-	unit_vec3(cylinder->axis);
-}
-
-void	rotate_plane(t_plane *plane, t_quat *quat)
-{
-	rotate_vec3(plane->norm, quat);
-}
-
-// <START>: put this stuff in separate file
 void	rotate_object(t_obj *obj, t_quat *quat)
 {
 	if (obj->type == TOK_SPHERE)
@@ -54,14 +45,19 @@ void	rotate_object(t_obj *obj, t_quat *quat)
 // expects a unit vector!!!
 // scales the axis!!! don't use it afterwards
 // WATCH OUT
+	/* unit_vec3(&unit_axis); */
 void	new_unit_quat(t_quat *quat, double degrees, t_vec3 *axis)
 {
 	t_vec3	unit_axis;
 
 	copy_vec3(&unit_axis, axis);
-	/* unit_vec3(&unit_axis); */
 	sc_mult_vec3(&unit_axis, sin(degrees * PI / 360));
-	quat_copy(quat, &(t_quat){.scalar = cos(degrees * PI / 360), .x = unit_axis.x, .y = unit_axis.y, .z = unit_axis.z});
+	quat_copy(quat, &(t_quat){
+		.scalar = cos(degrees * PI / 360),
+		.x = unit_axis.x,
+		.y = unit_axis.y,
+		.z = unit_axis.z
+	});
 }
 // <END>
 

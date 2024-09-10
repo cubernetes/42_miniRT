@@ -23,11 +23,16 @@ void	print_plane(t_plane *this)
 	print_vec3(this->norm);
 }
 
-int mod(int a, int b)
+void	rotate_plane(t_plane *plane, t_quat *quat)
 {
-	int r = a % b;
-	return r < 0 ? r + b : r;
+	rotate_vec3(plane->norm, quat);
 }
+
+/* static int mod(int a, int b) */
+/* { */
+	/* int r = a % b; */
+	/* return r < 0 ? r + b : r; */
+/* } */
 
 /*
  a - radius-vector of the point of the plane

@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 20:07:51 by tosuman           #+#    #+#             */
-/*   Updated: 2024/09/04 16:10:41 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/09/10 19:49:14 by tosuman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -549,6 +549,7 @@ void							copy_plane(t_plane *this, t_plane *plane);
 void							print_plane(t_plane *this);
 int								intersection_plane(double *t,
 									t_plane *plane, t_ray *ray);
+void							rotate_plane(t_plane *plane, t_quat *quat);
 
 /* cylinder */
 void							new_cylinder(t_cylinder *this,
@@ -560,6 +561,8 @@ void							norm_point_to_line(t_vec3 *norm,
 									t_vec3 *point, t_ray *ray);
 int								intersection_cylinder(double *t,
 									t_cylinder *cylinder, t_ray *ray);
+void							rotate_cylinder(t_cylinder *cylinder,
+									t_quat *quat);
 
 /* quaternion */
 int								quat_div(t_quat *quat_a, t_quat *quat_b);
