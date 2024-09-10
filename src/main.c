@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 19:40:05 by tosuman           #+#    #+#             */
-/*   Updated: 2024/09/10 19:46:28 by tosuman          ###   ########.fr       */
+/*   Updated: 2024/09/10 20:16:45 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,8 +189,8 @@ void	setup_scene(t_scene *scene)
 	t_viewport	*viewport;
 	t_camera	*camera;
 
-	scene->window_width = 200;
-	scene->window_height = 150;
+	scene->window_width = 400;
+	scene->window_height = 300;
 	viewport = ft_malloc(sizeof(*viewport));
 	viewport->width = scene->window_width;
 	viewport->height = scene->window_height;
@@ -211,8 +211,8 @@ int	main(int ac, char **av)
 {
 	t_gc			gc;
 	t_scene			scene;
-	const double	angle = 2;
-	const double	amount = 2 * 200 * sin(angle * PI / 180);
+	const double	angle = 3;
+	const double	amount = 2 * 200 * sin(angle * 3 / 180);
 
 	init();
 	setup_scene(&scene);
@@ -224,7 +224,7 @@ int	main(int ac, char **av)
 	} // put this is dedicated function or so
 	gc.scene = &scene; // put this is dedicated function or so
 	render(&gc, &scene);
-	for (int i = 0; i < 24 * 2; ++i)
+	for (int i = 0; i < 120 * 1; ++i)
 	{
 		render(&gc, &scene);
 		rotate_camera(scene.camera, DIR_RIGHT, angle);
