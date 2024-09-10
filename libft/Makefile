@@ -9,8 +9,9 @@ AR := ar rcs
 RM := /bin/rm -f
 MKDIR := /bin/mkdir -p
 
+# TODO: make to not fuck up := and +=
 # general compile flags
-CFLAGS += -std=c11
+CFLAGS += -std=c11 -g
 # compile warning flags
 CFLAGS += -Wall
 CFLAGS += -Wextra
@@ -21,21 +22,21 @@ CFLAGS += -Wunreachable-code
 CFLAGS += -Wshadow
 CFLAGS += -Wno-overlength-strings
 # performance flags
-CFLAGS := -Ofast
-CFLAGS += -march=native
-CFLAGS += -fno-signed-zeros
-CFLAGS += -funroll-loops
+# CFLAGS := -Ofast
+# CFLAGS += -march=native
+# CFLAGS += -fno-signed-zeros
+# CFLAGS += -funroll-loops
 # Unsafe performance flags
-CFLAGS += -fomit-frame-pointer
-CFLAGS += -ffast-math
-CFLAGS += -fno-math-errno
-CFLAGS += -funsafe-math-optimizations
-CFLAGS += -fassociative-math
-CFLAGS += -freciprocal-math
-CFLAGS += -ffinite-math-only
-CFLAGS += -fno-signed-zeros
-CFLAGS += -fno-trapping-math
-CFLAGS += -frounding-math
+# CFLAGS += -fomit-frame-pointer
+# CFLAGS += -ffast-math
+# CFLAGS += -fno-math-errno
+# CFLAGS += -funsafe-math-optimizations
+# CFLAGS += -fassociative-math
+# CFLAGS += -freciprocal-math
+# CFLAGS += -ffinite-math-only
+# CFLAGS += -fno-signed-zeros
+# CFLAGS += -fno-trapping-math
+# CFLAGS += -frounding-math
 
 CPPFLAGS :=
 CPPFLAGS += -MD
@@ -252,7 +253,7 @@ $(NAME): $(OBJ)
 	$(AR) $@ $(OBJ)
 
 $(OBJDIR)/%.o: %.c | $(OBJDIR)
-	$(CC) $< -c -o $@ $(CFLAGS) $(CPPFLAGS)
+	$(CC) $< -c -o $@ $(CFLAGS) $(CPPFLAGS) -g
 
 $(OBJDIR):
 	$(MKDIR) $@

@@ -5,7 +5,6 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <math.h>
-#include <stdio.h>
 
 int	parse_vec3(char *str, t_vec3 *vec, int flag)
 {
@@ -25,7 +24,7 @@ int	parse_vec3(char *str, t_vec3 *vec, int flag)
 		if (i == 2)
 			vec->e[i] = ft_strtof(ft_strdup(ptr));
 		else
-			vec->e[i] = ft_strtof(ft_strndup(ptr, next_ptr - ptr));
+			vec->e[i] = ft_strtof(ft_strndup(ptr, (size_t)(next_ptr - ptr)));
 		if (isnan(vec->e[i]))
 			return (EXIT_FAILURE);
 		ptr = next_ptr + 1;
@@ -55,14 +54,14 @@ int	parse_color(char *str, t_color *color)
 		if (i == 2)
 			temp[i] = ft_strtof(ft_strdup(ptr));
 		else
-			temp[i] = ft_strtof(ft_strndup(ptr, next_ptr - ptr));//todo: replace ft_strtof with ft_atoi in parse_colors
+			temp[i] = ft_strtof(ft_strndup(ptr, (size_t)(next_ptr - ptr))); //todo: replace ft_strtof with ft_atoi in parse_colors
 		if (isnan(temp[i]) || temp[i] > 255.0 || temp[i] < 0.0)
 			return (EXIT_FAILURE);
 		ptr = next_ptr + 1;
 	}
-	set_red(color, (int)(temp[0]));
-	set_green(color, (int)(temp[1]));
-	set_blue(color, (int)(temp[2]));
+	set_red(color, (unsigned int)(temp[0]));
+	set_green(color, (unsigned int)(temp[1]));
+	set_blue(color, (unsigned int)(temp[2]));
 	return (EXIT_SUCCESS);
 }
 
@@ -251,9 +250,9 @@ int	read_rt_file(char *filename, t_scene *scene)
 	if (!has_cam)
 		return (EXIT_FAILURE);
 	scene->objects = ltoarr(objects);
-	scene->nb_objs = objects->len;
+	scene->nb_objs = (int)objects->len;
 	scene->lights = ltoarr(lights);
-	scene->nb_lights = lights->len;
+	scene->nb_lights = (int)lights->len;
 	close(fd);
 	return (EXIT_SUCCESS);
 }

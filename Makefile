@@ -23,8 +23,9 @@ MKDIR := /bin/mkdir -p
 NM := nm
 NORMINETTE_EXCLUDE_DIRS := ./norminette_exclude_dirs
 
+# TODO: make to not fuck up := and +=
 # general compile flags
-CFLAGS += -std=c11
+CFLAGS := -std=c11
 # compile warning flags
 CFLAGS += -Wall
 CFLAGS += -Wextra
@@ -35,21 +36,21 @@ CFLAGS += -Wunreachable-code
 CFLAGS += -Wshadow
 CFLAGS += -Wno-overlength-strings
 # performance flags
-CFLAGS := -Ofast
-CFLAGS += -march=native
-CFLAGS += -fno-signed-zeros
-CFLAGS += -funroll-loops
+CFLAGS += -Ofast
+# CFLAGS += -march=native
+# CFLAGS += -fno-signed-zeros
+# CFLAGS += -funroll-loops
 # Unsafe performance flags
-CFLAGS += -fomit-frame-pointer
-CFLAGS += -ffast-math
-CFLAGS += -fno-math-errno
-CFLAGS += -funsafe-math-optimizations
-CFLAGS += -fassociative-math
-CFLAGS += -freciprocal-math
-CFLAGS += -ffinite-math-only
-CFLAGS += -fno-signed-zeros
-CFLAGS += -fno-trapping-math
-CFLAGS += -frounding-math
+# CFLAGS += -fomit-frame-pointer
+# CFLAGS += -ffast-math
+# CFLAGS += -fno-math-errno
+# CFLAGS += -funsafe-math-optimizations
+# CFLAGS += -fassociative-math
+# CFLAGS += -freciprocal-math
+# CFLAGS += -ffinite-math-only
+# CFLAGS += -fno-signed-zeros
+# CFLAGS += -fno-trapping-math
+# CFLAGS += -frounding-math
 
 # preprocessor flags
 CPPFLAGS :=
@@ -129,7 +130,7 @@ $(NAME): $(LIBFT_DIR)/$(LIBFT_FILE) $(MINILIBX_DIR)/$(MINILIBX_FILE) $(OBJ)
 	$(CC) $(OBJ) -o $@ $(LDFLAGS) $(LDLIBS)
 
 $(OBJDIR)/%.o: %.c | $(OBJDIR)
-	$(CC) $< -c -o $@ $(CPPFLAGS) $(CFLAGS)
+	$(CC) $< -c -o $@ $(CPPFLAGS) $(CFLAGS) -g
 
 $(OBJDIR):
 	$(MKDIR) $@

@@ -190,8 +190,8 @@ void	setup_scene(t_scene *scene)
 	t_viewport	*viewport;
 	t_camera	*camera;
 
-	scene->window_width = 1600;
-	scene->window_height = 1200;
+	scene->window_width = 200;
+	scene->window_height = 150;
 	viewport = ft_malloc(sizeof(*viewport));
 	viewport->width = scene->window_width;
 	viewport->height = scene->window_height;
@@ -226,6 +226,7 @@ int	main(int ac, char **av)
 		finish(EXIT_FAILURE, &gc);
 	} // put this is dedicated function or so
 	gc.scene = &scene; // put this is dedicated function or so
+	render(&gc, &scene);
 	for (int i = 0; i < 24 * 2; ++i)
 	{
 		render(&gc, &scene);

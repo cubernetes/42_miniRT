@@ -32,7 +32,7 @@ void	calculate_norm(t_hit *hit)
 			copy_vec3(&temp, &hit->point);
 			substract_vec3(&temp, hit->object->cylinder.base_bot);
 			copy_vec3(&hit->norm, hit->object->cylinder.axis);
-			if (ft_abs(norm_len_squared - length_squared_vec3(&temp)) > EPSILON2)
+			if (fabs(norm_len_squared - length_squared_vec3(&temp)) > EPSILON2)
 				sc_mult_vec3(&hit->norm, -1);
 		}
 	}
@@ -108,14 +108,13 @@ void	render(t_gc *gc, t_scene *scene)
 	int				y;
 	t_ray			ray;
 	t_vec3			terminus;
-	t_vec3			orientation;
 	t_hit			hit;
-	const double	scale = 16.0;
-	const double	focal_distance = -10.0;
 	t_vec3			row_start_vec;
 	t_vec3			pixel;
-	int				counter = 0;
+	int				counter;
 
+	counter = 0;
+	(void)counter; // todo: counter not used
 	copy_vec3(scene->lights[0]->point, &scene->camera->pos);
 	copy_vec3(&terminus, &scene->camera->pos);
 	init_viewport_params(scene, &terminus);
@@ -127,8 +126,6 @@ void	render(t_gc *gc, t_scene *scene)
 		copy_vec3(&pixel, &row_start_vec);
 		while (++x < scene->window_width)
 		{
-			/* new_vec3(&orientation, (x - scene->window_width / 2.0) / scale, (y - scene->window_height / 2.0) / scale, focal_distance); */
-			/* new_ray(&ray, &terminus, &orientation); */
 			new_ray(&ray, &terminus, &pixel);
 			if (!cast_ray(&hit, &ray, scene))
 			{
