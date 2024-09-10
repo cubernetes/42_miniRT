@@ -13,6 +13,7 @@
 # TODO: norminette
 # TODO: reduce resolution when doing anything, auto-hd-render after 1s or so
 # TODO: compile without performance flags, since it's stricter in those cases
+# TODO: make only one single contiguous allocation
 
 # TODO: ONLY remove this file when the following command doesn't print anything anymore (except for this file)
 grep --color=always \

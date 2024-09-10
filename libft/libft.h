@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 20:07:51 by tosuman           #+#    #+#             */
-/*   Updated: 2024/09/10 19:49:14 by tosuman          ###   ########.fr       */
+/*   Updated: 2024/09/10 20:42:21 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -578,6 +578,8 @@ void							quat_sc_mult(t_quat *quat_a, double sc);
 void							quat_print(t_quat *quat);
 void							rotate_vec3(t_vec3 *vec, t_quat *quat);
 void							quat_unit(t_quat *quat);
+void							new_unit_quat(t_quat *quat, double degrees,
+									t_vec3 *axis);
 
 /* colors */
 unsigned int					get_alpha(t_color *color);

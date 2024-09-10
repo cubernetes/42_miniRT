@@ -154,8 +154,25 @@ int							parse_lights(char *line, t_list *lights);
 int							parse_objects(char *line, t_list *objects);
 int							read_rt_file(char *filename, t_scene *scene);
 
-/* translate_camera.c */
+/* transform_camera.c */
 void						translate_camera(t_scene *scene,
 								t_direction direction, double amount);
+void						rotate_camera(t_camera *camera,
+								t_direction direction, double degrees);
+
+/* mlx_helpers.c */
+int							keydown_hook(void *arg1, ...);
+int							destroy_hook(void *arg1, ...);
+void						mlx_pixel_put_buf(t_rt_img *data, int x, int y,
+								t_color color);
+
+/* printing.c */
+void						print_light(t_light *light);
+
+/* setup_mlx.c */
+void						setup_mlx(t_gc *gc, t_scene *scene);
+
+/* rotate_object.c */
+void						rotate_object(t_obj *obj, t_quat *quat);
 
 #endif /* miniRT.h */

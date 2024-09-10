@@ -132,7 +132,7 @@ void	render(t_gc *gc, t_scene *scene)
 					counter++;
 				apply_light(&(hit.color), calculate_lighting(&hit, scene));
 			}
-			mlx_pixel_put_buf(&gc->img, x, scene->window_height - y, hit.color);
+			mlx_pixel_put_buf(&gc->img, x, y, hit.color);
 			add_vec3(&pixel, &scene->viewport->right_step);
 		}
 		add_vec3(&row_start_vec, &scene->viewport->down_step);
