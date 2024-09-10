@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 20:07:51 by tosuman           #+#    #+#             */
-/*   Updated: 2024/09/10 20:42:21 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/09/10 21:08:39 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -563,6 +563,13 @@ int								intersection_cylinder(double *t,
 									t_cylinder *cylinder, t_ray *ray);
 void							rotate_cylinder(t_cylinder *cylinder,
 									t_quat *quat);
+void							choose_root(double *t, double *x);
+void							calculate_products_cylinder(double *d,
+									t_cylinder *cylinder,
+									t_ray *ray, t_vec3 *q);
+void							calculate_sec_cylinder(double *sec,
+									t_cylinder *cylinder,
+									t_ray *ray, double *d);
 
 /* quaternion */
 int								quat_div(t_quat *quat_a, t_quat *quat_b);

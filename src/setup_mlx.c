@@ -6,7 +6,7 @@
 /*   By: tischmid <tischmid@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 20:47:11 by tischmid          #+#    #+#             */
-/*   Updated: 2024/09/10 20:50:55 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/09/10 21:48:50 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,18 @@ static void	setup_hooks(t_gc *gc)
 
 void	setup_mlx(t_gc *gc, t_scene *scene)
 {
-	gc->mlx = gc_add(mlx_init())->last->as_ptr; // TODO: check NULL
-	gc->win = mlx_new_window(gc->mlx, scene->window_width, scene->window_height, "miniRT"); // TODO: check NULL
-	gc->img.img = mlx_new_image(gc->mlx, scene->window_width, scene->window_height); // TODO: check NULL
+	gc->mlx = gc_add(mlx_init())->last->as_ptr;
+	// TODO: /\ check NULL
+	gc->win = mlx_new_window(gc->mlx, scene->window_width, scene->window_height,
+			"miniRT");
+	// /\ TODO: check NULL
+	gc->img.img = mlx_new_image(gc->mlx, scene->window_width,
+			scene->window_height);
+	// /\ TODO: check NULL
 	gc->img.addr = mlx_get_data_addr(
 			gc->img.img, &gc->img.bpp,
 			&gc->img.line_length,
-			&gc->img.endian); // TODO: check NULL
+			&gc->img.endian);
+	// /\ TODO: check NULL
 	setup_hooks(gc);
 }

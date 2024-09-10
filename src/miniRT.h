@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   miniRT.h                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tischmid <tischmid@student.42berlin.de>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/10 21:48:04 by tischmid          #+#    #+#             */
+/*   Updated: 2024/09/10 21:48:06 by tischmid         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINIRT_H
 # define MINIRT_H 1
 
@@ -5,10 +17,18 @@
 
 # include <stdlib.h>
 
-# define ANY_VEC 0
-# define NORM_VEC 1
 # define EPSILON 0.0001
 # define EPSILON2 0.0000001
+
+/* parse.c */
+# define ANY_VEC 0
+# define NORM_VEC 1
+
+/* render.c */
+# define X 0
+# define Y 1
+# define ROW_START_VEC 0
+# define PIXEL 1
 
 /********** enums **********/
 
@@ -144,15 +164,26 @@ void						assert_norm(t_hit *hit, int index);
 void						apply_light(t_color *color, t_color light);
 t_color						calculate_lighting(t_hit *hit, t_scene *scene);
 
-/* parse.c */
-int							parse_input(t_obj ***objects, t_scene *scene);
-
+/* parser.c */
 int							parse_vec3(char *str, t_vec3 *vec, int flag);
 int							parse_color(char *str, t_color *color);
+int							read_rt_file(char *file, t_scene *scene);
+
+/* parser_utils1.c */
 int							parse_camera(char *line, t_scene *scene);
 int							parse_lights(char *line, t_list *lights);
-int							parse_objects(char *line, t_list *objects);
-int							read_rt_file(char *filename, t_scene *scene);
+int							parse_sphere(t_list *objects, char **arr);
+int							parse_plane(t_list *objects, char **arr);
+int							parse_cylinder(t_list *objects, char **arr);
+
+/* parser_utils2.c */
+int							parse_line(char *line, t_scene *scene,
+								t_list *objects, t_list *lights);
+int							open_rt_file(char *file, int *fd);
+bool						init_parse(t_list **objects,
+								t_list **lights, char **line, int fd);
+void						end_parse(t_scene *scene,
+								t_list *objects, t_list *lights, int fd);
 
 /* transform_camera.c */
 void						translate_camera(t_scene *scene,

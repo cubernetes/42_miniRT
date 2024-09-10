@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: tischmid <tischmid@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/10 20:43:54 by tischmid          #+#    #+#             */
-/*   Updated: 2024/09/10 20:44:10 by tischmid         ###   ########.fr       */
+/*   Created: 2024/09/10 21:47:54 by tischmid          #+#    #+#             */
+/*   Updated: 2024/09/10 21:47:56 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@
 #include <math.h>
 
 // todo: check why it's wrong
-static void	translate_camera_u_d(t_scene *scene, t_direction direction,
-	double amount)
+static void	translate_camera_u_d(t_scene *scene,
+	t_direction direction, double amount)
 {
 	if (direction == DIR_UP)
 		scene->camera->pos.y -= amount;
@@ -25,8 +25,8 @@ static void	translate_camera_u_d(t_scene *scene, t_direction direction,
 		scene->camera->pos.y += amount;
 }
 
-static void	translate_camera_f_b(t_scene *scene, t_direction direction,
-	double amount)
+static void	translate_camera_f_b(t_scene *scene,
+	t_direction direction, double amount)
 {
 	t_vec3	direction_vector;
 
@@ -45,8 +45,8 @@ static void	translate_camera_f_b(t_scene *scene, t_direction direction,
 		substract_vec3(&scene->camera->pos, &direction_vector);
 }
 
-static void	translate_camera_l_r(t_scene *scene, t_direction direction,
-	double amount)
+static void	translate_camera_l_r(t_scene *scene,
+	t_direction direction, double amount)
 {
 	t_vec3			direction_vector;
 	static t_vec3	upwards_vector = {.x = 0, .y = 1, .z = 0};
