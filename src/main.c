@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 19:40:05 by tosuman           #+#    #+#             */
-/*   Updated: 2024/09/11 02:29:49 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/09/11 21:27:21 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ void	init(t_gc *gc)
 {
 	(void)set_allocator(gc_malloc);
 	(void)gc_set_context("DEFAULT");
-	/* gc->sample = 0; */
-	/* gc->sample_size = SAMPLE_SIZE; */
+	gc->sample = 0;
+	gc->sample_size = SAMPLE_SIZE;
 	gc->resolution = RESOLUTION;
 }
 
@@ -73,9 +73,8 @@ int	render_sth(void *arg)
 	t_gc	*gc;
 
 	gc = arg;
-	/* render2(gc, gc->scene, gc->sample, gc->sample_size); */
-	/* gc->sample = (gc->sample + 1) % gc->sample_size; */
-	render(gc, gc->scene, gc->resolution);
+	render(gc, gc->scene, gc->resolution, gc->sample, gc->sample_size);
+	gc->sample = (gc->sample + 1) % gc->sample_size;
 	return (0);
 }
 

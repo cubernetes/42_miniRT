@@ -6,7 +6,7 @@
 /*   By: tischmid <tischmid@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 21:48:04 by tischmid          #+#    #+#             */
-/*   Updated: 2024/09/11 02:38:35 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/09/11 21:30:17 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,14 +32,14 @@
 # define ROW_START_VEC 0
 # define PIXEL 1
 
-# define WINDOW_WIDTH 1600
-# define WINDOW_HEIGHT 900
+# define WINDOW_WIDTH 800
+# define WINDOW_HEIGHT 600
 
-// # define SAMPLE_SIZE 40 /* 1920 - 100+ objects */
+//# define SAMPLE_SIZE 34 /* 1920 - 100+ objects */
 // # define SAMPLE_SIZE 38 /* 1920 */
-// # define SAMPLE_SIZE 14
+# define SAMPLE_SIZE 4
 
-# define RESOLUTION 1
+# define RESOLUTION 4
 
 /********** enums **********/
 
@@ -169,9 +169,8 @@ void						finish(int exit_status, t_gc *gc);
 
 /* render.c */
 int							cast_ray(t_hit *hit, t_ray *ray, t_scene *scene);
-void						render2(t_gc *gc, t_scene *scene, int sample,
-								int sampling_size);
-void						render(t_gc *gc, t_scene *scene, int resolution);
+void						render(t_gc *gc, t_scene *scene, int resolution,
+								int sample, int sample_siz);
 void						assert_norm(t_hit *hit, int index);
 /* lights.c */
 void						apply_light(t_color *color, t_color light);

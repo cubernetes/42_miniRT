@@ -6,7 +6,7 @@
 /*   By: tischmid <tischmid@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 20:47:11 by tischmid          #+#    #+#             */
-/*   Updated: 2024/09/11 01:01:57 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/09/11 22:44:39 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ static void	setup_hooks(t_gc *gc)
 {
 	mlx_hook(gc->win, DestroyNotify, NoEventMask, (t_hook)destroy_hook, gc);
 	mlx_hook(gc->win, KeyPress, KeyPressMask, (t_hook)keydown_hook, gc);
+	/* mlx_hook(gc->win, KeyPress, ButtonPressMask, (t_hook)keydown_hook, gc); */
 	mlx_hook(gc->win, MotionNotify, PointerMotionMask, (t_hook)move_hook, gc);
 }
 
