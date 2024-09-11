@@ -6,7 +6,7 @@
 /*   By: tischmid <tischmid@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 21:52:38 by tischmid          #+#    #+#             */
-/*   Updated: 2024/09/07 22:48:21 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/09/12 01:17:00 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ void	quat_print(t_quat *quat)
 
 //todo: maybe use cosf
 // expects a unit vector!!!
-// scales the axis!!! don't use it afterwards
 // WATCH OUT, the following line might be missing before (or after?) sc_mult_vec
 /* unit_vec3(&unit_axis); */
 void	new_unit_quat(t_quat *quat, double degrees, t_vec3 *axis)

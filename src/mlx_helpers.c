@@ -6,7 +6,7 @@
 /*   By: tischmid <tischmid@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 20:42:43 by tischmid          #+#    #+#             */
-/*   Updated: 2024/09/11 21:28:03 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/09/12 01:15:20 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 
 #include <X11/keysym.h>
 #include <stdint.h> /* needed for intptr_t */
+#include <math.h>
 
 void	mlx_pixel_put_buf(t_rt_img *data, int x, int y, t_color color)
 {
@@ -36,12 +37,17 @@ int	destroy_hook(void *arg1, ...)
 
 void	camera_yaw(t_scene *scene, int amount)
 {
-	rotate_camera(scene->camera, DIR_LEFT, amount / 40.0);
+	rotate_camera(scene->camera, DIR_LEFT, amount / CAM_ROTATE_FACTOR);
 }
 
 void	camera_pitch(t_scene *scene, int amount)
 {
-	rotate_camera(scene->camera, DIR_UP, amount / 40.0);
+	double			dot;
+
+	dot = dot_product_vec3(&scene->camera->dir,
+			&(t_vec3){.x = 0, .y = (amount > 0) - (amount < 0), .z = 0});
+	if (cos(amount * PI / 180.0 / CAM_ROTATE_FACTOR) > dot)
+		rotate_camera(scene->camera, DIR_UP, amount / CAM_ROTATE_FACTOR);
 }
 
 int	move_hook(void *arg1, ...)
@@ -56,8 +62,6 @@ int	move_hook(void *arg1, ...)
 	y = va_arg(ap, int);
 	gc = va_arg(ap, t_gc *);
 	va_end(ap);
-	/* mlx_mouse_get_pos(gc->mlx, gc->win, &x, &y); */
-	/* ft_printf("%d, %d\n", x, y); */
 	camera_yaw(gc->scene, gc->scene->camera->prev_x - x);
 	camera_pitch(gc->scene, gc->scene->camera->prev_y - y);
 	mlx_mouse_move(gc->mlx, gc->win, WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2);

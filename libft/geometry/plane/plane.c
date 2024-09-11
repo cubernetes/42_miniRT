@@ -6,7 +6,7 @@
 /*   By: nam-vu <nam-vu@student.42berlin.de>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 22:11:47 by nam-vu            #+#    #+#             */
-/*   Updated: 2024/09/10 22:17:18 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/09/12 01:14:15 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ void	print_plane(t_plane *this)
 }
 
 /* todo: remove this? */
+/* this function is for "checkerboard" patterns on the planes */
 /* static int	mod(int a, int b) */
 /* { */
 	/* const int	r = a % b; */

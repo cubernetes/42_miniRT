@@ -6,11 +6,13 @@
 /*   By: nam-vu <nam-vu@student.42berlin.de>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/23 18:22:39 by nam-vu            #+#    #+#             */
-/*   Updated: 2024/08/25 09:58:18 by tosuman          ###   ########.fr       */
+/*   Updated: 2024/09/11 23:04:46 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+
+#include <stdio.h>
 
 /* TODO: casting to (int) otherwise won't compile, but is that even right? */
 void	set_alpha(t_color *color, unsigned int value)
@@ -55,6 +57,6 @@ void	set_blue(t_color *color, unsigned int value)
 
 void	print_color(t_color *color)
 {
-	ft_printf("COLOR: R: %i G: %i B: %i\n",
+	printf("COLOR: R: %i G: %i B: %i\n",
 		get_red(color), get_green(color), get_blue(color));
 }

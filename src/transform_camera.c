@@ -6,7 +6,7 @@
 /*   By: tischmid <tischmid@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 21:47:54 by tischmid          #+#    #+#             */
-/*   Updated: 2024/09/11 01:19:22 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/09/12 01:13:41 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,7 @@ void	rotate_camera(t_camera *camera, t_direction direction, double degrees)
 	rotate_vec3(&camera->dir, &quat);
 	copy_vec3(&left_vec, &camera->dir);
 	cross_product_vec3(&left_vec, &(t_vec3){.x = 0, .y = -1, .z = 0});
+	unit_vec3(&left_vec);
 	copy_vec3(&camera->right, &left_vec);
 	sc_mult_vec3(&camera->right, -1);
 	copy_vec3(&camera->up, &camera->dir);

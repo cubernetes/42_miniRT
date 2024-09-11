@@ -6,7 +6,7 @@
 /*   By: nam-vu <nam-vu@student.42berlin.de>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 02:59:34 by nam-vu            #+#    #+#             */
-/*   Updated: 2024/09/11 21:27:26 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/09/12 01:15:25 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ void	render(t_gc *gc, t_scene *scene, int resolution, int sample, int sample_siz
 	t_vec3	terminus;
 	t_hit	hit;
 	t_vec3	vec[2];
+	t_vec3	tmp_pixel;
 
 	init_render(scene, &terminus);
 	i[Y] = 0;
@@ -70,7 +71,9 @@ void	render(t_gc *gc, t_scene *scene, int resolution, int sample, int sample_siz
 			if (((i[Y] * scene->window_height) / resolution + i[X] / resolution - sample)
 				% sample_size == 0)
 			{
-				new_ray(&ray, &terminus, &vec[PIXEL]);
+				copy_vec3(&tmp_pixel, &vec[PIXEL]);
+				unit_vec3(&tmp_pixel);
+				new_ray(&ray, &terminus, &tmp_pixel);
 				if (!cast_ray(&hit, &ray, scene))
 					apply_light(&(hit.color), calculate_lighting(&hit, scene));
 				i[I] = -1;

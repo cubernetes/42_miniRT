@@ -6,7 +6,7 @@
 /*   By: nam-vu <nam-vu@student.42berlin.de>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 02:37:41 by nam-vu            #+#    #+#             */
-/*   Updated: 2024/09/10 21:44:48 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/09/12 01:14:55 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,11 +75,11 @@ int	cast_ray(t_hit *hit, t_ray *ray, t_scene *scene)
 
 	i = -1;
 	hit->t = NO_ROOTS;
-	old_t = INFINITY;
+	old_t = NO_ROOTS;
 	hit->color = 0x00000000;
 	while (++i < scene->nb_objs)
 		calculate_hit(hit, ray, scene->objects[i], &old_t);
-	if (old_t == INFINITY)
+	if (old_t == NO_ROOTS)
 	{
 		hit->t = NO_ROOTS;
 		return (EXIT_FAILURE);
