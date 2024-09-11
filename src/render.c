@@ -6,7 +6,7 @@
 /*   By: nam-vu <nam-vu@student.42berlin.de>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 02:59:34 by nam-vu            #+#    #+#             */
-/*   Updated: 2024/09/12 01:15:25 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/09/12 01:23:44 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,8 @@ void	init_render(t_scene *scene, t_vec3 *terminus)
 	init_viewport_params(scene, terminus);
 }
 
-void	render(t_gc *gc, t_scene *scene, int resolution, int sample, int sample_size)
+void	render(t_gc *gc, t_scene *scene, int resolution, int sample,
+	int sample_size)
 {
 	int		i[4];
 	t_ray	ray;
