@@ -6,7 +6,7 @@
 /*   By: tischmid <tischmid@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 20:47:11 by tischmid          #+#    #+#             */
-/*   Updated: 2024/09/10 21:48:50 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/09/11 01:01:57 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,23 @@
 #include "mlx.h"
 
 #include <X11/X.h>
+#include <stdbool.h>
 
 static void	setup_hooks(t_gc *gc)
 {
 	mlx_hook(gc->win, DestroyNotify, NoEventMask, (t_hook)destroy_hook, gc);
 	mlx_hook(gc->win, KeyPress, KeyPressMask, (t_hook)keydown_hook, gc);
+	mlx_hook(gc->win, MotionNotify, PointerMotionMask, (t_hook)move_hook, gc);
+}
+
+void	unlock_camera(t_gc *gc)
+{
+	gc->scene->camera->locked = true;
+}
+
+void	lock_camera(t_gc *gc)
+{
+	gc->scene->camera->locked = true;
 }
 
 void	setup_mlx(t_gc *gc, t_scene *scene)
@@ -38,4 +50,5 @@ void	setup_mlx(t_gc *gc, t_scene *scene)
 			&gc->img.endian);
 	// /\ TODO: check NULL
 	setup_hooks(gc);
+	unlock_camera(gc);
 }

@@ -6,7 +6,7 @@
 /*   By: tischmid <tischmid@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 21:47:54 by tischmid          #+#    #+#             */
-/*   Updated: 2024/09/10 21:47:56 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/09/11 01:19:22 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@ static void	translate_camera_u_d(t_scene *scene,
 	t_direction direction, double amount)
 {
 	if (direction == DIR_UP)
-		scene->camera->pos.y -= amount;
-	else
 		scene->camera->pos.y += amount;
+	else
+		scene->camera->pos.y -= amount;
 }
 
 static void	translate_camera_f_b(t_scene *scene,
@@ -87,8 +87,16 @@ void	rotate_camera(t_camera *camera, t_direction direction, double degrees)
 	(void)direction;
 	if (direction == DIR_LEFT)
 		new_unit_quat(&quat, degrees, &(t_vec3){.x = 0, .y = 1, .z = 0});
-	else
+	else if (direction == DIR_RIGHT)
 		new_unit_quat(&quat, -degrees, &(t_vec3){.x = 0, .y = 1, .z = 0});
+	else if (direction == DIR_UP)
+		new_unit_quat(&quat, degrees, &camera->right);
+	else if (direction == DIR_DOWN)
+		new_unit_quat(&quat, -degrees, &camera->right);
+	else if (direction == DIR_FORWARD)
+		new_unit_quat(&quat, degrees, &camera->dir);
+	else if (direction == DIR_BACKWARD)
+		new_unit_quat(&quat, -degrees, &camera->dir);
 	rotate_vec3(&camera->dir, &quat);
 	copy_vec3(&left_vec, &camera->dir);
 	cross_product_vec3(&left_vec, &(t_vec3){.x = 0, .y = -1, .z = 0});

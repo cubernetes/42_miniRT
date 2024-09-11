@@ -6,7 +6,7 @@
 /*   By: nam-vu <nam-vu@student.42berlin.de>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 02:59:34 by nam-vu            #+#    #+#             */
-/*   Updated: 2024/09/11 00:44:56 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/09/11 02:32:31 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	init_render(t_scene *scene, t_vec3 *terminus)
 	init_viewport_params(scene, terminus);
 }
 
-void	render(t_gc *gc, t_scene *scene, int sample, int sampling_size)
+void	render2(t_gc *gc, t_scene *scene, int sample, int sampling_size)
 {
 	int		i[2];
 	t_ray	ray;
@@ -78,6 +78,46 @@ void	render(t_gc *gc, t_scene *scene, int sample, int sampling_size)
 			add_vec3(&vec[PIXEL], &scene->viewport->right_step);
 		}
 		add_vec3(&vec[ROW_START_VEC], &scene->viewport->down_step);
+	}
+	mlx_put_image_to_window(gc->mlx, gc->win, gc->img.img, 0, 0);
+	mlx_do_sync(gc->mlx);
+}
+
+void	render(t_gc *gc, t_scene *scene, int resolution)
+{
+	int		i[4];
+	t_ray	ray;
+	t_vec3	terminus;
+	t_hit	hit;
+	t_vec3	vec[2];
+
+	init_render(scene, &terminus);
+	i[Y] = 0;
+	copy_vec3(&vec[ROW_START_VEC], &scene->viewport->top_left);
+	while (i[Y] + resolution - 1 < scene->window_height)
+	{
+		i[X] = 0;
+		copy_vec3(&vec[PIXEL], &vec[ROW_START_VEC]);
+		while (i[X] + resolution - 1 < scene->window_width)
+		{
+			new_ray(&ray, &terminus, &vec[PIXEL]);
+			if (!cast_ray(&hit, &ray, scene))
+				apply_light(&(hit.color), calculate_lighting(&hit, scene));
+			i[I] = -1;
+			while (++(i[I]) < resolution)
+			{
+				i[J] = -1;
+				while (++(i[J]) < resolution)
+					mlx_pixel_put_buf(&gc->img, i[X] + i[J], i[Y] + i[I],
+						hit.color);
+				add_vec3(&vec[PIXEL], &scene->viewport->right_step);
+			}
+			i[X] += resolution;
+		}
+		i[I] = -1;
+		while (++(i[I]) < resolution)
+			add_vec3(&vec[ROW_START_VEC], &scene->viewport->down_step);
+		i[Y] += resolution;
 	}
 	mlx_put_image_to_window(gc->mlx, gc->win, gc->img.img, 0, 0);
 	mlx_do_sync(gc->mlx);

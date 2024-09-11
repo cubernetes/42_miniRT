@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 19:40:05 by tosuman           #+#    #+#             */
-/*   Updated: 2024/09/11 00:44:31 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/09/11 02:29:49 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,9 @@ void	init(t_gc *gc)
 {
 	(void)set_allocator(gc_malloc);
 	(void)gc_set_context("DEFAULT");
-	gc->sample = 0;
-	gc->sample_size = SAMPLE_SIZE;
+	/* gc->sample = 0; */
+	/* gc->sample_size = SAMPLE_SIZE; */
+	gc->resolution = RESOLUTION;
 }
 
 void	finish(int exit_status, t_gc *gc)
@@ -40,8 +41,8 @@ void	setup_scene(t_scene *scene)
 	t_viewport	*viewport;
 	t_camera	*camera;
 
-	scene->window_width = 1920;
-	scene->window_height = 1080;
+	scene->window_width = WINDOW_WIDTH;
+	scene->window_height = WINDOW_HEIGHT;
 	viewport = ft_malloc(sizeof(*viewport));
 	viewport->width = scene->window_width;
 	viewport->height = scene->window_height;
@@ -72,8 +73,9 @@ int	render_sth(void *arg)
 	t_gc	*gc;
 
 	gc = arg;
-	render(gc, gc->scene, gc->sample, gc->sample_size);
-	gc->sample = (gc->sample + 1) % gc->sample_size;
+	/* render2(gc, gc->scene, gc->sample, gc->sample_size); */
+	/* gc->sample = (gc->sample + 1) % gc->sample_size; */
+	render(gc, gc->scene, gc->resolution);
 	return (0);
 }
 
@@ -88,6 +90,10 @@ int	main(int ac, char **av)
 	setup_scene(&scene);
 	parse_args(ac, av, &scene, &gc);
 	setup_mlx(&gc, &scene);
+	mlx_mouse_move(gc.mlx, gc.win, WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2);
+	mlx_mouse_hide(gc.mlx, gc.win);
+	gc.scene->camera->prev_x = WINDOW_WIDTH / 2;
+	gc.scene->camera->prev_y = WINDOW_HEIGHT / 2;
 	/* render(&gc, &scene, gc->sample_size); */
 	/* const double	angle = 3; */
 	/* const double	amount = 2 * 200 * sin(angle * 3 / 180); */

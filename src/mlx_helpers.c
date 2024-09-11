@@ -6,12 +6,13 @@
 /*   By: tischmid <tischmid@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 20:42:43 by tischmid          #+#    #+#             */
-/*   Updated: 2024/09/11 00:46:00 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/09/11 02:29:57 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
 #include "libft.h"
+#include "mlx.h"
 
 #include <X11/keysym.h>
 #include <stdint.h> /* needed for intptr_t */
@@ -30,6 +31,36 @@ int	destroy_hook(void *arg1, ...)
 
 	gc = arg1;
 	finish(0, gc);
+	return (0);
+}
+
+void	camera_yaw(t_scene *scene, int amount)
+{
+	rotate_camera(scene->camera, DIR_LEFT, amount / 40.0);
+}
+
+void	camera_pitch(t_scene *scene, int amount)
+{
+	rotate_camera(scene->camera, DIR_UP, amount / 40.0);
+}
+
+int	move_hook(void *arg1, ...)
+{
+	va_list	ap;
+	t_gc	*gc;
+	int		x;
+	int		y;
+
+	x = (int)(intptr_t)arg1;
+	va_start(ap, arg1);
+	y = va_arg(ap, int);
+	gc = va_arg(ap, t_gc *);
+	va_end(ap);
+	/* mlx_mouse_get_pos(gc->mlx, gc->win, &x, &y); */
+	/* ft_printf("%d, %d\n", x, y); */
+	camera_yaw(gc->scene, gc->scene->camera->prev_x - x);
+	camera_pitch(gc->scene, gc->scene->camera->prev_y - y);
+	mlx_mouse_move(gc->mlx, gc->win, WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2);
 	return (0);
 }
 
@@ -79,7 +110,8 @@ int	keydown_hook(void *arg1, ...)
 		ft_printf("Pressed '%c' (keycode: %d)\n", keycode, keycode);
 		return (0);
 	}
-	render(gc, gc->scene, gc->sample, gc->sample_size);
+	/* render2(gc, gc->scene, gc->sample, gc->sample_size); */
+	render(gc, gc->scene, gc->resolution);
 	return (0);
 }
 /* TODO: Remove 'pressed' debug output */

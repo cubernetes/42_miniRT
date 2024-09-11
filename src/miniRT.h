@@ -6,7 +6,7 @@
 /*   By: tischmid <tischmid@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 21:48:04 by tischmid          #+#    #+#             */
-/*   Updated: 2024/09/11 00:45:37 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/09/11 02:38:35 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,19 @@
 /* render.c */
 # define X 0
 # define Y 1
+# define I 2
+# define J 3
 # define ROW_START_VEC 0
 # define PIXEL 1
 
-# define SAMPLE_SIZE 100
+# define WINDOW_WIDTH 1600
+# define WINDOW_HEIGHT 900
+
+// # define SAMPLE_SIZE 40 /* 1920 - 100+ objects */
+// # define SAMPLE_SIZE 38 /* 1920 */
+// # define SAMPLE_SIZE 14
+
+# define RESOLUTION 1
 
 /********** enums **********/
 
@@ -77,6 +86,9 @@ struct						s_camera
 	t_vec3					dir;
 	t_vec3					up;
 	t_vec3					right;
+	bool					locked;
+	int						prev_x;
+	int						prev_y;
 };
 
 struct						s_viewport
@@ -106,6 +118,7 @@ struct						s_gc
 	t_scene					*scene;
 	int						sample;
 	int						sample_size;
+	int						resolution;
 };
 
 struct						s_scene
@@ -154,16 +167,11 @@ struct						s_hit
 /* main.c */
 void						finish(int exit_status, t_gc *gc);
 
-/* mlx_helpers.c */
-void						mlx_pixel_put_buf(t_rt_img *data, int x, int y,
-								t_color color);
-// void	*mlx_new_resizable_window(t_xvar *xvar, int size_x, int size_y,
-// 			char *title);
-
 /* render.c */
 int							cast_ray(t_hit *hit, t_ray *ray, t_scene *scene);
-void						render(t_gc *gc, t_scene *scene, int sample,
+void						render2(t_gc *gc, t_scene *scene, int sample,
 								int sampling_size);
+void						render(t_gc *gc, t_scene *scene, int resolution);
 void						assert_norm(t_hit *hit, int index);
 /* lights.c */
 void						apply_light(t_color *color, t_color light);
@@ -201,6 +209,11 @@ int							keydown_hook(void *arg1, ...);
 int							destroy_hook(void *arg1, ...);
 void						mlx_pixel_put_buf(t_rt_img *data, int x, int y,
 								t_color color);
+int							move_hook(void *arg1, ...);
+void						mlx_pixel_put_buf(t_rt_img *data, int x, int y,
+								t_color color);
+/* void						*mlx_new_resizable_window(t_xvar *xvar, */
+								/* int size_x, int size_y, char *title); */
 
 /* printing.c */
 void						print_light(t_light *light);
