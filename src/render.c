@@ -16,6 +16,7 @@
 
 #include "float.h"
 #include <math.h>
+#include <stdio.h>
 
 /* T = C + C_l * (vw / (2 * tan(theta / 2)) - Cr * vw / 2 + Cu * vh / 2 */
 /* rebase_vec3(t_vec3 *this, t_vec3 **new_basis); */
@@ -96,6 +97,13 @@ void	render(t_gc *gc, t_scene *scene, int resolution, int sample,
 			add_vec3(&vec[ROW_START_VEC], &scene->viewport->down_step);
 		i[Y] += resolution;
 	}
-	mlx_put_image_to_window(gc->mlx, gc->win, gc->img.img, 0, 0);
+	if (gc->antialiasing)
+	{
+		apply_pattern_antialiasing(gc, scene->window_width, scene->window_height, resolution);
+//		apply_random_antialiasing(gc, scene->window_width, scene->window_height);
+		mlx_put_image_to_window(gc->mlx, gc->win, gc->img2.img, 0, 0);
+	}
+	else
+		mlx_put_image_to_window(gc->mlx, gc->win, gc->img.img, 0, 0);
 	mlx_do_sync(gc->mlx);
 }

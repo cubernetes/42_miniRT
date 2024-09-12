@@ -394,6 +394,7 @@ double							ft_strtof(const char *s);
 unsigned int					ft_abs(int n);
 int								ft_max(int a, int b);
 int								ft_min(int a, int b);
+int								ft_rand(void);
 
 /* io */
 char							*get_next_line(int fd);

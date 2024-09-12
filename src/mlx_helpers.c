@@ -26,6 +26,14 @@ void	mlx_pixel_put_buf(t_rt_img *data, int x, int y, t_color color)
 	*(unsigned int *)dst = color;
 }
 
+unsigned int	mlx_pixel_get_buf(t_rt_img *data, int x, int y)
+{
+	char	*dst;
+
+	dst = data->addr + (y * data->line_length + x * (data->bpp / 8));
+	return (*(unsigned int *)dst);
+}
+
 int	destroy_hook(void *arg1, ...)
 {
 	t_gc	*gc;
@@ -97,6 +105,10 @@ int	keydown_hook(void *arg1, ...)
 		translate_camera(gc->scene, DIR_UP, 2);
 	else if (keycode == XK_Shift_L)
 		translate_camera(gc->scene, DIR_DOWN, 2);
+	else if (keycode == '1')
+		gc->antialiasing = 0;
+	else if (keycode == '2')
+		gc->antialiasing = 1;
 	else
 	{
 		ft_printf("Pressed '%c' (keycode: %d)\n", keycode, keycode);

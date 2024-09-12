@@ -25,11 +25,13 @@ void	init(t_gc *gc)
 	gc->sample = 0;
 	gc->sample_size = SAMPLE_SIZE;
 	gc->resolution = RESOLUTION;
+	gc->antialiasing = 0;
 }
 
 void	finish(int exit_status, t_gc *gc)
 {
 	mlx_destroy_image(gc->mlx, gc->img.img);
+	mlx_destroy_image(gc->mlx, gc->img2.img);
 	mlx_destroy_window(gc->mlx, gc->win);
 	mlx_destroy_display(gc->mlx);
 	gc_free_all();

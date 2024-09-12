@@ -37,11 +37,13 @@
 
 //# define SAMPLE_SIZE 34 /* 1920 - 100+ objects */
 // # define SAMPLE_SIZE 38 /* 1920 */
-# define SAMPLE_SIZE 2
+# define SAMPLE_SIZE 1
 
-# define RESOLUTION 2
+# define RESOLUTION 1
 
 # define CAM_ROTATE_FACTOR 10.0
+
+# define ANTIALIASING 0
 
 /********** enums **********/
 
@@ -117,10 +119,12 @@ struct						s_gc
 	void					*mlx;
 	void					*win;
 	t_rt_img				img;
+	t_rt_img				img2;
 	t_scene					*scene;
 	int						sample;
 	int						sample_size;
 	int						resolution;
+	int						antialiasing;
 };
 
 struct						s_scene
@@ -211,8 +215,7 @@ int							destroy_hook(void *arg1, ...);
 void						mlx_pixel_put_buf(t_rt_img *data, int x, int y,
 								t_color color);
 int							move_hook(void *arg1, ...);
-void						mlx_pixel_put_buf(t_rt_img *data, int x, int y,
-								t_color color);
+unsigned int				mlx_pixel_get_buf(t_rt_img *data, int x, int y);
 /* void						*mlx_new_resizable_window(t_xvar *xvar, */
 								/* int size_x, int size_y, char *title); */
 
@@ -225,4 +228,7 @@ void						setup_mlx(t_gc *gc, t_scene *scene);
 /* rotate_object.c */
 void						rotate_object(t_obj *obj, t_quat *quat);
 
+/* antialiasing.c */
+void						apply_random_antialiasing(t_gc *gc, int width, int height);
+void						apply_pattern_antialiasing(t_gc *gc, int width, int height, int resolution);
 #endif /* miniRT.h */
