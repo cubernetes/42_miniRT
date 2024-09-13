@@ -6,7 +6,7 @@
 /*   By: tischmid <tischmid@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 21:48:04 by tischmid          #+#    #+#             */
-/*   Updated: 2024/09/12 01:06:39 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/09/12 11:17:19 by tosuman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 # define MINIRT_H 1
 
 # include "libft.h"
-
 # include <stdlib.h>
 
 # define EPSILON 0.0001
@@ -171,8 +170,7 @@ void						finish(int exit_status, t_gc *gc);
 
 /* render.c */
 int							cast_ray(t_hit *hit, t_ray *ray, t_scene *scene);
-void						render(t_gc *gc, t_scene *scene, int resolution,
-								int sample, int sample_siz);
+int							render(void *arg);
 void						assert_norm(t_hit *hit, int index);
 /* lights.c */
 void						apply_light(t_color *color, t_color light);
@@ -194,16 +192,10 @@ int							parse_cylinder(t_list *objects, char **arr);
 int							parse_line(char *line, t_scene *scene,
 								t_list *objects, t_list *lights);
 int							open_rt_file(char *file, int *fd);
-bool						init_parse(t_list **objects,
-								t_list **lights, char **line, int fd);
-void						end_parse(t_scene *scene,
-								t_list *objects, t_list *lights, int fd);
-
-/* transform_camera.c */
-void						translate_camera(t_scene *scene,
-								t_direction direction, double amount);
-void						rotate_camera(t_camera *camera,
-								t_direction direction, double degrees);
+bool						init_parse(t_list **objects, t_list **lights,
+								char **line, int fd);
+void						end_parse(t_scene *scene, t_list *objects,
+								t_list *lights, int fd);
 
 /* mlx_helpers.c */
 int							keydown_hook(void *arg1, ...);
@@ -214,7 +206,7 @@ int							move_hook(void *arg1, ...);
 void						mlx_pixel_put_buf(t_rt_img *data, int x, int y,
 								t_color color);
 /* void						*mlx_new_resizable_window(t_xvar *xvar, */
-								/* int size_x, int size_y, char *title); */
+/* int size_x, int size_y, char *title); */
 
 /* printing.c */
 void						print_light(t_light *light);
@@ -224,5 +216,15 @@ void						setup_mlx(t_gc *gc, t_scene *scene);
 
 /* rotate_object.c */
 void						rotate_object(t_obj *obj, t_quat *quat);
+
+/* orient_camera.c */
+void						rotate_camera(t_camera *camera,
+								t_direction direction, double degrees);
+void						camera_yaw(t_scene *scene, int amount);
+void						camera_pitch(t_scene *scene, int amount);
+
+/* translate_camera.c */
+void						translate_camera(t_scene *scene,
+								t_direction direction, double amount);
 
 #endif /* miniRT.h */

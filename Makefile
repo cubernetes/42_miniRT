@@ -100,6 +100,8 @@ SRC += hoarding_disorder.c
 SRC += lights.c
 SRC += main.c
 SRC += mlx_helpers.c
+SRC += mlx_hooks.c
+SRC += orient_camera.c
 SRC += parser.c
 SRC += parser_utils1.c
 SRC += parser_utils2.c
@@ -107,7 +109,7 @@ SRC += printing.c
 SRC += render.c
 SRC += rotate.c
 SRC += setup_mlx.c
-SRC += transform_camera.c
+SRC += translate_camera.c
 
 # objects
 OBJ := $(SRC:.c=.o)

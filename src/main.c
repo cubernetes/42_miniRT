@@ -6,17 +6,18 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 19:40:05 by tosuman           #+#    #+#             */
-/*   Updated: 2024/09/12 01:15:11 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/09/12 11:04:38 by tosuman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
 #define _XOPEN_SOURCE 600 /* only needed for <unistd.h> and usleep */
-#include <unistd.h> /* usleep(3); todo: remove */
 
 #include "miniRT.h"
 #include "libft.h"
 #include "mlx.h"
+
+#include <stdlib.h>
+#include <unistd.h> /* usleep(3); todo: remove */
 
 void	init(t_gc *gc)
 {
@@ -68,16 +69,6 @@ void	parse_args(int ac, char **av, t_scene *scene, t_gc *gc)
 	gc->scene = scene;
 }
 
-int	render_sth(void *arg)
-{
-	t_gc	*gc;
-
-	gc = arg;
-	render(gc, gc->scene, gc->resolution, gc->sample, gc->sample_size);
-	gc->sample = (gc->sample + 1) % gc->sample_size;
-	return (0);
-}
-
 /* #include <math.h> */
 
 int	main(int ac, char **av)
@@ -104,7 +95,7 @@ int	main(int ac, char **av)
 		/* rotate_camera(scene.camera, DIR_RIGHT, angle); */
 		/* usleep(10000); */
 	/* } */
-	mlx_loop_hook(gc.mlx, render_sth, (void *)&gc);
+	mlx_loop_hook(gc.mlx, render, (void *)&gc);
 	mlx_loop(gc.mlx);
 	finish(0, &gc);
 	return (EXIT_SUCCESS);

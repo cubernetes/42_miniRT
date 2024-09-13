@@ -6,7 +6,7 @@
 /*   By: nam-vu <nam-vu@student.42berlin.de>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 02:59:34 by nam-vu            #+#    #+#             */
-/*   Updated: 2024/09/12 01:23:44 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/09/12 11:07:15 by tosuman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	init_render(t_scene *scene, t_vec3 *terminus)
 	init_viewport_params(scene, terminus);
 }
 
-void	render(t_gc *gc, t_scene *scene, int resolution, int sample,
+void	sample_frame(t_gc *gc, t_scene *scene, int resolution, int sample,
 	int sample_size)
 {
 	int		i[4];
@@ -99,3 +99,14 @@ void	render(t_gc *gc, t_scene *scene, int resolution, int sample,
 	mlx_put_image_to_window(gc->mlx, gc->win, gc->img.img, 0, 0);
 	mlx_do_sync(gc->mlx);
 }
+
+int	render(void *arg)
+{
+	t_gc	*gc;
+
+	gc = arg;
+	sample_frame(gc, gc->scene, gc->resolution, gc->sample, gc->sample_size);
+	gc->sample = (gc->sample + 1) % gc->sample_size;
+	return (0);
+}
+
