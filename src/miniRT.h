@@ -39,7 +39,7 @@
 // # define SAMPLE_SIZE 38 /* 1920 */
 # define SAMPLE_SIZE 1
 
-# define RESOLUTION 1
+# define RESOLUTION 4
 
 # define CAM_ROTATE_FACTOR 10.0
 
@@ -118,8 +118,9 @@ struct						s_gc
 {
 	void					*mlx;
 	void					*win;
-	t_rt_img				img;
-	t_rt_img				img2;
+	t_rt_img				img;//colors with after lighting
+	t_rt_img				img2;//colors after antialiasing
+	t_rt_img				img3;//colors before lighting
 	t_scene					*scene;
 	int						sample;
 	int						sample_size;
