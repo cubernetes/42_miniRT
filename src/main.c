@@ -6,15 +6,17 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 19:40:05 by tosuman           #+#    #+#             */
-/*   Updated: 2024/09/16 23:02:56 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/09/17 01:40:55 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <X11/Xlib.h>
 #define _XOPEN_SOURCE 600 /* only needed for <unistd.h> and usleep */
 
 #include "miniRT.h"
 #include "libft.h"
 #include "mlx.h"
+#include "mlx_int.h"
 
 #include <stdlib.h>
 #include <unistd.h> /* usleep(3); todo: remove */
@@ -82,10 +84,10 @@ int	main(int ac, char **av)
 	setup_scene(&scene);
 	parse_args(ac, av, &scene, &gc);
 	setup_mlx(&gc, &scene);
-	mlx_mouse_move(gc.mlx, gc.win, WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2);
+	/* update_dimensions(&gc); */
+	mlx_mouse_move(gc.mlx, gc.win,
+		gc.scene->window_width / 2, gc.scene->window_height / 2);
 	mlx_mouse_hide(gc.mlx, gc.win);
-	gc.scene->camera->prev_x = WINDOW_WIDTH / 2;
-	gc.scene->camera->prev_y = WINDOW_HEIGHT / 2;
 	/* render(&gc, &scene, gc->sample_size); */
 	/* const double	angle = 3; */
 	/* const double	amount = 2 * 200 * sin(angle * 3 / 180); */

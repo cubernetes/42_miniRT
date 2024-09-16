@@ -72,6 +72,7 @@ LDLIBS += -l$(LIBFT_LIB)
 LDLIBS += -l$(MINILIBX_LIB)
 LDLIBS += -lXext
 LDLIBS += -lX11
+LDLIBS += -lXfixes
 LDLIBS += -lm
 
 # DEBUG=1 make re # include debugging information in the binary
@@ -279,8 +280,17 @@ fi forbidden-funcs-internal:
 		grep -v ' XFreeGC'                       | \
 		grep -v ' XFreePixmap'                   | \
 		grep -v ' XShmDetach'                    | \
-		grep -v 'XChangeGC'                      | \
-	 grep -v 'XDrawPoint'                     | \
+		grep -v ' XChangeGC'                     | \
+		grep -v ' XDrawPoint'                    | \
+		grep -v ' XCreateBitmapFromData'         | \
+		grep -v ' XDefineCursor'                 | \
+		grep -v ' XFreeCursor'                   | \
+		grep -v ' XGetWindowAttributes'          | \
+		grep -v ' XQueryPointer'                 | \
+		grep -v ' XUndefineCursor'               | \
+		grep -v ' XWarpPointer'                  | \
+		grep -v ' XFixesHideCursor'              | \
+		grep -v ' XFixesShowCursor'              | \
 		grep ''                                  && \
 		printf '\033[41;30m%s\033[m\n' "There are forbidden functions!" || \
 		( \
@@ -315,16 +325,16 @@ fi forbidden-funcs-internal:
 				-e 'XChangeWindowAttributes' \
 				-e 'XCopyArea' \
 				-e 'XCreateColormap' \
-				-e 'XCreateGC' \
+				-e 'XCreateGC /* IGNORE */' \
 				-e 'XCreateImage' \
 				-e 'XCreatePixmap' \
-				-e 'XCreateWindow' \
+				-e 'XCreateWindow /* IGNORE */' \
 				-e 'XFlush' \
 				-e 'XGetVisualInfo' \
-				-e 'XGetWMNormalHints' \
+				-e 'XGetWMNormalHints /* IGNORE */' \
 				-e 'XInternAtom' \
 				-e 'XkbKeycodeToKeysym' \
-				-e 'XMapRaised' \
+				-e 'XMapRaised /* IGNORE */' \
 				-e 'XNextEvent' \
 				-e 'XOpenDisplay' \
 				-e 'XPending' \
@@ -332,15 +342,15 @@ fi forbidden-funcs-internal:
 				-e 'XPutImage' \
 				-e 'XSetClipOrigin' \
 				-e 'XSetErrorHandler' \
-				-e 'XSetWMNormalHints' \
-				-e 'XSetWMProtocols' \
+				-e 'XSetWMNormalHints /* IGNORE */' \
+				-e 'XSetWMProtocols /* IGNORE */' \
 				-e 'XShmAttach' \
 				-e 'XShmCreateImage' \
 				-e 'XShmCreatePixmap' \
 				-e 'XShmPixmapFormat' \
 				-e 'XShmPutImage' \
 				-e 'XShmQueryVersion' \
-				-e 'XStoreName' \
+				-e 'XStoreName /* IGNORE */' \
 				-e 'XSync' \
 				-e 'XWindowEvent' \
 				-e 'XAutoRepeatOff' \
@@ -350,8 +360,17 @@ fi forbidden-funcs-internal:
 				-e 'XFreeGC' \
 				-e 'XFreePixmap' \
 				-e 'XShmDetach' \
-			-e 'XChangeGC' \
-		 -e 'XDrawPoint' \
+				-e 'XChangeGC' \
+				-e 'XDrawPoint' \
+				-e 'XCreateBitmapFromData' \
+				-e 'XDefineCursor' \
+				-e 'XFreeCursor' \
+				-e 'XGetWindowAttributes /* IGNORE */' \
+				-e 'XQueryPointer' \
+				-e 'XUndefineCursor' \
+				-e 'XWarpPointer' \
+				-e 'XFixesHideCursor' \
+				-e 'XFixesShowCursor' \
 				| \
 			grep --invert-match '\<ft_' && \
 			printf '\033[41;30m%s\033[m\n' "You've used a forbidden function!" || \

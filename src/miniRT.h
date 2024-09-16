@@ -6,7 +6,7 @@
 /*   By: tischmid <tischmid@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 21:48:04 by tischmid          #+#    #+#             */
-/*   Updated: 2024/09/16 23:34:45 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/09/17 01:11:06 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 # define MINIRT_H 1
 
 # include "libft.h"
+# include "mlx_int.h"
+
 # include <stdlib.h>
 
 # define EPSILON 0.0001
@@ -42,7 +44,7 @@
 
 # define CAM_ROTATE_FACTOR 10.0
 
-# define MOVE_DELAY 2.0
+# define MOVE_DELAY 1.0
 
 /********** enums **********/
 
@@ -90,8 +92,8 @@ struct						s_camera
 	t_vec3					up;
 	t_vec3					right;
 	bool					locked;
-	int						prev_x;
-	int						prev_y;
+	/* int						center_x; */
+	/* int						center_y; */
 };
 
 struct						s_viewport
@@ -124,6 +126,8 @@ struct						s_gc
 	int						resolution;
 	double					last_moved;
 	bool					fully_rendered;
+	int						x;
+	int						y;
 };
 // NOTE: last_moved is double because ft_uptime_linux returns double
 // thereforce, this feature exists only for linux AT THE MOMENT
@@ -204,21 +208,26 @@ void						end_parse(t_scene *scene, t_list *objects,
 								t_list *lights, int fd);
 
 /* mlx_helpers.c */
-int							keydown_hook(void *arg1, ...);
-int							destroy_hook(void *arg1, ...);
 void						mlx_pixel_put_buf(t_rt_img *data, int x, int y,
 								t_color color);
-int							move_hook(void *arg1, ...);
-void						mlx_pixel_put_buf(t_rt_img *data, int x, int y,
-								t_color color);
-/* void						*mlx_new_resizable_window(t_xvar *xvar, */
-/* int size_x, int size_y, char *title); */
-
+int							mlx_get_window_dim(void *mlx_ptr, void *win_ptr,
+								int *width, int *height);
+void						*mlx_new_resizable_window(t_xvar *xvar, int size_x,
+								int size_y, char *title);
+ 
 /* printing.c */
 void						print_light(t_light *light);
 
 /* setup_mlx.c */
 void						setup_mlx(t_gc *gc, t_scene *scene);
+void						setup_hooks(t_gc *gc);
+
+/* mlx_hooks.c */
+int							keydown_hook(void *arg1, ...);
+int							destroy_hook(void *arg1, ...);
+int							move_hook(void *arg1, ...);
+int							update_window(void *arg1, ...);
+/* void						update_dimensions(t_gc *gc); // todo: put to appropriate src-file */
 
 /* rotate_object.c */
 void						rotate_object(t_obj *obj, t_quat *quat);
