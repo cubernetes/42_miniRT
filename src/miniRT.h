@@ -6,7 +6,7 @@
 /*   By: tischmid <tischmid@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 21:48:04 by tischmid          #+#    #+#             */
-/*   Updated: 2024/09/16 23:08:13 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/09/16 23:34:45 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,9 @@
 
 //# define SAMPLE_SIZE 34 /* 1920 - 100+ objects */
 // # define SAMPLE_SIZE 38 /* 1920 */
-# define SAMPLE_SIZE 2
+# define SAMPLE_SIZE 19
 
-# define RESOLUTION 4
+# define RESOLUTION 16
 
 # define CAM_ROTATE_FACTOR 10.0
 

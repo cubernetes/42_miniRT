@@ -6,7 +6,7 @@
 /*   By: nam-vu <nam-vu@student.42berlin.de>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 02:59:34 by nam-vu            #+#    #+#             */
-/*   Updated: 2024/09/16 23:07:59 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/09/16 23:28:59 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,19 +102,33 @@ void	sample_frame(t_gc *gc, t_scene *scene, int resolution, int sample,
 
 int	render(void *arg)
 {
-	t_gc	*gc;
+	t_gc		*gc;
 
 	gc = arg;
-	if (ft_uptime_linux() - gc->last_moved > MOVE_DELAY && !gc->fully_rendered)
+	if (ft_uptime_linux() - gc->last_moved > MOVE_DELAY
+		&& gc->resolution >= 2
+		&& gc->sample == 0)
 	{
-		sample_frame(gc, gc->scene, 1, 0, 1);
-		gc->fully_rendered = true;
+		gc->resolution--;
+		ft_printf("Increasing resolution to %d x %d\n", gc->resolution, gc->resolution);
 	}
-	else if (!gc->fully_rendered)
+	if (!gc->fully_rendered)
 	{
+		ft_printf("Rendering with res: %d, sample: %d\n", gc->resolution, gc->sample);
 		sample_frame(gc, gc->scene, gc->resolution, gc->sample, gc->sample_size);
 		gc->sample = (gc->sample + 1) % gc->sample_size;
-		gc->fully_rendered = false;
+		if (gc->resolution == 1 && gc->sample == 0)
+		{
+			ft_printf("Fully rendered\n");
+			gc->fully_rendered = true;
+		}
+		else
+		{
+			ft_printf("NOT fully rendered\n");
+			gc->fully_rendered = false;
+		}
 	}
+	else
+		ft_printf("Doing nothing\n");
 	return (0);
 }
