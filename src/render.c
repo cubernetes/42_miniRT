@@ -6,7 +6,7 @@
 /*   By: nam-vu <nam-vu@student.42berlin.de>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 02:59:34 by nam-vu            #+#    #+#             */
-/*   Updated: 2024/09/12 11:07:15 by tosuman          ###   ########.fr       */
+/*   Updated: 2024/09/16 23:07:59 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,8 +105,16 @@ int	render(void *arg)
 	t_gc	*gc;
 
 	gc = arg;
-	sample_frame(gc, gc->scene, gc->resolution, gc->sample, gc->sample_size);
-	gc->sample = (gc->sample + 1) % gc->sample_size;
+	if (ft_uptime_linux() - gc->last_moved > MOVE_DELAY && !gc->fully_rendered)
+	{
+		sample_frame(gc, gc->scene, 1, 0, 1);
+		gc->fully_rendered = true;
+	}
+	else if (!gc->fully_rendered)
+	{
+		sample_frame(gc, gc->scene, gc->resolution, gc->sample, gc->sample_size);
+		gc->sample = (gc->sample + 1) % gc->sample_size;
+		gc->fully_rendered = false;
+	}
 	return (0);
 }
-

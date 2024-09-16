@@ -64,6 +64,8 @@ SRC += ft_arrlen.c
 SRC += error_handling.c
 SRC += cmt.c
 SRC += ft_getopt.c
+SRC += ft_sleep_linux.c
+SRC += ft_uptime_linux.c
 
 vpath %.c string
 SRC += ft_atoi.c

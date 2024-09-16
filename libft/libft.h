@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 20:07:51 by tosuman           #+#    #+#             */
-/*   Updated: 2024/09/10 21:08:39 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/09/16 22:47:48 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -509,6 +509,8 @@ t_list							*ft_getopt_plus(char *const argv[],
 									char valid_opts[static 1],
 									char *erropt,
 									int optind[static 1]);
+void							ft_sleep_linux(int ms_delay);
+double							ft_uptime_linux(void);
 
 /* vec3 */
 void							new_vec3(t_vec3 *this,

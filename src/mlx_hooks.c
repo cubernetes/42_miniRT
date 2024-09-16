@@ -6,10 +6,11 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 11:11:35 by tosuman           #+#    #+#             */
-/*   Updated: 2024/09/12 11:16:16 by tosuman          ###   ########.fr       */
+/*   Updated: 2024/09/16 23:07:35 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
 #include "miniRT.h"
 #include "mlx.h"
 #include "mlx_int.h"
@@ -40,9 +41,15 @@ int	move_hook(void *arg1, ...)
 	y = va_arg(ap, int);
 	gc = va_arg(ap, t_gc *);
 	va_end(ap);
-	camera_yaw(gc->scene, gc->scene->camera->prev_x - x);
-	camera_pitch(gc->scene, gc->scene->camera->prev_y - y);
-	mlx_mouse_move(gc->mlx, gc->win, WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2);
+	if (gc->scene->camera->prev_x - x != 0
+		|| gc->scene->camera->prev_y - y != 0)
+	{
+		camera_yaw(gc->scene, gc->scene->camera->prev_x - x);
+		camera_pitch(gc->scene, gc->scene->camera->prev_y - y);
+		mlx_mouse_move(gc->mlx, gc->win, WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2);
+		gc->last_moved = ft_uptime_linux();
+		gc->fully_rendered = false;
+	}
 	return (0);
 }
 
@@ -61,6 +68,8 @@ int	keydown_hook(void *arg1, ...)
 	va_start(ap, arg1);
 	gc = va_arg(ap, t_gc *);
 	va_end(ap);
+	gc->last_moved = ft_uptime_linux();
+	gc->fully_rendered = false;
 	if (keycode == XK_Escape || keycode == 'q')
 		destroy_hook(gc);
 	else if (keycode == 'w')
