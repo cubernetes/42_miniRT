@@ -6,7 +6,7 @@
 /*   By: nam-vu <nam-vu@student.42berlin.de>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 02:15:47 by nam-vu            #+#    #+#             */
-/*   Updated: 2024/09/17 02:53:45 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/09/17 03:24:57 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	parse_line(char *line, t_scene *scene, t_list *objects, t_list *lights)
 	if (!ft_strncmp(arr[0], "C", 2))
 		return (parse_camera(line, scene));
 	else if (!ft_strncmp(arr[0], "A", 2) || !ft_strncmp(arr[0], "L", 2))
-		parse_lights(line, lights);
+		return (parse_lights(line, lights));
 	else if (!ft_strncmp(arr[0], "sp", 3))
 		return (parse_sphere(objects, arr));
 	else if (!ft_strncmp(arr[0], "pl", 3))

@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 11:11:35 by tosuman           #+#    #+#             */
-/*   Updated: 2024/09/17 01:08:58 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/09/17 03:16:12 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,17 +75,17 @@ int	keydown_hook(void *arg1, ...)
 	if (keycode == XK_Escape || keycode == 'q')
 		destroy_hook(gc);
 	else if (keycode == 'w')
-		translate_camera(gc->scene, DIR_FORWARD, 2);
+		translate_camera(gc->scene, DIR_FORWARD, MOVE_STEP);
 	else if (keycode == 's')
-		translate_camera(gc->scene, DIR_BACKWARD, 2);
+		translate_camera(gc->scene, DIR_BACKWARD, MOVE_STEP);
 	else if (keycode == 'a')
-		translate_camera(gc->scene, DIR_LEFT, 2);
+		translate_camera(gc->scene, DIR_LEFT, MOVE_STEP);
 	else if (keycode == 'd')
-		translate_camera(gc->scene, DIR_RIGHT, 2);
+		translate_camera(gc->scene, DIR_RIGHT, MOVE_STEP);
 	else if (keycode == ' ')
-		translate_camera(gc->scene, DIR_UP, 2);
+		translate_camera(gc->scene, DIR_UP, MOVE_STEP);
 	else if (keycode == XK_Shift_L)
-		translate_camera(gc->scene, DIR_DOWN, 2);
+		translate_camera(gc->scene, DIR_DOWN, MOVE_STEP);
 	else
 	{
 		ft_printf("Pressed '%c' (keycode: %d)\n", keycode, keycode);
