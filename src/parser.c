@@ -6,7 +6,7 @@
 /*   By: nam-vu <nam-vu@student.42berlin.de>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 02:14:14 by nam-vu            #+#    #+#             */
-/*   Updated: 2024/09/17 02:53:11 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/09/17 03:48:11 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ int	parse_color(char *str, t_color *color)
 //todo: add permanent context for all the elements in the end
 //todo: add FOV to C (just move the viewport but keep # of pixel same?)
 //      focal_distance = viewport_width / (2 * tan(fov_theta / 2))
+// todo: direction vectors must not be 0,0,0
 int	read_rt_file(char *file, t_scene *scene)
 {
 	int			fd;

@@ -6,11 +6,10 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 19:40:05 by tosuman           #+#    #+#             */
-/*   Updated: 2024/09/17 01:40:55 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/09/17 03:55:06 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <X11/Xlib.h>
 #define _XOPEN_SOURCE 600 /* only needed for <unistd.h> and usleep */
 
 #include "miniRT.h"
@@ -88,17 +87,20 @@ int	main(int ac, char **av)
 	mlx_mouse_move(gc.mlx, gc.win,
 		gc.scene->window_width / 2, gc.scene->window_height / 2);
 	mlx_mouse_hide(gc.mlx, gc.win);
-	/* render(&gc, &scene, gc->sample_size); */
+
+	/* render(&gc); */
 	/* const double	angle = 3; */
 	/* const double	amount = 2 * 200 * sin(angle * 3 / 180); */
 	/* for (int i = 0; i < 120 * 1; ++i) */
 	/* { */
-		/* render(&gc, &scene); */
+		/* render(&gc); */
 		/* rotate_camera(scene.camera, DIR_RIGHT, angle); */
 		/* translate_camera(&scene, DIR_LEFT, amount); */
 		/* rotate_camera(scene.camera, DIR_RIGHT, angle); */
 		/* usleep(10000); */
+		/* printf("%f,%f,%f\n", scene.camera->dir.x, scene.camera->dir.y, scene.camera->dir.z); */
 	/* } */
+
 	mlx_loop_hook(gc.mlx, render, (void *)&gc);
 	mlx_loop(gc.mlx);
 	finish(0, &gc);

@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 11:10:01 by tosuman           #+#    #+#             */
-/*   Updated: 2024/09/12 11:16:40 by tosuman          ###   ########.fr       */
+/*   Updated: 2024/09/17 03:48:36 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ void	rotate_camera(t_camera *camera, t_direction direction, double degrees)
 	t_quat	quat;
 	t_vec3	left_vec;
 
-	(void)direction;
+	if (camera->dir.x == 0.0 && camera->dir.z == 0.0)
+		camera->dir.x += 0.1;
 	if (direction == DIR_LEFT)
 		new_unit_quat(&quat, degrees, &(t_vec3){.x = 0, .y = 1, .z = 0});
 	else if (direction == DIR_RIGHT)
