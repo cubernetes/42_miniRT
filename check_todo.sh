@@ -14,6 +14,7 @@
 # TODO: compile without performance flags, since it's stricter in those cases
 # TODO: make only one single contiguous allocation (not really required)
 # TODO: having the sphere very close behind you still produces the same sphere in front of you!
+# TODO: sometimes, when moving around, it stops rendering and you have to click a button to continue render. investigate
 
 # TODO: ONLY remove this file when the following command doesn't print anything anymore (except for this file)
 grep --color=always \
