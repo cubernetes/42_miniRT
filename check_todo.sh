@@ -11,7 +11,6 @@
 # TODO: create a small python script to generate "edge case" files
 # TODO: create a small bash script to test against the "edge case" files
 # TODO: norminette
-# TODO: reduce resolution when doing anything, auto-hd-render after 1s or so
 # TODO: compile without performance flags, since it's stricter in those cases
 # TODO: make only one single contiguous allocation (not really required)
 # TODO: having the sphere very close behind you still produces the same sphere in front of you!

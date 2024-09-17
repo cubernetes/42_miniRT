@@ -16,6 +16,7 @@ int		mlx_mouse_show(t_xvar *xvar, t_win_list *win)
 {
 	XFixesShowCursor(xvar->display, win->window);
 }
+
 /* int		mlx_mouse_hide(t_xvar *xvar, t_win_list *win) */
 /* { */
 	/* static char data[1] = {0}; */
