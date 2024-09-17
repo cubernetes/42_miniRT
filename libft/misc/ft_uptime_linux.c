@@ -6,7 +6,7 @@
 /*   By: tischmid <tischmid@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 22:13:18 by tischmid          #+#    #+#             */
-/*   Updated: 2024/09/16 22:56:33 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/09/17 02:36:16 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 #include <fcntl.h>
 #include <math.h>
+#include <unistd.h>
 
 // todo: valgrind the shit out of this or sth.
 double	ft_uptime_linux(void)

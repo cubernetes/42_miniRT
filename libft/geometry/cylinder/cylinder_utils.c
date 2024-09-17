@@ -6,7 +6,7 @@
 /*   By: nam-vu <nam-vu@student.42berlin.de>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 22:36:46 by nam-vu            #+#    #+#             */
-/*   Updated: 2024/09/07 22:36:46 by nam-vu           ###   ########.fr       */
+/*   Updated: 2024/09/17 02:36:49 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,7 @@ void	calculate_products_cylinder(double *d, t_cylinder *cylinder,
 	d[2] = dot_product_vec3(q, cylinder->axis);
 }
 
-void	calculate_sec_cylinder(double *sec, t_cylinder *cylinder,
-	t_ray *ray, double *d)
+void	calculate_sec_cylinder(double *sec, t_ray *ray, double *d)
 {
 	sec[0] = length_squared_vec3(ray->vec) - d[0] * d[0];
 	sec[1] = 2 * (d[1] - d[0] * d[2]);

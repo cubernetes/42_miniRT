@@ -9,7 +9,7 @@ AR := ar rcs
 RM := /bin/rm -f
 MKDIR := /bin/mkdir -p
 
-# TODO: make to not fuck up := and +=
+# TODO: check to not fuck up := and +=
 # general compile flags
 CFLAGS :=
 CFLAGS += -std=c11
@@ -23,7 +23,7 @@ CFLAGS += -Wunreachable-code
 CFLAGS += -Wshadow
 CFLAGS += -Wno-overlength-strings
 # performance flags
-CFLAGS := -Ofast
+CFLAGS += -Ofast
 CFLAGS += -march=native
 CFLAGS += -fno-signed-zeros
 CFLAGS += -funroll-loops

@@ -6,7 +6,7 @@
 /*   By: nam-vu <nam-vu@student.42berlin.de>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 22:35:53 by nam-vu            #+#    #+#             */
-/*   Updated: 2024/09/10 22:16:14 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/09/17 02:38:23 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -232,7 +232,7 @@ int	intersection_cylinder(double *t, t_cylinder *cylinder, t_ray *ray)
 
 	ft_memmove(x, &(double []){-1, -1, -1}, sizeof(double) * 3);
 	calculate_products_cylinder(d, cylinder, ray, &q);
-	calculate_sec_cylinder(sec, cylinder, ray, d);
+	calculate_sec_cylinder(sec, ray, d);
 	sec[2] = length_squared_vec3(&q)
 		- cylinder->radius * cylinder->radius - d[2] * d[2];
 	discriminant = sec[1] * sec[1] - 4 * sec[0] * sec[2];

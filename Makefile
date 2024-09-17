@@ -23,7 +23,7 @@ MKDIR := /bin/mkdir -p
 NM := nm
 NORMINETTE_EXCLUDE_DIRS := ./norminette_exclude_dirs
 
-# TODO: make to not fuck up := and +=
+# TODO: check to not fuck up := and +=
 # general compile flags
 CFLAGS :=
 CFLAGS += -std=c11
