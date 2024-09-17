@@ -6,7 +6,7 @@
 /*   By: nam-vu <nam-vu@student.42berlin.de>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 02:14:14 by nam-vu            #+#    #+#             */
-/*   Updated: 2024/09/10 21:48:19 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/09/17 02:53:11 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,12 @@ int	parse_vec3(char *str, t_vec3 *vec, int flag)
 			return (EXIT_FAILURE);
 		ptr = next_ptr + 1;
 	}
-	if (flag == NORM_VEC && (length_squared_vec3(vec) - 1.0) > EPSILON)
+	//if (flag == NORM_VEC && (length_squared_vec3(vec) - 1.0) > EPSILON)
+	if (flag == NORM_VEC && (fabs(vec->x) > 1.0
+		|| fabs(vec->y) > 1.0 || fabs(vec->z)> 1.0))
 		return (EXIT_FAILURE);
+	if (flag == NORM_VEC)
+		unit_vec3(vec);
 	return (EXIT_SUCCESS);
 }
 
@@ -102,10 +106,13 @@ int	read_rt_file(char *file, t_scene *scene)
 			if (parse_line(line, scene, objects, lights))
 			{
 				close(fd);
+				ft_printf("<%s>\n", line);
 				return (EXIT_FAILURE);
 			}
 		}
 		line = get_next_line(fd);
+		if (line)
+			line = ft_replace_all(line, "\t", " ");
 	}
 	end_parse(scene, objects, lights, fd);
 	return (has_cam != true);

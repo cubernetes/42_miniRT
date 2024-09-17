@@ -6,7 +6,7 @@
 /*   By: nam-vu <nam-vu@student.42berlin.de>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 02:15:47 by nam-vu            #+#    #+#             */
-/*   Updated: 2024/09/17 02:32:59 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/09/17 02:53:45 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ int	parse_line(char *line, t_scene *scene, t_list *objects, t_list *lights)
 	char	**arr;
 
 	line[ft_strlen(line) - 1] = 0;
-	line = ft_replace_all(line, "\t", " ");
 	arr = ft_split(line, ' ');
 	if (!ft_strncmp(arr[0], "C", 2))
 		return (parse_camera(line, scene));
@@ -54,6 +53,8 @@ bool	init_parse(t_list **objects, t_list **lights, char **line, int fd)
 	*objects = lnew();
 	*lights = lnew();
 	*line = get_next_line(fd);
+	if (*line)
+		*line = ft_replace_all(*line, "\t", " ");
 	return (false);
 }
 
