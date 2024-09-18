@@ -35,17 +35,6 @@ void	print_plane(t_plane *this)
 	print_vec3(this->norm);
 }
 
-/* todo: remove this? */
-/* this function is for "checkerboard" patterns on the planes */
-/* static int	mod(int a, int b) */
-/* { */
-	/* const int	r = a % b; */
-/*  */
-	/* if (r < 0) */
-		/* return (r + b); */
-	/* return (r); */
-/* } */
-
 /*
  a - radius-vector of the point of the plane
  p - radius-vecrot of the point of the ray

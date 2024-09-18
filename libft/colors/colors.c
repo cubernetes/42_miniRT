@@ -14,10 +14,9 @@
 
 #include <stdio.h>
 
-/* TODO: casting to (int) otherwise won't compile, but is that even right? */
 void	set_alpha(t_color *color, unsigned int value)
 {
-	if ((int)value < 0 || value > 255)
+	if (value > 255)
 	{
 		ft_dprintf(2, "Error: color ratio should be in the range [0-255]\n");
 		return ;
@@ -27,7 +26,7 @@ void	set_alpha(t_color *color, unsigned int value)
 
 void	set_red(t_color *color, unsigned int value)
 {
-	if ((int)value < 0 || value > 255)
+	if (value > 255)
 	{
 		ft_dprintf(2, "Error: color ratio should be in the range [0-255]\n");
 		return ;
@@ -37,7 +36,7 @@ void	set_red(t_color *color, unsigned int value)
 
 void	set_green(t_color *color, unsigned int value)
 {
-	if ((int)value < 0 || value > 255)
+	if (value > 255)
 	{
 		ft_dprintf(2, "Error: color ratio should be in the range [0-255]\n");
 		return ;
@@ -47,7 +46,7 @@ void	set_green(t_color *color, unsigned int value)
 
 void	set_blue(t_color *color, unsigned int value)
 {
-	if ((int)value < 0 || value > 255)
+	if (value > 255)
 	{
 		ft_dprintf(2, "Error: color ratio should be in the range [0-255]\n");
 		return ;

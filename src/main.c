@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 19:40:05 by tosuman           #+#    #+#             */
-/*   Updated: 2024/09/18 21:53:23 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/09/19 01:02:04 by nam-vu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 #include "mlx.h"
 
 #include <stdlib.h>
-#include <unistd.h> /* usleep(3); todo: remove */
+#include <unistd.h> /* usleep(3); todo later: remove */
 
 void	init(t_gc *gc)
 {

@@ -14,7 +14,7 @@
 
 #include <math.h>
 
-/* todo: either rotate view direction vector and then recalculate the other 2
+/* todo unimportant: either rotate view direction vector and then recalculate the other 2
  * OR: rotate each vector using 3 different quaternions? */
 void	rotate_camera(t_camera *camera, t_direction direction, double degrees)
 {

@@ -62,7 +62,7 @@ int	quat_div(t_quat *quat_a, t_quat *quat_b)
 	return (0);
 }
 
-/* TODO: use quat_conj instead (might need to be normalized) -> speeeeeeeed */
+/* TODO unimportant: use quat_conj instead (might need to be normalized) -> speeeeeeeed */
 void	rotate_vec3(t_vec3 *vec, t_quat *quat)
 {
 	t_quat	res;
@@ -79,7 +79,7 @@ void	rotate_vec3(t_vec3 *vec, t_quat *quat)
 	copy_vec3(vec, &res.vector);
 }
 
-//todo: use the reciprocal trick to make this maybe faster
+//todo unimportant: use the reciprocal trick to make this maybe faster
 void	quat_unit(t_quat *quat)
 {
 	quat_sc_mult(quat, 1 / quat_len(quat));

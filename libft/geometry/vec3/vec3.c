@@ -22,7 +22,6 @@ void	new_vec3(t_vec3 *this, double x, double y, double z)
 	this->z = z;
 }
 
-/* TODO: benchmark with memmove */
 void	copy_vec3(t_vec3 *this, t_vec3 *old)
 {
 	this->x = old->x;

@@ -13,7 +13,6 @@
 #include "miniRT.h"
 #include "libft.h"
 
-// general TODO: add transformations
 void	rotate_object(t_obj *obj, t_quat *quat)
 {
 	if (obj->type == TOK_SPHERE)

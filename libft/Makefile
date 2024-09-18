@@ -9,7 +9,7 @@ AR := ar rcs
 RM := /bin/rm -f
 MKDIR := /bin/mkdir -p
 
-# TODO: check to not fuck up := and +=
+# TODO later: check to not fuck up := and +=
 # general compile flags
 CFLAGS :=
 CFLAGS += -std=c11

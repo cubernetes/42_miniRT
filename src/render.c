@@ -6,7 +6,7 @@
 /*   By: nam-vu <nam-vu@student.42berlin.de>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 02:59:34 by nam-vu            #+#    #+#             */
-/*   Updated: 2024/09/18 22:03:21 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/09/19 00:55:51 by nam-vu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,6 @@ void	sample_frame(t_gc *gc, t_scene *scene, int resolution, int sample,
 	t_vec3	terminus;
 	t_hit	hit;
 	t_vec3	vec[2];
-	t_vec3	tmp_pixel;
 	t_color	tmp_color;
 
 	init_render(scene, &terminus);
@@ -93,9 +92,7 @@ void	sample_frame(t_gc *gc, t_scene *scene, int resolution, int sample,
 			if (((i[Y] * scene->window_height) / resolution + i[X] / resolution - sample)
 				% sample_size == 0)
 			{
-				copy_vec3(&tmp_pixel, &vec[PIXEL]); // todo: we probably don't need tmp_pixel anymore, since the issue was merely a mistake in the implementation of the abc-formula, so we don't rly need to unitize the vector.
-				unit_vec3(&tmp_pixel);
-				new_ray(&ray, &terminus, &tmp_pixel);
+				new_ray(&ray, &terminus, &vec[PIXEL]);
 				tmp_color = 0;
 				if (!cast_ray(&hit, &ray, scene))
 				{
@@ -302,7 +299,10 @@ int	render(void *arg)
 		sample_frame(gc, gc->scene, gc->resolution, gc->sample, gc->sample_size);
 		gc->sample = (gc->sample + 1) % gc->sample_size;
 		if (gc->resolution == 1 && gc->sample == 0)
+		{
 			gc->fully_rendered = true;
+//			destroy_hook(gc);
+		}
 		else
 			gc->fully_rendered = false;
 	}

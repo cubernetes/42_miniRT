@@ -12,7 +12,6 @@
 
 #include "libft.h"
 
-/* TODO: memmove */
 /* Use compound literals instead please! */
 void	quat_copy(t_quat *quat_a, t_quat *quat_b)
 {

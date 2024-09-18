@@ -198,6 +198,7 @@ int	keyup_hook(void *arg1, ...)
 	return (0);
 }
 
+// todo later: remove
 /* Damn... */
 /* void	update_dimensions(t_gc *gc) */
 /* { */
@@ -245,13 +246,26 @@ int	update_window(void *arg1, ...)
 	gc->scene->viewport->width = gc->scene->window_width;
 	gc->scene->viewport->height = gc->scene->window_height;
 	mlx_destroy_image(gc->mlx, gc->img.img);
-	// todo: reinit img2, img3, etc.
 	gc->img.img = mlx_new_image(gc->mlx,
 		gc->scene->window_width, gc->scene->window_height);
 	gc->img.addr = mlx_get_data_addr(
 			gc->img.img, &gc->img.bpp,
 			&gc->img.line_length,
 			&gc->img.endian);
+	mlx_destroy_image(gc->mlx, gc->img2.img);
+	gc->img2.img = mlx_new_image(gc->mlx,
+								gc->scene->window_width, gc->scene->window_height);
+	gc->img2.addr = mlx_get_data_addr(
+			gc->img2.img, &gc->img2.bpp,
+			&gc->img2.line_length,
+			&gc->img2.endian);
+	mlx_destroy_image(gc->mlx, gc->img3.img);
+	gc->img3.img = mlx_new_image(gc->mlx,
+								gc->scene->window_width, gc->scene->window_height);
+	gc->img3.addr = mlx_get_data_addr(
+			gc->img3.img, &gc->img3.bpp,
+			&gc->img3.line_length,
+			&gc->img3.endian);
 	setup_hooks(gc);
 	return (0);
 }

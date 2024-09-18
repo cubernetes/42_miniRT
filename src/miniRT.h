@@ -268,8 +268,6 @@ int							keyup_hook(void *arg1, ...);
 int							destroy_hook(void *arg1, ...);
 int							move_hook(void *arg1, ...);
 int							update_window(void *arg1, ...);
-/* void						update_dimensions(t_gc *gc);
-							// todo: put to appropriate src-file */
 
 /* rotate_object.c */
 void						rotate_object(t_obj *obj, t_quat *quat);
