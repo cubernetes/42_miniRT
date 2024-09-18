@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 11:11:35 by tosuman           #+#    #+#             */
-/*   Updated: 2024/09/18 06:53:16 by tosuman          ###   ########.fr       */
+/*   Updated: 2024/09/18 07:05:43 by tosuman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	move_hook(void *arg1, ...)
 		mlx_mouse_move(gc->mlx, gc->win, gc->scene->window_width / 2, gc->scene->window_height / 2);
 		gc->last_moved = ft_uptime_linux();
 		gc->fully_rendered = false;
-		gc->resolution = RESOLUTION;
+		gc->resolution = gc->ideal_resolution;
 	}
 	return (0);
 }
@@ -92,7 +92,7 @@ int	keydown_hook(void *arg1, ...)
 	va_end(ap);
 	gc->last_moved = ft_uptime_linux();
 	gc->fully_rendered = false;
-	gc->resolution = RESOLUTION;
+	gc->resolution = gc->ideal_resolution;
 	if (!sync_movement(keycode, gc, true))
 	{
 	}

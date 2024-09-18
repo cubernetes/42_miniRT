@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 19:40:05 by tosuman           #+#    #+#             */
-/*   Updated: 2024/09/18 06:44:44 by tosuman          ###   ########.fr       */
+/*   Updated: 2024/09/18 07:05:28 by tosuman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ void	init(t_gc *gc)
 	gc->sample = 0;
 	gc->sample_size = SAMPLE_SIZE;
 	gc->resolution = RESOLUTION;
+	gc->ideal_resolution = gc->resolution;
 	gc->last_moved = ft_uptime_linux() - MOVE_DELAY - 1;
 	gc->fully_rendered = false;
 	gc->frames_rendered = 1;

@@ -6,7 +6,7 @@
 /*   By: nam-vu <nam-vu@student.42berlin.de>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 02:59:34 by nam-vu            #+#    #+#             */
-/*   Updated: 2024/09/18 07:00:15 by tosuman          ###   ########.fr       */
+/*   Updated: 2024/09/18 07:19:50 by tosuman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,24 +117,27 @@ void	sample_frame(t_gc *gc, t_scene *scene, int resolution, int sample,
 
 void	control_camera(t_gc *gc)
 {
+	const double	move_step = ((int)gc->scene->control.lctrl_pressed * 2.0 + 1.0)
+		* MOVE_STEP / gc->fps / (double)gc->sample_size;
+
 	if (gc->scene->control.w_pressed)
 		translate_camera(gc->scene->control.u_control_object.camera,
-			DIR_FORWARD, MOVE_STEP / gc->fps / gc->sample_size);
+			DIR_FORWARD, move_step);
 	if (gc->scene->control.s_pressed)
 		translate_camera(gc->scene->control.u_control_object.camera,
-			DIR_BACKWARD, MOVE_STEP / gc->fps / gc->sample_size);
+			DIR_BACKWARD, move_step);
 	if (gc->scene->control.a_pressed)
 		translate_camera(gc->scene->control.u_control_object.camera,
-			DIR_LEFT, MOVE_STEP / gc->fps / gc->sample_size);
+			DIR_LEFT, move_step);
 	if (gc->scene->control.d_pressed)
 		translate_camera(gc->scene->control.u_control_object.camera,
-			DIR_RIGHT, MOVE_STEP / gc->fps / gc->sample_size);
+			DIR_RIGHT, move_step);
 	if (gc->scene->control.space_pressed)
 		translate_camera(gc->scene->control.u_control_object.camera,
-			DIR_UP, MOVE_STEP / gc->fps / gc->sample_size);
+			DIR_UP, move_step);
 	if (gc->scene->control.lshift_pressed)
 		translate_camera(gc->scene->control.u_control_object.camera,
-			DIR_DOWN, MOVE_STEP / gc->fps / gc->sample_size);
+			DIR_DOWN, move_step);
 }
 
 void	translate_vec3(t_vec3 *vec, t_direction direction, double amount)
@@ -173,24 +176,27 @@ void	translate_object(t_obj *obj, t_direction direction, double amount)
 
 void	control_object(t_gc *gc)
 {
+	const double	move_step = (gc->scene->control.lctrl_pressed * 2.0 + 1.0)
+		* MOVE_STEP / gc->fps / (double)gc->sample_size;
+
 	if (gc->scene->control.w_pressed)
 		translate_object(gc->scene->control.u_control_object.object,
-			DIR_FORWARD, MOVE_STEP / gc->fps / gc->sample_size);
+			DIR_FORWARD, move_step);
 	if (gc->scene->control.s_pressed)
 		translate_object(gc->scene->control.u_control_object.object,
-			DIR_BACKWARD, MOVE_STEP / gc->fps / gc->sample_size);
+			DIR_BACKWARD, move_step);
 	if (gc->scene->control.a_pressed)
 		translate_object(gc->scene->control.u_control_object.object,
-			DIR_LEFT, MOVE_STEP / gc->fps / gc->sample_size);
+			DIR_LEFT, move_step);
 	if (gc->scene->control.d_pressed)
 		translate_object(gc->scene->control.u_control_object.object,
-			DIR_RIGHT, MOVE_STEP / gc->fps / gc->sample_size);
+			DIR_RIGHT, move_step);
 	if (gc->scene->control.space_pressed)
 		translate_object(gc->scene->control.u_control_object.object,
-			DIR_UP, MOVE_STEP / gc->fps / gc->sample_size);
+			DIR_UP, move_step);
 	if (gc->scene->control.lshift_pressed)
 		translate_object(gc->scene->control.u_control_object.object,
-			DIR_DOWN, MOVE_STEP / gc->fps / gc->sample_size);
+			DIR_DOWN, move_step);
 }
 
 void	manage_controls(t_gc *gc)
@@ -215,6 +221,10 @@ void	calculate_fps(t_gc *gc)
 	if (gc->sample == 0)
 		gc->frames_rendered++;
 	gc->fps = (double)gc->frames_rendered / (now - gc->fps_start);
+	if (gc->fps < 30)
+		gc->ideal_resolution++;
+	else if (gc->fps > 70)
+		gc->ideal_resolution--;
 	if (ft_uptime_linux() - gc->fps_start > 1.0)
 	{
 		gc_start_context("FPS");
