@@ -6,7 +6,7 @@
 /*   By: nam-vu <nam-vu@student.42berlin.de>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 02:15:45 by nam-vu            #+#    #+#             */
-/*   Updated: 2024/09/10 21:42:31 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/09/18 08:27:02 by tosuman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ int	parse_sphere(t_list *objects, char **arr)
 		return (EXIT_FAILURE);
 	temp = ft_malloc(sizeof(t_obj));
 	temp->type = TOK_SPHERE;
+	temp->selected = false;
 	temp->sphere.center = ft_malloc(sizeof(t_vec3));
 	if (parse_vec3(arr[1], temp->sphere.center, ANY_VEC))
 		return (EXIT_FAILURE);
@@ -95,6 +96,7 @@ int	parse_plane(t_list *objects, char **arr)
 		return (EXIT_FAILURE);
 	temp = ft_malloc(sizeof(t_obj));
 	temp->type = TOK_PLANE;
+	temp->selected = false;
 	temp->plane.point = ft_malloc(sizeof(t_vec3));
 	temp->plane.norm = ft_malloc(sizeof(t_vec3));
 	if (parse_vec3(arr[1], temp->plane.point, ANY_VEC))
@@ -116,6 +118,7 @@ int	parse_cylinder(t_list *objects, char **arr)
 		return (EXIT_FAILURE);
 	temp = ft_malloc(sizeof(t_obj));
 	temp->type = TOK_CYLINDER;
+	temp->selected = false;
 	temp->cylinder.center = ft_malloc(sizeof(t_vec3));
 	temp->cylinder.axis = ft_malloc(sizeof(t_vec3));
 	if (parse_vec3(arr[1], temp->cylinder.center, ANY_VEC))

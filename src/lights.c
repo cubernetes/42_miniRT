@@ -6,7 +6,7 @@
 /*   By: nam-vu <nam-vu@student.42berlin.de>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 00:38:28 by nam-vu            #+#    #+#             */
-/*   Updated: 2024/09/17 02:23:48 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/09/18 08:34:26 by tosuman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,5 +105,7 @@ t_color	calculate_lighting(t_hit *hit, t_scene *scene)
 			}
 		}
 	}
+	if (hit->object->selected)
+		res = 0x00FF00FF - res;
 	return (res);
 }

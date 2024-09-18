@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 19:40:05 by tosuman           #+#    #+#             */
-/*   Updated: 2024/09/18 07:47:45 by tosuman          ###   ########.fr       */
+/*   Updated: 2024/09/18 08:05:38 by tosuman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,14 @@ void	init(t_gc *gc)
 	gc->fps_start = ft_uptime_linux();
 	gc->fps_string = "1";
 	gc->fps = 10;
+	gc->mouse_hidden = true;
 }
 
 void	finish(int exit_status, t_gc *gc)
 {
 	mlx_do_key_autorepeaton(gc->mlx);
-	mlx_mouse_show(gc->mlx, gc->win);
+	if (gc->mouse_hidden)
+		mlx_mouse_show(gc->mlx, gc->win);
 	mlx_destroy_image(gc->mlx, gc->img.img);
 	mlx_destroy_window(gc->mlx, gc->win);
 	mlx_destroy_display(gc->mlx);

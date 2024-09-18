@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 11:11:35 by tosuman           #+#    #+#             */
-/*   Updated: 2024/09/18 07:48:56 by tosuman          ###   ########.fr       */
+/*   Updated: 2024/09/18 08:36:24 by tosuman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,63 @@
 #include <X11/X.h>
 #include <X11/Xlib.h>
 #include <X11/keysym.h>
+
+void	select_object(t_gc *gc, int x, int y)
+{
+	t_hit	hit;
+	t_ray	ray;
+	t_vec3	terminus;
+	t_vec3	pixel;
+	int		i;
+
+	copy_vec3(&terminus, &gc->scene->camera->pos);
+	copy_vec3(&pixel, &gc->scene->viewport->top_left);
+	i = -1;
+	while (++i < y)
+		add_vec3(&pixel, &gc->scene->viewport->down_step);
+	i = -1;
+	while (++i < x)
+		add_vec3(&pixel, &gc->scene->viewport->right_step);
+	new_ray(&ray, &terminus, &pixel);
+	if (!cast_ray(&hit, &ray, gc->scene))
+	{
+		gc->scene->control.e_control_type = OBJECT;
+		gc->scene->control.u_control_object.object = hit.object;
+		i = -1;
+		while (++i < gc->scene->nb_objs)
+			gc->scene->objects[i]->selected = false;
+		hit.object->selected = true;
+	}
+}
+
+int	mouse_down_hook(void *arg1, ...)
+{
+	va_list	ap;
+	t_gc	*gc;
+	int		x;
+	int		y;
+	int		button;
+
+	(void)x;
+	(void)y;
+	(void)gc;
+	button = (int)(intptr_t)arg1;
+	va_start(ap, arg1);
+	x = va_arg(ap, int);
+	y = va_arg(ap, int);
+	gc = va_arg(ap, t_gc *);
+	va_end(ap);
+	if (button == Button1 && gc->scene->control.e_control_type == MENU)
+	{
+		gc->scene->control.e_control_type = CAMERA;
+		gc->scene->control.u_control_object.camera = gc->scene->camera;
+		if (!gc->mouse_hidden)
+			mlx_mouse_hide(gc->mlx, gc->win);
+	}
+	else
+		select_object(gc, x, y);
+	return (0);
+}
 
 int	destroy_hook(void *arg1, ...)
 {
@@ -41,6 +98,8 @@ int	move_hook(void *arg1, ...)
 	y = va_arg(ap, int);
 	gc = va_arg(ap, t_gc *);
 	va_end(ap);
+	if (gc->scene->control.e_control_type == MENU)
+		return (0);
 	if (gc->scene->window_width / 2 - x != 0
 		|| gc->scene->window_height / 2 - y != 0)
 	{
@@ -57,8 +116,24 @@ int	move_hook(void *arg1, ...)
 
 int	sync_movement(int keycode, t_gc *gc, bool pressed)
 {
-	if (keycode == XK_Escape || keycode == 'q')
+	if (keycode == 'q')
 		destroy_hook(gc);
+	else if (keycode == XK_Escape && pressed)
+	{
+		if (gc->scene->control.e_control_type == MENU)
+			destroy_hook(gc);
+		else if (gc->scene->control.e_control_type == CAMERA)
+		{
+			gc->scene->control.e_control_type = MENU;
+			mlx_mouse_show(gc->mlx, gc->win);
+			gc->mouse_hidden = false;
+		}
+		else if (gc->scene->control.e_control_type == OBJECT)
+		{
+			gc->scene->control.e_control_type = CAMERA;
+			gc->scene->control.u_control_object.camera = gc->scene->camera;
+		}
+	}
 	else if (keycode == 'f')
 		gc->scene->control.f_pressed = pressed;
 	else if (keycode == 'w')

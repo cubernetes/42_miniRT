@@ -6,7 +6,7 @@
 /*   By: nam-vu <nam-vu@student.42berlin.de>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 02:59:34 by nam-vu            #+#    #+#             */
-/*   Updated: 2024/09/18 07:43:46 by tosuman          ###   ########.fr       */
+/*   Updated: 2024/09/18 08:20:09 by tosuman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ void	sample_frame(t_gc *gc, t_scene *scene, int resolution, int sample,
 			if (((i[Y] * scene->window_height) / resolution + i[X] / resolution - sample)
 				% sample_size == 0)
 			{
-				copy_vec3(&tmp_pixel, &vec[PIXEL]);
+				copy_vec3(&tmp_pixel, &vec[PIXEL]); // todo: we probably don't need tmp_pixel anymore, since the issue was merely a mistake in the implementation of the abc-formula, so we don't rly need to unitize the vector.
 				unit_vec3(&tmp_pixel);
 				new_ray(&ray, &terminus, &tmp_pixel);
 				if (!cast_ray(&hit, &ray, scene))
@@ -206,7 +206,7 @@ void	manage_controls(t_gc *gc)
 	else if (gc->scene->control.e_control_type == OBJECT)
 		control_object(gc);
 	else
-		printf("Control type not implemented\n");
+		return ;
 	if (gc->scene->control.f_pressed && !gc->scene->control.lctrl_pressed)
 		gc->scene->fov = fmin(gc->scene->fov + 2, 150);
 	else if (gc->scene->control.f_pressed && gc->scene->control.lctrl_pressed)

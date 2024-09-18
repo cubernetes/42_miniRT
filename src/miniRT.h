@@ -6,7 +6,7 @@
 /*   By: tischmid <tischmid@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 21:48:04 by tischmid          #+#    #+#             */
-/*   Updated: 2024/09/18 07:43:32 by tosuman          ###   ########.fr       */
+/*   Updated: 2024/09/18 08:25:51 by tosuman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@
 # define ROW_START_VEC 0
 # define PIXEL 1
 
-# define WINDOW_WIDTH 1920
-# define WINDOW_HEIGHT 1080
+# define WINDOW_WIDTH 1600
+# define WINDOW_HEIGHT 900
 
 //# define SAMPLE_SIZE 34 /* 1920 - 100+ objects */
 // # define SAMPLE_SIZE 38 /* 1920 */
@@ -97,7 +97,6 @@ struct						s_camera
 	t_vec3					dir;
 	t_vec3					up;
 	t_vec3					right;
-	bool					locked;
 	/* int						center_x; */
 	/* int						center_y; */
 };
@@ -139,6 +138,7 @@ struct						s_gc
 	double					fps_start;
 	double					fps;
 	char					*fps_string;
+	bool					mouse_hidden;
 };
 // NOTE: last_moved is double because ft_uptime_linux returns double
 // thereforce, this feature exists only for linux AT THE MOMENT
@@ -155,6 +155,7 @@ struct						s_control
 	bool					f_pressed;
 	enum
 	{
+		MENU,
 		CAMERA,
 		OBJECT,
 	} e_control_type;
@@ -183,6 +184,7 @@ struct						s_obj
 {
 	t_token_rt				type;
 	t_color					color;
+	bool					selected;
 	union
 	{
 		t_plane				plane;
@@ -257,6 +259,7 @@ void						setup_mlx(t_gc *gc, t_scene *scene);
 void						setup_hooks(t_gc *gc);
 
 /* mlx_hooks.c */
+int							mouse_down_hook(void *arg1, ...);
 int							keydown_hook(void *arg1, ...);
 int							keyup_hook(void *arg1, ...);
 int							destroy_hook(void *arg1, ...);
