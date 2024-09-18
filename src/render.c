@@ -6,7 +6,7 @@
 /*   By: nam-vu <nam-vu@student.42berlin.de>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 02:59:34 by nam-vu            #+#    #+#             */
-/*   Updated: 2024/09/18 21:57:22 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/09/18 22:03:21 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,8 @@ void	sample_frame(t_gc *gc, t_scene *scene, int resolution, int sample,
 	if (gc->antialiasing)
 	{
 		apply_pattern_antialiasing(gc, scene->window_width, scene->window_height, resolution);
+		if (gc->interpolation)
+			interpolation(gc, (unsigned int)scene->window_width, (unsigned int)scene->window_height, (unsigned int)resolution);
 		render_cursor(gc);
 		mlx_put_image_to_window(gc->mlx, gc->win, gc->img2.img, 0, 0);
 	}

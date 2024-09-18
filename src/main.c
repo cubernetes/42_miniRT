@@ -35,6 +35,7 @@ void	init(t_gc *gc)
 	gc->fps = 10;
 	gc->mouse_hidden = true;
 	gc->antialiasing = 0;
+	gc->interpolation = 0;
 }
 
 void	finish(int exit_status, t_gc *gc)

@@ -6,7 +6,7 @@
 /*   By: tischmid <tischmid@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 21:48:04 by tischmid          #+#    #+#             */
-/*   Updated: 2024/09/18 21:55:17 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/09/18 22:02:40 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,14 +35,10 @@
 # define WINDOW_WIDTH 1920
 # define WINDOW_HEIGHT 1080
 
-//# define SAMPLE_SIZE 34 /* 1920 - 100+ objects */
-// # define SAMPLE_SIZE 38 /* 1920 */
 # define SAMPLE_SIZE 7
-
 # define RESOLUTION 8
 
 # define CAM_ROTATE_FACTOR 10.0
-
 # define MOVE_DELAY 1.0
 # define MOVE_STEP 60
 
@@ -144,6 +140,7 @@ struct						s_gc
 	char					*fps_string;
 	bool					mouse_hidden;
 	int						antialiasing;
+	int						interpolation;
 };
 // NOTE: last_moved is double because ft_uptime_linux returns double
 // thereforce, this feature exists only for linux AT THE MOMENT
@@ -288,9 +285,14 @@ bool						translate_camera(t_camera *camera,
 								t_direction direction, double amount);
 
 /* antialiasing.c */
+int							edge_detection(t_rt_img *img, int x, int y,
+								int resolution);
 void						apply_random_antialiasing(t_gc *gc, int width,
 								int height);
 void						apply_pattern_antialiasing(t_gc *gc, int width,
 								int height, int resolution);
+/* interpolation.c */
+void						interpolation(t_gc *gc, unsigned int width,
+								unsigned int height, unsigned int resolution);
 
 #endif /* miniRT.h */
