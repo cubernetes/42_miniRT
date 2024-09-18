@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 11:11:35 by tosuman           #+#    #+#             */
-/*   Updated: 2024/09/18 08:36:24 by tosuman          ###   ########.fr       */
+/*   Updated: 2024/09/18 08:42:20 by tosuman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,9 +116,11 @@ int	move_hook(void *arg1, ...)
 
 int	sync_movement(int keycode, t_gc *gc, bool pressed)
 {
-	if (keycode == 'q')
+	int	i;
+
+	if (keycode == XK_Escape)
 		destroy_hook(gc);
-	else if (keycode == XK_Escape && pressed)
+	else if (keycode == 'q' && pressed)
 	{
 		if (gc->scene->control.e_control_type == MENU)
 			destroy_hook(gc);
@@ -133,6 +135,9 @@ int	sync_movement(int keycode, t_gc *gc, bool pressed)
 			gc->scene->control.e_control_type = CAMERA;
 			gc->scene->control.u_control_object.camera = gc->scene->camera;
 		}
+		i = -1;
+		while (++i < gc->scene->nb_objs)
+			gc->scene->objects[i]->selected = false;
 	}
 	else if (keycode == 'f')
 		gc->scene->control.f_pressed = pressed;

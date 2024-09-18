@@ -6,7 +6,7 @@
 /*   By: tischmid <tischmid@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 21:48:04 by tischmid          #+#    #+#             */
-/*   Updated: 2024/09/18 08:25:51 by tosuman          ###   ########.fr       */
+/*   Updated: 2024/09/18 08:42:31 by tosuman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@
 # define ROW_START_VEC 0
 # define PIXEL 1
 
-# define WINDOW_WIDTH 1600
-# define WINDOW_HEIGHT 900
+# define WINDOW_WIDTH 1920
+# define WINDOW_HEIGHT 1080
 
 //# define SAMPLE_SIZE 34 /* 1920 - 100+ objects */
 // # define SAMPLE_SIZE 38 /* 1920 */
