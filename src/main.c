@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 19:40:05 by tosuman           #+#    #+#             */
-/*   Updated: 2024/09/17 03:55:06 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/09/18 06:44:44 by tosuman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 #include "miniRT.h"
 #include "libft.h"
 #include "mlx.h"
-#include "mlx_int.h"
 
 #include <stdlib.h>
 #include <unistd.h> /* usleep(3); todo: remove */
@@ -29,13 +28,19 @@ void	init(t_gc *gc)
 	gc->resolution = RESOLUTION;
 	gc->last_moved = ft_uptime_linux() - MOVE_DELAY - 1;
 	gc->fully_rendered = false;
+	gc->frames_rendered = 1;
+	gc->fps_start = ft_uptime_linux();
+	gc->fps_string = "1";
+	gc->fps = 10;
 }
 
 void	finish(int exit_status, t_gc *gc)
 {
+	mlx_do_key_autorepeaton(gc->mlx);
 	mlx_destroy_image(gc->mlx, gc->img.img);
 	mlx_destroy_window(gc->mlx, gc->win);
 	mlx_destroy_display(gc->mlx);
+	mlx_mouse_show(gc->mlx, gc->win);
 	gc_free_all();
 	exit(exit_status);
 }
@@ -53,6 +58,9 @@ void	setup_scene(t_scene *scene)
 	camera = ft_malloc(sizeof(*camera));
 	scene->viewport = viewport;
 	scene->camera = camera;
+	ft_memset(&scene->control, 0, sizeof(t_control));
+	scene->control.e_control_type = CAMERA;
+	scene->control.u_control_object.camera = scene->camera;
 }
 
 void	parse_args(int ac, char **av, t_scene *scene, t_gc *gc)

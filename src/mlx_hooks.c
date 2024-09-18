@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 11:11:35 by tosuman           #+#    #+#             */
-/*   Updated: 2024/09/17 03:16:12 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/09/18 06:53:16 by tosuman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,17 +54,38 @@ int	move_hook(void *arg1, ...)
 	return (0);
 }
 
+int	sync_movement(int keycode, t_gc *gc, bool pressed)
+{
+	if (keycode == XK_Escape || keycode == 'q')
+		destroy_hook(gc);
+	else if (keycode == 'f')
+		gc->scene->control.f_pressed = pressed;
+	else if (keycode == 'w')
+		gc->scene->control.w_pressed = pressed;
+	else if (keycode == 'a')
+		gc->scene->control.a_pressed = pressed;
+	else if (keycode == 's')
+		gc->scene->control.s_pressed = pressed;
+	else if (keycode == 'd')
+		gc->scene->control.d_pressed = pressed;
+	else if (keycode == ' ')
+		gc->scene->control.space_pressed = pressed;
+	else if (keycode == XK_Shift_L)
+		gc->scene->control.lshift_pressed = pressed;
+	else if (keycode == XK_Control_L)
+		gc->scene->control.lctrl_pressed = pressed;
+	else
+		return (0);
+	return (1);
+}
+
 /* cast to intptr_t and then int needed. only way to make this generic */
 int	keydown_hook(void *arg1, ...)
 {
 	int		keycode;
 	va_list	ap;
 	t_gc	*gc;
-	t_quat	quat;
-	t_quat	quat2;
 
-	new_unit_quat(&quat, 10, &(t_vec3){.x = 0, .y = 1, .z = 0});
-	new_unit_quat(&quat2, -10, &(t_vec3){.x = 0, .y = 1, .z = 0});
 	keycode = (int)(intptr_t)arg1;
 	va_start(ap, arg1);
 	gc = va_arg(ap, t_gc *);
@@ -72,25 +93,29 @@ int	keydown_hook(void *arg1, ...)
 	gc->last_moved = ft_uptime_linux();
 	gc->fully_rendered = false;
 	gc->resolution = RESOLUTION;
-	if (keycode == XK_Escape || keycode == 'q')
-		destroy_hook(gc);
-	else if (keycode == 'w')
-		translate_camera(gc->scene, DIR_FORWARD, MOVE_STEP);
-	else if (keycode == 's')
-		translate_camera(gc->scene, DIR_BACKWARD, MOVE_STEP);
-	else if (keycode == 'a')
-		translate_camera(gc->scene, DIR_LEFT, MOVE_STEP);
-	else if (keycode == 'd')
-		translate_camera(gc->scene, DIR_RIGHT, MOVE_STEP);
-	else if (keycode == ' ')
-		translate_camera(gc->scene, DIR_UP, MOVE_STEP);
-	else if (keycode == XK_Shift_L)
-		translate_camera(gc->scene, DIR_DOWN, MOVE_STEP);
-	else
+	if (!sync_movement(keycode, gc, true))
 	{
-		ft_printf("Pressed '%c' (keycode: %d)\n", keycode, keycode);
-		return (0);
 	}
+	ft_printf("Pressed '%c' (keycode: %d)\n", keycode, keycode);
+	return (0);
+}
+/* TODO: Remove 'pressed' debug output */
+
+/* cast to intptr_t and then int needed. only way to make this generic */
+int	keyup_hook(void *arg1, ...)
+{
+	int		keycode;
+	va_list	ap;
+	t_gc	*gc;
+
+	keycode = (int)(intptr_t)arg1;
+	va_start(ap, arg1);
+	gc = va_arg(ap, t_gc *);
+	va_end(ap);
+	if (!sync_movement(keycode, gc, false))
+	{
+	}
+	ft_printf("Released '%c' (keycode: %d)\n", keycode, keycode);
 	return (0);
 }
 /* TODO: Remove 'pressed' debug output */

@@ -6,7 +6,7 @@
 /*   By: tischmid <tischmid@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 21:48:04 by tischmid          #+#    #+#             */
-/*   Updated: 2024/09/17 03:55:19 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/09/18 06:53:32 by tosuman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 
 # include "libft.h"
 # include "mlx_int.h"
-
 # include <stdlib.h>
 
 # define EPSILON 0.0001
@@ -38,14 +37,17 @@
 
 //# define SAMPLE_SIZE 34 /* 1920 - 100+ objects */
 // # define SAMPLE_SIZE 38 /* 1920 */
-# define SAMPLE_SIZE 19
+# define SAMPLE_SIZE 16
 
-# define RESOLUTION 8
+# define RESOLUTION 4
 
 # define CAM_ROTATE_FACTOR 10.0
 
 # define MOVE_DELAY 1.0
-# define MOVE_STEP 1
+# define MOVE_STEP 80
+
+# define CURSOR_SIZE 10
+# define CURSOR_CLR 0x00FFFFFF
 
 /********** enums **********/
 
@@ -84,6 +86,7 @@ typedef struct s_light		t_light;
 typedef struct s_hit		t_hit;
 typedef struct s_camera		t_camera;
 typedef struct s_viewport	t_viewport;
+typedef struct s_control	t_control;
 
 /********** struct defintions **********/
 struct						s_camera
@@ -129,9 +132,35 @@ struct						s_gc
 	bool					fully_rendered;
 	int						x;
 	int						y;
+	int						frames_rendered;
+	double					fps_start;
+	double					fps;
+	char					*fps_string;
 };
 // NOTE: last_moved is double because ft_uptime_linux returns double
 // thereforce, this feature exists only for linux AT THE MOMENT
+
+struct						s_control
+{
+	bool					w_pressed;
+	bool					a_pressed;
+	bool					s_pressed;
+	bool					d_pressed;
+	bool					space_pressed;
+	bool					lshift_pressed;
+	bool					lctrl_pressed;
+	bool					f_pressed;
+	enum
+	{
+		CAMERA,
+		OBJECT,
+	} e_control_type;
+	union
+	{
+		t_camera			*camera;
+		t_obj				*object;
+	} u_control_object;
+};
 
 struct						s_scene
 {
@@ -144,6 +173,7 @@ struct						s_scene
 	t_camera				*camera;
 	t_viewport				*viewport;
 	double					fov;
+	t_control				control;
 };
 
 struct						s_obj
@@ -215,7 +245,7 @@ int							mlx_get_window_dim(void *mlx_ptr, void *win_ptr,
 								int *width, int *height);
 void						*mlx_new_resizable_window(t_xvar *xvar, int size_x,
 								int size_y, char *title);
- 
+
 /* printing.c */
 void						print_light(t_light *light);
 
@@ -225,10 +255,12 @@ void						setup_hooks(t_gc *gc);
 
 /* mlx_hooks.c */
 int							keydown_hook(void *arg1, ...);
+int							keyup_hook(void *arg1, ...);
 int							destroy_hook(void *arg1, ...);
 int							move_hook(void *arg1, ...);
 int							update_window(void *arg1, ...);
-/* void						update_dimensions(t_gc *gc); // todo: put to appropriate src-file */
+/* void						update_dimensions(t_gc *gc);
+							// todo: put to appropriate src-file */
 
 /* rotate_object.c */
 void						rotate_object(t_obj *obj, t_quat *quat);
@@ -240,7 +272,7 @@ void						camera_yaw(t_scene *scene, int amount);
 void						camera_pitch(t_scene *scene, int amount);
 
 /* translate_camera.c */
-void						translate_camera(t_scene *scene,
+void						translate_camera(t_camera *camera,
 								t_direction direction, double amount);
 
 #endif /* miniRT.h */
