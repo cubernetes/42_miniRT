@@ -6,7 +6,7 @@
 /*   By: nam-vu <nam-vu@student.42berlin.de>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 02:59:34 by nam-vu            #+#    #+#             */
-/*   Updated: 2024/09/18 07:19:50 by tosuman          ###   ########.fr       */
+/*   Updated: 2024/09/18 07:43:46 by tosuman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,8 +117,8 @@ void	sample_frame(t_gc *gc, t_scene *scene, int resolution, int sample,
 
 void	control_camera(t_gc *gc)
 {
-	const double	move_step = ((int)gc->scene->control.lctrl_pressed * 2.0 + 1.0)
-		* MOVE_STEP / gc->fps / (double)gc->sample_size;
+	const double	move_step = ((int)gc->scene->control.lctrl_pressed * 4.0 + 1.0)
+		* MOVE_STEP / gc->fps;
 
 	if (gc->scene->control.w_pressed)
 		translate_camera(gc->scene->control.u_control_object.camera,
@@ -176,8 +176,8 @@ void	translate_object(t_obj *obj, t_direction direction, double amount)
 
 void	control_object(t_gc *gc)
 {
-	const double	move_step = (gc->scene->control.lctrl_pressed * 2.0 + 1.0)
-		* MOVE_STEP / gc->fps / (double)gc->sample_size;
+	const double	move_step = (gc->scene->control.lctrl_pressed * 4.0 + 1.0)
+		* MOVE_STEP / gc->fps;
 
 	if (gc->scene->control.w_pressed)
 		translate_object(gc->scene->control.u_control_object.object,
@@ -218,15 +218,14 @@ void	calculate_fps(t_gc *gc)
 	double	now;
 
 	now = ft_uptime_linux();
-	if (gc->sample == 0)
-		gc->frames_rendered++;
+	gc->frames_rendered++;
 	gc->fps = (double)gc->frames_rendered / (now - gc->fps_start);
-	if (gc->fps < 30)
-		gc->ideal_resolution++;
-	else if (gc->fps > 70)
-		gc->ideal_resolution--;
 	if (ft_uptime_linux() - gc->fps_start > 1.0)
 	{
+		if (gc->fps < MIN_FPS)
+			gc->ideal_resolution = ft_min(gc->ideal_resolution + 1, 64);
+		else if (gc->fps > MIN_FPS + 10)
+			gc->ideal_resolution = ft_max(gc->ideal_resolution - 1, 2);
 		gc_start_context("FPS");
 		gc_free("FPS");
 		gc->fps_string = ft_itoa((int)((double)gc->frames_rendered

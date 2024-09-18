@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 11:11:35 by tosuman           #+#    #+#             */
-/*   Updated: 2024/09/18 07:05:43 by tosuman          ###   ########.fr       */
+/*   Updated: 2024/09/18 07:48:56 by tosuman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,8 @@ int	move_hook(void *arg1, ...)
 	{
 		camera_yaw(gc->scene, gc->scene->window_width / 2 - x);
 		camera_pitch(gc->scene, gc->scene->window_height / 2 - y);
-		mlx_mouse_move(gc->mlx, gc->win, gc->scene->window_width / 2, gc->scene->window_height / 2);
+		mlx_mouse_move(gc->mlx, gc->win, gc->scene->window_width / 2,
+			gc->scene->window_height / 2);
 		gc->last_moved = ft_uptime_linux();
 		gc->fully_rendered = false;
 		gc->resolution = gc->ideal_resolution;
@@ -93,13 +94,9 @@ int	keydown_hook(void *arg1, ...)
 	gc->last_moved = ft_uptime_linux();
 	gc->fully_rendered = false;
 	gc->resolution = gc->ideal_resolution;
-	if (!sync_movement(keycode, gc, true))
-	{
-	}
-	ft_printf("Pressed '%c' (keycode: %d)\n", keycode, keycode);
+	sync_movement(keycode, gc, true);
 	return (0);
 }
-/* TODO: Remove 'pressed' debug output */
 
 /* cast to intptr_t and then int needed. only way to make this generic */
 int	keyup_hook(void *arg1, ...)
@@ -112,13 +109,9 @@ int	keyup_hook(void *arg1, ...)
 	va_start(ap, arg1);
 	gc = va_arg(ap, t_gc *);
 	va_end(ap);
-	if (!sync_movement(keycode, gc, false))
-	{
-	}
-	ft_printf("Released '%c' (keycode: %d)\n", keycode, keycode);
+	sync_movement(keycode, gc, false);
 	return (0);
 }
-/* TODO: Remove 'pressed' debug output */
 
 /* Damn... */
 /* void	update_dimensions(t_gc *gc) */

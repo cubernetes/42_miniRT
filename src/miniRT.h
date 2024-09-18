@@ -6,7 +6,7 @@
 /*   By: tischmid <tischmid@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 21:48:04 by tischmid          #+#    #+#             */
-/*   Updated: 2024/09/18 07:08:09 by tosuman          ###   ########.fr       */
+/*   Updated: 2024/09/18 07:43:32 by tosuman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,17 +37,19 @@
 
 //# define SAMPLE_SIZE 34 /* 1920 - 100+ objects */
 // # define SAMPLE_SIZE 38 /* 1920 */
-# define SAMPLE_SIZE 1
+# define SAMPLE_SIZE 7
 
 # define RESOLUTION 8
 
 # define CAM_ROTATE_FACTOR 10.0
 
 # define MOVE_DELAY 1.0
-# define MOVE_STEP 100
+# define MOVE_STEP 60
 
 # define CURSOR_SIZE 10
 # define CURSOR_CLR 0x00FFFFFF
+
+# define MIN_FPS 30
 
 /********** enums **********/
 
