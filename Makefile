@@ -109,6 +109,7 @@ SRC += rotate.c
 SRC += setup_mlx.c
 SRC += transform_camera.c
 SRC += antialiasing.c
+SRC += interpolation.c
 
 # objects
 OBJ := $(SRC:.c=.o)

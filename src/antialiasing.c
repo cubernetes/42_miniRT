@@ -55,7 +55,7 @@ void	apply_random_antialiasing(t_gc *gc, int width, int height)
 	}
 }
 
-static int	edge_detection(t_rt_img *img, int x, int y, int resolution)
+int	edge_detection(t_rt_img *img, int x, int y, int resolution)
 {
 	t_vec3			grad_x;
 	t_vec3			grad_y;

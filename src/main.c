@@ -26,6 +26,7 @@ void	init(t_gc *gc)
 	gc->sample_size = SAMPLE_SIZE;
 	gc->resolution = RESOLUTION;
 	gc->antialiasing = 0;
+	gc->interpolation = 0;
 }
 
 void	finish(int exit_status, t_gc *gc)

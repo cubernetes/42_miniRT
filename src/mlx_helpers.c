@@ -109,6 +109,10 @@ int	keydown_hook(void *arg1, ...)
 		gc->antialiasing = 0;
 	else if (keycode == '2')
 		gc->antialiasing = 1;
+	else if (keycode == '3')
+		gc->interpolation = 0;
+	else if (keycode == '4')
+		gc->interpolation = 1;
 	else
 	{
 		ft_printf("Pressed '%c' (keycode: %d)\n", keycode, keycode);

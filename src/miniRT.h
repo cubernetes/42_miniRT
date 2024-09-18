@@ -37,9 +37,9 @@
 
 //# define SAMPLE_SIZE 34 /* 1920 - 100+ objects */
 // # define SAMPLE_SIZE 38 /* 1920 */
-# define SAMPLE_SIZE 1
+# define SAMPLE_SIZE 17
 
-# define RESOLUTION 4
+# define RESOLUTION 8
 
 # define CAM_ROTATE_FACTOR 10.0
 
@@ -126,6 +126,7 @@ struct						s_gc
 	int						sample_size;
 	int						resolution;
 	int						antialiasing;
+	int						interpolation;
 };
 
 struct						s_scene
@@ -230,6 +231,12 @@ void						setup_mlx(t_gc *gc, t_scene *scene);
 void						rotate_object(t_obj *obj, t_quat *quat);
 
 /* antialiasing.c */
+int							edge_detection(t_rt_img *img, int x, int y, int resolution);
 void						apply_random_antialiasing(t_gc *gc, int width, int height);
 void						apply_pattern_antialiasing(t_gc *gc, int width, int height, int resolution);
+
+/* interpolation.c */
+void						interpolation(t_gc *gc, unsigned int width,
+								unsigned int height, unsigned int resolution);
+
 #endif /* miniRT.h */
