@@ -155,6 +155,14 @@ int	sync_movement(int keycode, t_gc *gc, bool pressed)
 		gc->scene->control.lshift_pressed = pressed;
 	else if (keycode == XK_Control_L)
 		gc->scene->control.lctrl_pressed = pressed;
+	else if (keycode == '1')
+		gc->antialiasing = 0;
+	else if (keycode == '2')
+		gc->antialiasing = 1;
+	else if (keycode == '3')
+		gc->interpolation = 0;
+	else if (keycode == '4')
+		gc->interpolation = 1;
 	else
 		return (0);
 	return (1);

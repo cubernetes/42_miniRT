@@ -53,15 +53,20 @@ void	init_render(t_scene *scene, t_vec3 *terminus)
 
 void	render_cursor(t_gc *gc)
 {
-	int	i;
+	int			i;
+	t_rt_img	*curr_img;
 
+	if (gc->antialiasing)
+		curr_img = &gc->img2;
+	else
+		curr_img = &gc->img;
 	i = -1;
 	while (++i < CURSOR_SIZE)
-		mlx_pixel_put_buf(&gc->img, gc->scene->window_width / 2
+		mlx_pixel_put_buf(curr_img, gc->scene->window_width / 2
 			- (CURSOR_SIZE / 2) + i, gc->scene->window_height / 2, CURSOR_CLR);
 	i = -1;
 	while (++i < CURSOR_SIZE)
-		mlx_pixel_put_buf(&gc->img, gc->scene->window_width / 2,
+		mlx_pixel_put_buf(curr_img, gc->scene->window_width / 2,
 			gc->scene->window_height / 2 + (CURSOR_SIZE / 2) - i, CURSOR_CLR);
 }
 
