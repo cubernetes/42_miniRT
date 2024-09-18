@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 11:11:35 by tosuman           #+#    #+#             */
-/*   Updated: 2024/09/18 08:42:20 by tosuman          ###   ########.fr       */
+/*   Updated: 2024/09/18 21:42:26 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,9 +171,6 @@ int	keydown_hook(void *arg1, ...)
 	va_start(ap, arg1);
 	gc = va_arg(ap, t_gc *);
 	va_end(ap);
-	gc->last_moved = ft_uptime_linux();
-	gc->fully_rendered = false;
-	gc->resolution = gc->ideal_resolution;
 	sync_movement(keycode, gc, true);
 	return (0);
 }

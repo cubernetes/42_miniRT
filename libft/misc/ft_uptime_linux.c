@@ -6,7 +6,7 @@
 /*   By: tischmid <tischmid@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 22:13:18 by tischmid          #+#    #+#             */
-/*   Updated: 2024/09/17 02:36:16 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/09/18 21:32:42 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include <unistd.h>
 
 // todo: valgrind the shit out of this or sth.
+// todo: sus not checking fd, but gnl would fail anyway
 double	ft_uptime_linux(void)
 {
 	double	uptime;

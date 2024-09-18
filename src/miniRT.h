@@ -6,7 +6,7 @@
 /*   By: tischmid <tischmid@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 21:48:04 by tischmid          #+#    #+#             */
-/*   Updated: 2024/09/18 08:42:31 by tosuman          ###   ########.fr       */
+/*   Updated: 2024/09/18 21:47:57 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -278,7 +278,7 @@ void						camera_yaw(t_scene *scene, int amount);
 void						camera_pitch(t_scene *scene, int amount);
 
 /* translate_camera.c */
-void						translate_camera(t_camera *camera,
+bool						translate_camera(t_camera *camera,
 								t_direction direction, double amount);
 
 #endif /* miniRT.h */

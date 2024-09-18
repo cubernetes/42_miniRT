@@ -6,7 +6,7 @@
 /*   By: nam-vu <nam-vu@student.42berlin.de>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 02:59:34 by nam-vu            #+#    #+#             */
-/*   Updated: 2024/09/18 08:20:09 by tosuman          ###   ########.fr       */
+/*   Updated: 2024/09/18 21:47:23 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,33 +115,39 @@ void	sample_frame(t_gc *gc, t_scene *scene, int resolution, int sample,
 	mlx_do_sync(gc->mlx);
 }
 
-void	control_camera(t_gc *gc)
+bool	control_camera(t_gc *gc)
 {
+	bool	moved;
 	const double	move_step = ((int)gc->scene->control.lctrl_pressed * 4.0 + 1.0)
 		* MOVE_STEP / gc->fps;
 
+	moved = false;
 	if (gc->scene->control.w_pressed)
-		translate_camera(gc->scene->control.u_control_object.camera,
+		moved |= translate_camera(gc->scene->control.u_control_object.camera,
 			DIR_FORWARD, move_step);
 	if (gc->scene->control.s_pressed)
-		translate_camera(gc->scene->control.u_control_object.camera,
+		moved |= translate_camera(gc->scene->control.u_control_object.camera,
 			DIR_BACKWARD, move_step);
 	if (gc->scene->control.a_pressed)
-		translate_camera(gc->scene->control.u_control_object.camera,
+		moved |= translate_camera(gc->scene->control.u_control_object.camera,
 			DIR_LEFT, move_step);
 	if (gc->scene->control.d_pressed)
-		translate_camera(gc->scene->control.u_control_object.camera,
+		moved |= translate_camera(gc->scene->control.u_control_object.camera,
 			DIR_RIGHT, move_step);
 	if (gc->scene->control.space_pressed)
-		translate_camera(gc->scene->control.u_control_object.camera,
+		moved |= translate_camera(gc->scene->control.u_control_object.camera,
 			DIR_UP, move_step);
 	if (gc->scene->control.lshift_pressed)
-		translate_camera(gc->scene->control.u_control_object.camera,
+		moved |= translate_camera(gc->scene->control.u_control_object.camera,
 			DIR_DOWN, move_step);
+	return (moved);
 }
 
-void	translate_vec3(t_vec3 *vec, t_direction direction, double amount)
+bool	translate_vec3(t_vec3 *vec, t_direction direction, double amount)
 {
+	bool	moved;
+
+	moved = false;
 	if (direction == DIR_FORWARD)
 		vec->z -= amount;
 	else if (direction == DIR_BACKWARD)
@@ -155,62 +161,82 @@ void	translate_vec3(t_vec3 *vec, t_direction direction, double amount)
 	else if (direction == DIR_DOWN)
 		vec->y -= amount;
 	else
+	{
 		ft_printf("Direction does not exist\n");
+		return (false);
+	}
+	return (true);
 }
 
-void	translate_object(t_obj *obj, t_direction direction, double amount)
+bool	translate_object(t_obj *obj, t_direction direction, double amount)
 {
+	bool	moved;
+
+	moved = false;
 	if (obj->type == TOK_SPHERE)
-		translate_vec3(obj->sphere.center, direction, amount);
+		moved |= translate_vec3(obj->sphere.center, direction, amount);
 	else if (obj->type == TOK_PLANE)
-		translate_vec3(obj->plane.point, direction, amount);
+		moved |= translate_vec3(obj->plane.point, direction, amount);
 	else if (obj->type == TOK_CYLINDER)
 	{
-		translate_vec3(obj->cylinder.center, direction, amount);
-		translate_vec3(obj->cylinder.base_top, direction, amount);
-		translate_vec3(obj->cylinder.base_bot, direction, amount);
+		moved |= translate_vec3(obj->cylinder.center, direction, amount);
+		moved |= translate_vec3(obj->cylinder.base_top, direction, amount);
+		moved |= translate_vec3(obj->cylinder.base_bot, direction, amount);
 	}
 	else
 		ft_printf("Object does not exist\n");
+	return (moved);
 }
 
-void	control_object(t_gc *gc)
+bool	control_object(t_gc *gc)
 {
+	bool	moved;
 	const double	move_step = (gc->scene->control.lctrl_pressed * 4.0 + 1.0)
 		* MOVE_STEP / gc->fps;
 
+	moved = false;
 	if (gc->scene->control.w_pressed)
-		translate_object(gc->scene->control.u_control_object.object,
+		moved |= translate_object(gc->scene->control.u_control_object.object,
 			DIR_FORWARD, move_step);
 	if (gc->scene->control.s_pressed)
-		translate_object(gc->scene->control.u_control_object.object,
+		moved |= translate_object(gc->scene->control.u_control_object.object,
 			DIR_BACKWARD, move_step);
 	if (gc->scene->control.a_pressed)
-		translate_object(gc->scene->control.u_control_object.object,
+		moved |= translate_object(gc->scene->control.u_control_object.object,
 			DIR_LEFT, move_step);
 	if (gc->scene->control.d_pressed)
-		translate_object(gc->scene->control.u_control_object.object,
+		moved |= translate_object(gc->scene->control.u_control_object.object,
 			DIR_RIGHT, move_step);
 	if (gc->scene->control.space_pressed)
-		translate_object(gc->scene->control.u_control_object.object,
+		moved |= translate_object(gc->scene->control.u_control_object.object,
 			DIR_UP, move_step);
 	if (gc->scene->control.lshift_pressed)
-		translate_object(gc->scene->control.u_control_object.object,
+		moved |= translate_object(gc->scene->control.u_control_object.object,
 			DIR_DOWN, move_step);
+	return (moved);
 }
 
 void	manage_controls(t_gc *gc)
 {
-	if (gc->scene->control.e_control_type == CAMERA)
-		control_camera(gc);
-	else if (gc->scene->control.e_control_type == OBJECT)
-		control_object(gc);
-	else
-		return ;
+	bool	moved;
+
+	moved = true;
 	if (gc->scene->control.f_pressed && !gc->scene->control.lctrl_pressed)
-		gc->scene->fov = fmin(gc->scene->fov + 2, 150);
+		gc->scene->fov = fmin(gc->scene->fov + 1, 150);
 	else if (gc->scene->control.f_pressed && gc->scene->control.lctrl_pressed)
-		gc->scene->fov = fmax(gc->scene->fov - 2, 30);
+		gc->scene->fov = fmax(gc->scene->fov - 1, 30);
+	else
+		moved = false;
+	if (gc->scene->control.e_control_type == CAMERA)
+		moved |= control_camera(gc);
+	else if (gc->scene->control.e_control_type == OBJECT)
+		moved |= control_object(gc);
+	if (moved)
+	{
+		gc->last_moved = ft_uptime_linux();
+		gc->fully_rendered = false;
+		gc->resolution = gc->ideal_resolution;
+	}
 }
 
 void	calculate_fps(t_gc *gc)
@@ -228,8 +254,7 @@ void	calculate_fps(t_gc *gc)
 			gc->ideal_resolution = ft_max(gc->ideal_resolution - 1, 2);
 		gc_start_context("FPS");
 		gc_free("FPS");
-		gc->fps_string = ft_itoa((int)((double)gc->frames_rendered
-					/ (now - gc->fps_start)));
+		gc->fps_string = ft_itoa((int)gc->fps);
 		gc_end_context();
 		gc->fps_start = now;
 		gc->frames_rendered = 1;
