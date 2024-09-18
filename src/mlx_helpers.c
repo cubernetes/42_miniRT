@@ -6,7 +6,7 @@
 /*   By: tischmid <tischmid@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 20:42:43 by tischmid          #+#    #+#             */
-/*   Updated: 2024/09/16 23:53:53 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/09/18 21:56:20 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,4 +90,12 @@ void	mlx_pixel_put_buf(t_rt_img *data, int x, int y, t_color color)
 
 	dst = data->addr + (y * data->line_length + x * (data->bpp / 8));
 	*(unsigned int *)dst = color;
+}
+
+unsigned int	mlx_pixel_get_buf(t_rt_img *data, int x, int y)
+{
+	char	*dst;
+
+	dst = data->addr + (y * data->line_length + x * (data->bpp / 8));
+	return (*(unsigned int *)dst);
 }

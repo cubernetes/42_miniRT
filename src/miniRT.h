@@ -6,7 +6,7 @@
 /*   By: tischmid <tischmid@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 21:48:04 by tischmid          #+#    #+#             */
-/*   Updated: 2024/09/18 21:47:57 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/09/18 21:55:17 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@
 # define CURSOR_CLR 0x00FFFFFF
 
 # define MIN_FPS 30
+
+# define ANTIALIASING 0
 
 /********** enums **********/
 
@@ -124,7 +126,9 @@ struct						s_gc
 {
 	void					*mlx;
 	void					*win;
-	t_rt_img				img;
+	t_rt_img				img;//colors with after lighting
+	t_rt_img				img2;//colors after antialiasing
+	t_rt_img				img3;//colors before lighting
 	t_scene					*scene;
 	int						sample;
 	int						sample_size;
@@ -139,6 +143,7 @@ struct						s_gc
 	double					fps;
 	char					*fps_string;
 	bool					mouse_hidden;
+	int						antialiasing;
 };
 // NOTE: last_moved is double because ft_uptime_linux returns double
 // thereforce, this feature exists only for linux AT THE MOMENT
@@ -250,6 +255,7 @@ int							mlx_get_window_dim(void *mlx_ptr, void *win_ptr,
 								int *width, int *height);
 void						*mlx_new_resizable_window(t_xvar *xvar, int size_x,
 								int size_y, char *title);
+unsigned int				mlx_pixel_get_buf(t_rt_img *data, int x, int y);
 
 /* printing.c */
 void						print_light(t_light *light);
@@ -280,5 +286,11 @@ void						camera_pitch(t_scene *scene, int amount);
 /* translate_camera.c */
 bool						translate_camera(t_camera *camera,
 								t_direction direction, double amount);
+
+/* antialiasing.c */
+void						apply_random_antialiasing(t_gc *gc, int width,
+								int height);
+void						apply_pattern_antialiasing(t_gc *gc, int width,
+								int height, int resolution);
 
 #endif /* miniRT.h */

@@ -6,7 +6,7 @@
 /*   By: nam-vu <nam-vu@student.42berlin.de>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 02:59:34 by nam-vu            #+#    #+#             */
-/*   Updated: 2024/09/18 21:47:23 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/09/18 21:57:22 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 
 #include "float.h"
 #include <math.h>
+#include <stdio.h>
 
 /* T = C + C_l * (vw / (2 * tan(theta / 2)) - Cr * vw / 2 + Cu * vh / 2 */
 /* rebase_vec3(t_vec3 *this, t_vec3 **new_basis); */
@@ -73,6 +74,7 @@ void	sample_frame(t_gc *gc, t_scene *scene, int resolution, int sample,
 	t_hit	hit;
 	t_vec3	vec[2];
 	t_vec3	tmp_pixel;
+	t_color	tmp_color;
 
 	init_render(scene, &terminus);
 	i[Y] = 0;
@@ -89,15 +91,23 @@ void	sample_frame(t_gc *gc, t_scene *scene, int resolution, int sample,
 				copy_vec3(&tmp_pixel, &vec[PIXEL]); // todo: we probably don't need tmp_pixel anymore, since the issue was merely a mistake in the implementation of the abc-formula, so we don't rly need to unitize the vector.
 				unit_vec3(&tmp_pixel);
 				new_ray(&ray, &terminus, &tmp_pixel);
+				tmp_color = 0;
 				if (!cast_ray(&hit, &ray, scene))
+				{
+					tmp_color = hit.color;
 					apply_light(&(hit.color), calculate_lighting(&hit, scene));
+				}
 				i[I] = -1;
 				while (++(i[I]) < resolution)
 				{
 					i[J] = -1;
 					while (++(i[J]) < resolution)
+					{
 						mlx_pixel_put_buf(&gc->img, i[X] + i[J], i[Y] + i[I],
 							hit.color);
+						mlx_pixel_put_buf(&gc->img3, i[X] + i[J], i[Y] + i[I],
+							tmp_color);
+					}
 				}
 			}
 			i[J] = -1;
@@ -110,8 +120,17 @@ void	sample_frame(t_gc *gc, t_scene *scene, int resolution, int sample,
 			add_vec3(&vec[ROW_START_VEC], &scene->viewport->down_step);
 		i[Y] += resolution;
 	}
-	render_cursor(gc);
-	mlx_put_image_to_window(gc->mlx, gc->win, gc->img.img, 0, 0);
+	if (gc->antialiasing)
+	{
+		apply_pattern_antialiasing(gc, scene->window_width, scene->window_height, resolution);
+		render_cursor(gc);
+		mlx_put_image_to_window(gc->mlx, gc->win, gc->img2.img, 0, 0);
+	}
+	else
+	{
+		render_cursor(gc);
+		mlx_put_image_to_window(gc->mlx, gc->win, gc->img.img, 0, 0);
+	}
 	mlx_do_sync(gc->mlx);
 }
 

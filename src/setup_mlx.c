@@ -42,7 +42,20 @@ void	setup_mlx(t_gc *gc, t_scene *scene)
 			gc->img.img, &gc->img.bpp,
 			&gc->img.line_length,
 			&gc->img.endian);
+	gc->img2.img = mlx_new_image(gc->mlx, scene->window_width,
+			scene->window_height);
 	// /\ TODO: check NULL
+	gc->img2.addr = mlx_get_data_addr(
+			gc->img2.img, &gc->img2.bpp,
+			&gc->img2.line_length,
+			&gc->img2.endian);
+	gc->img3.img = mlx_new_image(gc->mlx, scene->window_width,
+								 scene->window_height);
+	// /\ TODO: check NULL
+	gc->img3.addr = mlx_get_data_addr(
+			gc->img3.img, &gc->img3.bpp,
+			&gc->img3.line_length,
+			&gc->img3.endian);
 	setup_hooks(gc);
 	mlx_do_key_autorepeatoff(gc->mlx);
 }
