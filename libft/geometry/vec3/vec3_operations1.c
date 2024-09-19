@@ -6,7 +6,7 @@
 /*   By: nam-vu <nam-vu@student.42berlin.de>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 21:52:38 by nam-vu            #+#    #+#             */
-/*   Updated: 2024/09/19 08:28:41 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/09/19 01:00:53 by nam-vu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,10 @@ void	div_vec3(t_vec3 *this, float k)
 	this->z /= k;
 }
 
-// todo later: check all sqrtf calls and mb replace with faster version
+// todo later: check all sqrt calls and mb replace with faster version
 float	length_vec3(t_vec3 *this)
 {
-	return (sqrtf(this->x * this->x
+	return (sqrt(this->x * this->x
 			+ this->y * this->y
 			+ this->z * this->z));
 }

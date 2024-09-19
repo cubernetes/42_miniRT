@@ -6,7 +6,7 @@
 /*   By: nam-vu <nam-vu@student.42berlin.de>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 21:55:43 by nam-vu            #+#    #+#             */
-/*   Updated: 2024/09/19 08:28:34 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/09/07 21:55:43 by nam-vu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,5 +97,5 @@ void	print_vec3(t_vec3 *this)
 float	cos_vec3(t_vec3 *a, t_vec3 *b)
 {
 	return (dot_product_vec3(a, b)
-		/ sqrtf(length_squared_vec3(a) * length_squared_vec3(b)));
+		/ sqrt(length_squared_vec3(a) * length_squared_vec3(b)));
 }

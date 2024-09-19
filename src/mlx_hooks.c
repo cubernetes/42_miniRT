@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 11:11:35 by tosuman           #+#    #+#             */
-/*   Updated: 2024/09/19 08:33:22 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/09/19 08:07:54 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -212,8 +212,8 @@ int	update_window(void *arg1, ...)
 		return (1);
 	gc->scene->window_width = real_width;
 	gc->scene->window_height = real_height;
-	gc->scene->viewport->width = (float)gc->scene->window_width;
-	gc->scene->viewport->height = (float)gc->scene->window_height;
+	gc->scene->viewport->width = gc->scene->window_width;
+	gc->scene->viewport->height = gc->scene->window_height;
 	mlx_destroy_image(gc->mlx, gc->img.img);
 	gc->img.img = mlx_new_image(gc->mlx,
 		gc->scene->window_width, gc->scene->window_height);

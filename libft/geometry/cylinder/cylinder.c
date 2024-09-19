@@ -204,7 +204,7 @@ static void	is_real_cylinder(float *x, t_cylinder *cylinder, t_ray *ray)
  C = || q || ^ 2 - r ^ 2 + d2 ^ 2 * d3
 
  calculate discriminant D:
- D = sqrtf(B ^ 2 - 4AC)
+ D = sqrt(B ^ 2 - 4AC)
  if D is negative, no intersections are possible.
 
  calculate roots:
@@ -240,7 +240,7 @@ int	intersection_cylinder(float *t, t_cylinder *cylinder, t_ray *ray)
 		*t = NO_ROOTS;
 	else
 	{
-		discriminant = sqrtf(discriminant);
+		discriminant = sqrt(discriminant);
 		x[0] = (-sec[1] - discriminant) / (2 * sec[0]);
 		x[1] = (-sec[1] + discriminant) / (2 * sec[0]);
 		is_real_cylinder(x, cylinder, ray);

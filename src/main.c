@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 19:40:05 by tosuman           #+#    #+#             */
-/*   Updated: 2024/09/19 08:33:08 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/09/19 07:18:01 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,8 @@ void	setup_scene(t_scene *scene)
 	scene->window_width = WINDOW_WIDTH;
 	scene->window_height = WINDOW_HEIGHT;
 	viewport = ft_malloc(sizeof(*viewport));
-	viewport->width = (float)scene->window_width;
-	viewport->height = (float)scene->window_height;
+	viewport->width = scene->window_width;
+	viewport->height = scene->window_height;
 	camera = ft_malloc(sizeof(*camera));
 	scene->viewport = viewport;
 	scene->camera = camera;

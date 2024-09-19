@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 11:10:01 by tosuman           #+#    #+#             */
-/*   Updated: 2024/09/19 08:36:03 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/09/17 03:48:36 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	rotate_camera(t_camera *camera, t_direction direction, float degrees)
 	t_vec3	left_vec;
 
 	if (camera->dir.x == 0.0 && camera->dir.z == 0.0)
-		camera->dir.x += 0.1f;
+		camera->dir.x += 0.1;
 	if (direction == DIR_LEFT)
 		new_unit_quat(&quat, degrees, &(t_vec3){.x = 0, .y = 1, .z = 0});
 	else if (direction == DIR_RIGHT)
@@ -47,7 +47,7 @@ void	rotate_camera(t_camera *camera, t_direction direction, float degrees)
 
 void	camera_yaw(t_scene *scene, int amount)
 {
-	rotate_camera(scene->camera, DIR_LEFT, (float)amount / CAM_ROTATE_FACTOR);
+	rotate_camera(scene->camera, DIR_LEFT, amount / CAM_ROTATE_FACTOR);
 }
 
 void	camera_pitch(t_scene *scene, int amount)
@@ -56,6 +56,6 @@ void	camera_pitch(t_scene *scene, int amount)
 
 	dot = dot_product_vec3(&scene->camera->dir,
 			&(t_vec3){.x = 0, .y = (amount > 0) - (amount < 0), .z = 0});
-	if (cosf((float)amount * PI / 180.0f / CAM_ROTATE_FACTOR) > dot)
-		rotate_camera(scene->camera, DIR_UP, (float)amount / CAM_ROTATE_FACTOR);
+	if (cos(amount * PI / 180.0 / CAM_ROTATE_FACTOR) > dot)
+		rotate_camera(scene->camera, DIR_UP, amount / CAM_ROTATE_FACTOR);
 }
