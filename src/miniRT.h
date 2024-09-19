@@ -6,7 +6,7 @@
 /*   By: tischmid <tischmid@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 21:48:04 by tischmid          #+#    #+#             */
-/*   Updated: 2024/09/19 08:00:43 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/09/19 08:14:44 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -293,7 +293,7 @@ void						apply_pattern_antialiasing(t_gc *gc, int width,
 void						interpolation(t_gc *gc, unsigned int width,
 								unsigned int height, unsigned int resolution);
 
-/* todo: currently in src/lights.c, put in separate file */
+/* todo norminette: currently in src/lights.c, put in separate file */
 t_vec3						*get_object_pos(t_obj *obj);
 char						*obj_type_to_str(t_obj *obj);
 
