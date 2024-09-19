@@ -6,7 +6,7 @@
 /*   By: nam-vu <nam-vu@student.42berlin.de>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 02:59:34 by nam-vu            #+#    #+#             */
-/*   Updated: 2024/09/19 08:54:42 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/09/19 08:42:20 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -302,7 +302,10 @@ int	render(void *arg)
 		sample_frame(gc, gc->scene, gc->resolution, gc->sample, gc->sample_size);
 		gc->sample = (gc->sample + 1) % gc->sample_size;
 		if (gc->resolution == 1 && gc->sample == 0)
+		{
 			gc->fully_rendered = true;
+			finish(0, gc);
+		}
 		else
 			gc->fully_rendered = false;
 		calculate_fps(gc);

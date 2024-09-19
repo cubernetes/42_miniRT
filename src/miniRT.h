@@ -6,7 +6,7 @@
 /*   By: tischmid <tischmid@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 21:48:04 by tischmid          #+#    #+#             */
-/*   Updated: 2024/09/19 08:54:50 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/09/19 08:42:39 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,11 @@
 # define WINDOW_WIDTH 1920
 # define WINDOW_HEIGHT 1080
 
-# define SAMPLE_SIZE 7
-# define RESOLUTION 8
+// # define SAMPLE_SIZE 7
+// # define RESOLUTION 8
+
+# define SAMPLE_SIZE 1
+# define RESOLUTION 1
 
 # define CAM_ROTATE_FACTOR 10.0f
 # define MOVE_DELAY 1.0f
