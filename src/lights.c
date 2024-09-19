@@ -6,7 +6,7 @@
 /*   By: nam-vu <nam-vu@student.42berlin.de>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 00:38:28 by nam-vu            #+#    #+#             */
-/*   Updated: 2024/09/19 08:07:41 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/09/19 11:33:16 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,24 +58,6 @@ static void	init_shadow_ray(t_hit *shadow_hit, t_hit *hit,
 	substract_vec3(&orientation, &hit->point);
 	unit_vec3(&orientation);
 	new_ray(ray, &hit->point, &orientation);
-}
-
-t_vec3	*get_object_pos(t_obj *obj)
-{
-	if (obj->type == TOK_SPHERE)
-		return (obj->sphere.center);
-	else if (obj->type == TOK_PLANE)
-		return (obj->plane.point);
-	return (obj->cylinder.center);
-}
-
-char	*obj_type_to_str(t_obj *obj)
-{
-	if (obj->type == TOK_SPHERE)
-		return ("sphere");
-	else if (obj->type == TOK_PLANE)
-		return ("plane");
-	return ("cylinder");
 }
 
 /* expensive function, is run:

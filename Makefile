@@ -101,6 +101,7 @@ SRC += cast_ray.c
 SRC += control.c
 SRC += fps.c
 SRC += handle_keycode.c
+SRC += helpers.c
 SRC += hoarding_disorder.c
 SRC += interpolation.c
 SRC += lights.c
