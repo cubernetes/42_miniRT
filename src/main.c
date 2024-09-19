@@ -6,18 +6,15 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 19:40:05 by tosuman           #+#    #+#             */
-/*   Updated: 2024/09/19 07:18:01 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/09/19 10:56:12 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#define _XOPEN_SOURCE 600 /* only needed for <unistd.h> and usleep */
 
 #include "miniRT.h"
 #include "libft.h"
 #include "mlx.h"
 
 #include <stdlib.h>
-#include <unistd.h> /* usleep(3); todo later: remove */
 
 void	init(t_gc *gc)
 {
@@ -97,8 +94,6 @@ void	parse_args(int ac, char **av, t_scene *scene, t_gc *gc)
 	gc->scene = scene;
 }
 
-/* #include <math.h> */
-
 int	main(int ac, char **av)
 {
 	t_gc			gc;
@@ -111,22 +106,9 @@ int	main(int ac, char **av)
 	mlx_mouse_move(gc.mlx, gc.win,
 		gc.scene->window_width / 2, gc.scene->window_height / 2);
 	mlx_mouse_hide(gc.mlx, gc.win);
-
-	/* render(&gc); */
-	/* const double	angle = 3; */
-	/* const double	amount = 2 * 200 * sin(angle * 3 / 180); */
-	/* for (int i = 0; i < 120 * 1; ++i) */
-	/* { */
-		/* render(&gc); */
-		/* rotate_camera(scene.camera, DIR_RIGHT, angle); */
-		/* translate_camera(&scene, DIR_LEFT, amount); */
-		/* rotate_camera(scene.camera, DIR_RIGHT, angle); */
-		/* usleep(10000); */
-		/* printf("%f,%f,%f\n", scene.camera->dir.x, scene.camera->dir.y, scene.camera->dir.z); */
-	/* } */
-
 	mlx_loop_hook(gc.mlx, render, (void *)&gc);
 	mlx_loop(gc.mlx);
 	finish(0, &gc);
 	return (EXIT_SUCCESS);
 }
+	/* orbit(&gc, &scene); */

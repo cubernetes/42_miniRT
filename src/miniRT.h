@@ -6,7 +6,7 @@
 /*   By: tischmid <tischmid@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 21:48:04 by tischmid          #+#    #+#             */
-/*   Updated: 2024/09/19 08:14:44 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/09/19 10:50:44 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -296,5 +296,11 @@ void						interpolation(t_gc *gc, unsigned int width,
 /* todo norminette: currently in src/lights.c, put in separate file */
 t_vec3						*get_object_pos(t_obj *obj);
 char						*obj_type_to_str(t_obj *obj);
+
+/* select_object.c */
+void						select_object(t_gc *gc, int x, int y);
+
+/* handle_keycode.c */
+int							sync_movement(int keycode, t_gc *gc, bool pressed);
 
 #endif /* miniRT.h */

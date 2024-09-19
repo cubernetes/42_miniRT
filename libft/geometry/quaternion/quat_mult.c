@@ -6,7 +6,7 @@
 /*   By: tischmid <tischmid@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 21:52:38 by tischmid          #+#    #+#             */
-/*   Updated: 2024/09/07 22:48:21 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/09/19 10:31:44 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,8 @@ int	quat_div(t_quat *quat_a, t_quat *quat_b)
 	return (0);
 }
 
-/* TODO unimportant: use quat_conj instead (might need to be normalized) -> speeeeeeeed */
+/* TODO unimportant: use quat_conj instead (might need to be normalized)
+ * -> speeeeeeeed */
 void	rotate_vec3(t_vec3 *vec, t_quat *quat)
 {
 	t_quat	res;

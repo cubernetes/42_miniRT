@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 11:11:35 by tosuman           #+#    #+#             */
-/*   Updated: 2024/09/19 08:07:54 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/09/19 10:50:22 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,34 +19,6 @@
 #include <X11/X.h>
 #include <X11/Xlib.h>
 #include <X11/keysym.h>
-
-void	select_object(t_gc *gc, int x, int y)
-{
-	t_hit	hit;
-	t_ray	ray;
-	t_vec3	terminus;
-	t_vec3	pixel;
-	int		i;
-
-	copy_vec3(&terminus, &gc->scene->camera->pos);
-	copy_vec3(&pixel, &gc->scene->viewport->top_left);
-	i = -1;
-	while (++i < y)
-		add_vec3(&pixel, &gc->scene->viewport->down_step);
-	i = -1;
-	while (++i < x)
-		add_vec3(&pixel, &gc->scene->viewport->right_step);
-	new_ray(&ray, &terminus, &pixel);
-	if (!cast_ray(&hit, &ray, gc->scene))
-	{
-		gc->scene->control.e_control_type = OBJECT;
-		gc->scene->control.u_control_object.object = hit.object;
-		i = -1;
-		while (++i < gc->scene->nb_objs)
-			gc->scene->objects[i]->selected = false;
-		hit.object->selected = true;
-	}
-}
 
 int	mouse_down_hook(void *arg1, ...)
 {
@@ -112,60 +84,6 @@ int	move_hook(void *arg1, ...)
 		gc->resolution = gc->ideal_resolution;
 	}
 	return (0);
-}
-
-int	sync_movement(int keycode, t_gc *gc, bool pressed)
-{
-	int	i;
-
-	if (keycode == XK_Escape)
-		destroy_hook(gc);
-	else if (keycode == 'q' && pressed)
-	{
-		if (gc->scene->control.e_control_type == MENU)
-			destroy_hook(gc);
-		else if (gc->scene->control.e_control_type == CAMERA)
-		{
-			gc->scene->control.e_control_type = MENU;
-			mlx_mouse_show(gc->mlx, gc->win);
-			gc->mouse_hidden = false;
-		}
-		else if (gc->scene->control.e_control_type == OBJECT)
-		{
-			gc->scene->control.e_control_type = CAMERA;
-			gc->scene->control.u_control_object.camera = gc->scene->camera;
-		}
-		i = -1;
-		while (++i < gc->scene->nb_objs)
-			gc->scene->objects[i]->selected = false;
-	}
-	else if (keycode == 'f')
-		gc->scene->control.f_pressed = pressed;
-	else if (keycode == 'w')
-		gc->scene->control.w_pressed = pressed;
-	else if (keycode == 'a')
-		gc->scene->control.a_pressed = pressed;
-	else if (keycode == 's')
-		gc->scene->control.s_pressed = pressed;
-	else if (keycode == 'd')
-		gc->scene->control.d_pressed = pressed;
-	else if (keycode == ' ')
-		gc->scene->control.space_pressed = pressed;
-	else if (keycode == XK_Shift_L)
-		gc->scene->control.lshift_pressed = pressed;
-	else if (keycode == XK_Control_L)
-		gc->scene->control.lctrl_pressed = pressed;
-	else if (keycode == '1')
-		gc->antialiasing = 0;
-	else if (keycode == '2')
-		gc->antialiasing = 1;
-	else if (keycode == '3')
-		gc->interpolation = 0;
-	else if (keycode == '4')
-		gc->interpolation = 1;
-	else
-		return (0);
-	return (1);
 }
 
 /* cast to intptr_t and then int needed. only way to make this generic */

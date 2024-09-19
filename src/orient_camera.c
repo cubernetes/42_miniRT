@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 11:10:01 by tosuman           #+#    #+#             */
-/*   Updated: 2024/09/17 03:48:36 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/09/19 10:33:33 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 #include <math.h>
 
-/* todo unimportant: either rotate view direction vector and then recalculate the other 2
- * OR: rotate each vector using 3 different quaternions? */
+/* todo unimportant: either rotate view direction vector and then recalculate
+ * the other 2 OR: rotate each vector using 3 different quaternions? */
 void	rotate_camera(t_camera *camera, t_direction direction, double degrees)
 {
 	t_quat	quat;

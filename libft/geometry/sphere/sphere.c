@@ -6,7 +6,7 @@
 /*   By: nam-vu <nam-vu@student.42berlin.de>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 22:06:44 by nam-vu            #+#    #+#             */
-/*   Updated: 2024/09/19 08:03:07 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/09/19 10:31:23 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,9 +95,7 @@ int	intersection_sphere(double *t, t_sphere *sphere, t_ray *ray)
 		discriminant = sqrt(discriminant);
 		*t = -a[1] - discriminant;
 		if (*t <= EPSILON_ROOT)
-		{
 			*t = -a[1] + discriminant;
-		}
 		if (*t > EPSILON_ROOT)
 		{
 			*t /= 2 * a[0];
