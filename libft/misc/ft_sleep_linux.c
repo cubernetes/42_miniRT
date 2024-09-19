@@ -6,7 +6,7 @@
 /*   By: tischmid <tischmid@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 22:13:18 by tischmid          #+#    #+#             */
-/*   Updated: 2024/09/19 08:21:22 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/09/17 02:33:31 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@
 /* REALLY adapted to garbage collected libft */
 void	ft_sleep_linux(int ms_delay)
 {
-	float	start;
-	float	now;
+	double	start;
+	double	now;
 	int		fd;
 	char	*line;
 	char	**parts;
