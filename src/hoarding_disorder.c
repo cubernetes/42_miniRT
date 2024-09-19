@@ -52,3 +52,21 @@ void	print_double_byte_by_byte(double value)
 		printf("%02X ", byte_ptr[i]);
 	printf(" : %f\n", value);
 }
+
+t_vec3	*get_object_pos(t_obj *obj)
+{
+	if (obj->type == TOK_SPHERE)
+		return (obj->sphere.center);
+	else if (obj->type == TOK_PLANE)
+		return (obj->plane.point);
+	return (obj->cylinder.center);
+}
+
+char	*obj_type_to_str(t_obj *obj)
+{
+	if (obj->type == TOK_SPHERE)
+		return ("sphere");
+	else if (obj->type == TOK_PLANE)
+		return ("plane");
+	return ("cylinder");
+}

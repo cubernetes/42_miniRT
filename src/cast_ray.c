@@ -60,7 +60,8 @@ static void	calculate_hit(t_hit *hit, t_ray *ray, t_obj *object, double *old_t)
 		intersection_sphere(&hit->t, &object->sphere, ray);
 	else if (object->type == TOK_CYLINDER)
 		intersection_cylinder(&hit->t, &object->cylinder, ray);
-	if ((hit->t > EPSILON) && (hit->t < *old_t || *old_t == NO_ROOTS) && isnormal(hit->t))
+	if ((hit->t > EPSILON) && (hit->t < *old_t
+			|| *old_t == NO_ROOTS) && isnormal(hit->t))
 	{
 		*old_t = hit->t;
 		hit->object = object;

@@ -6,7 +6,7 @@
 /*   By: tischmid <tischmid@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 21:48:04 by tischmid          #+#    #+#             */
-/*   Updated: 2024/09/19 11:40:01 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/09/19 12:52:24 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ typedef struct s_viewport		t_viewport;
 typedef struct s_control		t_control;
 typedef struct s_rendering		t_rendering;
 typedef struct s_interpolation	t_interpolation;
+typedef struct s_antialiasing	t_antialiasing;
 
 /********** struct defintions **********/
 struct							s_camera
@@ -256,6 +257,18 @@ struct							s_interpolation
 	t_vec3						res_tmp;
 };
 
+struct						s_antialiasing
+{
+	t_gc	*gc;
+	int		width;
+	int		height;
+	int		resolution;
+	int		x;
+	int		y;
+	t_color	res_color;
+	t_color	tmp_color;
+};
+
 /***************** prototypes ****************/
 /* main.c */
 void							finish(int exit_status, t_gc *gc);
@@ -339,10 +352,9 @@ bool							translate_camera(t_camera *camera,
 /* antialiasing.c */
 int								edge_detection(t_rt_img *img, int x, int y,
 									int resolution);
-void							apply_random_antialiasing(t_gc *gc, int width,
-									int height);
-void							apply_pattern_antialiasing(t_gc *gc, int width,
-									int height, int resolution);
+void							antialiasing(t_gc *gc, int width,
+								int height, int resolution);
+
 /* interpolation.c */
 void							interpolation(t_gc *gc, unsigned int width,
 									unsigned int height,

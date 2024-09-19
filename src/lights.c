@@ -81,12 +81,10 @@ t_color	calculate_lighting(t_hit *hit, t_scene *scene)
 		init_shadow_ray(&shadow_hit, hit, scene->lights[i], &ray);
 		if (dot_product_vec3(&hit->norm, ray.vec)
 			* dot_product_vec3(&hit->norm, &hit->ray_dir) < 0.0
-			&& (cast_ray(&shadow_hit, &ray, scene)
-			|| shadow_hit.t * shadow_hit.t > length_squared_vec3(&orig_vec)))
-		{
+			&& (cast_ray(&shadow_hit, &ray, scene) || shadow_hit.t
+				* shadow_hit.t > length_squared_vec3(&orig_vec)))
 			combine_light(&res, scene->lights[i],
-					fabs(cos_vec3(&hit->norm, ray.vec)));
-		}
+				fabs(cos_vec3(&hit->norm, ray.vec)));
 	}
 	if (hit->object->selected)
 		res = 0x00FF00FF - res;
