@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 20:07:51 by tosuman           #+#    #+#             */
-/*   Updated: 2024/09/19 08:02:50 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/09/19 08:19:58 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -225,18 +225,18 @@ struct s_vec3
 {
 	union
 	{
-		double	e[3];
+		float	e[3];
 		struct
 		{
-			double	x;
-			double	y;
-			double	z;
+			float	x;
+			float	y;
+			float	z;
 		};
 		struct
 		{
-			double	r;
-			double	g;
-			double	b;
+			float	r;
+			float	g;
+			float	b;
 		};
 	};
 };
@@ -250,7 +250,7 @@ struct s_ray
 struct s_sphere
 {
 	t_vec3	*center;
-	double	radius;
+	float	radius;
 };
 
 struct s_plane
@@ -265,27 +265,27 @@ struct s_cylinder
 	t_vec3	*axis;
 	t_vec3	*base_top;
 	t_vec3	*base_bot;
-	double	radius;
-	double	height;
+	float	radius;
+	float	height;
 };
 
 struct s_quat
 {
-	double	scalar;
+	float	scalar;
 	union
 	{
 		t_vec3	vector;
 		struct
 		{
-			double	i;
-			double	j;
-			double	k;
+			float	i;
+			float	j;
+			float	k;
 		};
 		struct
 		{
-			double	x;
-			double	y;
-			double	z;
+			float	x;
+			float	y;
+			float	z;
 		};
 	};
 };
@@ -392,7 +392,7 @@ int								ft_atoi(char const *nptr);
 int								ft_atoi_status(char const *nptr, int *status);
 long							ft_atol_status(char const *nptr, int *status);
 double							ft_atof(const char *s);
-double							ft_strtof(const char *s);
+float							ft_strtof(const char *s);
 unsigned int					ft_abs(int n);
 int								ft_max(int a, int b);
 int								ft_min(int a, int b);
@@ -513,38 +513,38 @@ t_list							*ft_getopt_plus(char *const argv[],
 									char *erropt,
 									int optind[static 1]);
 void							ft_sleep_linux(int ms_delay);
-double							ft_uptime_linux(void);
+float							ft_uptime_linux(void);
 
 /* vec3 */
 void							new_vec3(t_vec3 *this,
-									double x, double y, double z);
+									float x, float y, float z);
 void							copy_vec3(t_vec3 *this, t_vec3 *old);
 void							reverse_vec3(t_vec3 *this);
-void							sc_mult_vec3(t_vec3 *this, double k);
-void							div_vec3(t_vec3 *this, double k);
-double							length_vec3(t_vec3 *this);
-double							length_squared_vec3(t_vec3 *this);
+void							sc_mult_vec3(t_vec3 *this, float k);
+void							div_vec3(t_vec3 *this, float k);
+float							length_vec3(t_vec3 *this);
+float							length_squared_vec3(t_vec3 *this);
 void							print_vec3(t_vec3 *this);
 void							add_vec3(t_vec3 *this, t_vec3 *vec);
 void							substract_vec3(t_vec3 *this, t_vec3 *vec);
-double							dot_product_vec3(t_vec3 *this, t_vec3 *vec);
+float							dot_product_vec3(t_vec3 *this, t_vec3 *vec);
 void							cross_product_vec3(t_vec3 *this, t_vec3 *vec);
 void							unit_vec3(t_vec3 *this);
 void							rebase_vec3(t_vec3 *this, t_vec3 **new_basis);
-double							cos_vec3(t_vec3 *a, t_vec3 *b);
+float							cos_vec3(t_vec3 *a, t_vec3 *b);
 /* ray */
 void							new_ray(t_ray *this,
 									t_vec3 *terminus, t_vec3 *vec);
 void							copy_ray(t_ray *this, t_ray *ray);
-int								ray_at(t_ray *this, double t, t_vec3 *res);
+int								ray_at(t_ray *this, float t, t_vec3 *res);
 void							print_ray(t_ray *this);
 
 /* sphere */
 void							new_sphere(t_sphere *this,
-									t_vec3 *center, double radius);
+									t_vec3 *center, float radius);
 void							copy_sphere(t_sphere *this, t_sphere *sphere);
 void							print_sphere(t_sphere *this);
-int								intersection_sphere(double *t,
+int								intersection_sphere(float *t,
 									t_sphere *sphere, t_ray *ray);
 
 /* plane */
@@ -552,7 +552,7 @@ void							new_plane(t_plane *this,
 									t_vec3 *point, t_vec3 *norm);
 void							copy_plane(t_plane *this, t_plane *plane);
 void							print_plane(t_plane *this);
-int								intersection_plane(double *t,
+int								intersection_plane(float *t,
 									t_plane *plane, t_ray *ray);
 void							rotate_plane(t_plane *plane, t_quat *quat);
 
@@ -564,31 +564,31 @@ void							copy_cylinder(t_cylinder *this,
 void							print_cylinder(t_cylinder *this);
 void							norm_point_to_line(t_vec3 *norm,
 									t_vec3 *point, t_ray *ray);
-int								intersection_cylinder(double *t,
+int								intersection_cylinder(float *t,
 									t_cylinder *cylinder, t_ray *ray);
 void							rotate_cylinder(t_cylinder *cylinder,
 									t_quat *quat);
-void							choose_root(double *t, double *x);
-void							calculate_products_cylinder(double *d,
+void							choose_root(float *t, float *x);
+void							calculate_products_cylinder(float *d,
 									t_cylinder *cylinder,
 									t_ray *ray, t_vec3 *q);
-void							calculate_sec_cylinder(double *sec, t_ray *ray,
-									double *d);
+void							calculate_sec_cylinder(float *sec, t_ray *ray,
+									float *d);
 /* quaternion */
 int								quat_div(t_quat *quat_a, t_quat *quat_b);
 void							quat_mult(t_quat *quat_a, t_quat *quat_b);
 int								quat_invert(t_quat *quat);
 void							quat_conj(t_quat *quat);
-double							quat_len_squared(t_quat *quat);
-double							quat_len(t_quat *quat);
+float							quat_len_squared(t_quat *quat);
+float							quat_len(t_quat *quat);
 void							quat_copy(t_quat *quat_a, t_quat *quat_b);
 void							quat_add(t_quat *quat_a, t_quat *quat_b);
 void							quat_substract(t_quat *quat_a, t_quat *quat_b);
-void							quat_sc_mult(t_quat *quat_a, double sc);
+void							quat_sc_mult(t_quat *quat_a, float sc);
 void							quat_print(t_quat *quat);
 void							rotate_vec3(t_vec3 *vec, t_quat *quat);
 void							quat_unit(t_quat *quat);
-void							new_unit_quat(t_quat *quat, double degrees,
+void							new_unit_quat(t_quat *quat, float degrees,
 									t_vec3 *axis);
 
 /* colors */
