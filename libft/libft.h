@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 20:07:51 by tosuman           #+#    #+#             */
-/*   Updated: 2024/09/19 09:05:12 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/09/19 08:29:40 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@
 # define DEG_TO_RAD 0.017453292519943295f
 # define RAD_TO_DEG 57.29577951308232f
 
-# define EPSILON_ROOT 1e-5
+# define EPSILON_ROOT 1e-10f
 
 /***************** FORWARD DECLARATIONS. *****************/
 typedef struct s_list			t_list;
