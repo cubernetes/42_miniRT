@@ -28,7 +28,7 @@ void	quat_substract(t_quat *quat_a, t_quat *quat_b)
 	quat_a->k -= quat_b->k;
 }
 
-void	quat_sc_mult(t_quat *quat_a, double sc)
+void	quat_sc_mult(t_quat *quat_a, float sc)
 {
 	quat_a->scalar *= sc;
 	quat_a->i *= sc;

@@ -14,7 +14,7 @@
 
 void	rotate_cylinder(t_cylinder *cylinder, t_quat *quat)
 {
-	double	ratio;
+	float	ratio;
 
 	ratio = cylinder->height
 		/ (2 * length_vec3(cylinder->axis));

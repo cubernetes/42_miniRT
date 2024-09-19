@@ -20,14 +20,14 @@ void	reverse_vec3(t_vec3 *this)
 	this->z *= -1;
 }
 
-void	sc_mult_vec3(t_vec3 *this, double k)
+void	sc_mult_vec3(t_vec3 *this, float k)
 {
 	this->x *= k;
 	this->y *= k;
 	this->z *= k;
 }
 
-void	div_vec3(t_vec3 *this, double k)
+void	div_vec3(t_vec3 *this, float k)
 {
 	if (k == 0)
 	{
@@ -40,14 +40,14 @@ void	div_vec3(t_vec3 *this, double k)
 }
 
 // todo later: check all sqrt calls and mb replace with faster version
-double	length_vec3(t_vec3 *this)
+float	length_vec3(t_vec3 *this)
 {
 	return (sqrt(this->x * this->x
 			+ this->y * this->y
 			+ this->z * this->z));
 }
 
-double	length_squared_vec3(t_vec3 *this)
+float	length_squared_vec3(t_vec3 *this)
 {
 	return (this->x * this->x
 		+ this->y * this->y

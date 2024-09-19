@@ -20,12 +20,12 @@ void	quat_conj(t_quat *quat)
 	reverse_vec3(&quat->vector);
 }
 
-double	quat_len_squared(t_quat *quat)
+float	quat_len_squared(t_quat *quat)
 {
 	return (quat->scalar * quat->scalar + length_squared_vec3(&quat->vector));
 }
 
-double	quat_len(t_quat *quat)
+float	quat_len(t_quat *quat)
 {
 	return (sqrt(quat_len_squared(quat)));
 }
@@ -47,7 +47,7 @@ void	quat_print(t_quat *quat)
 // expects a unit vector!!!
 // WATCH OUT, the following line might be missing before (or after?) sc_mult_vec
 /* unit_vec3(&unit_axis); */
-void	new_unit_quat(t_quat *quat, double degrees, t_vec3 *axis)
+void	new_unit_quat(t_quat *quat, float degrees, t_vec3 *axis)
 {
 	t_vec3	unit_axis;
 

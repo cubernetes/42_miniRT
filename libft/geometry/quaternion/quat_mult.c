@@ -14,7 +14,7 @@
 
 void	quat_mult(t_quat *quat_a, t_quat *quat_b)
 {
-	double	scalar_a;
+	float	scalar_a;
 	t_vec3	tmp1;
 	t_vec3	tmp2;
 	t_vec3	tmp3;
@@ -35,7 +35,7 @@ void	quat_mult(t_quat *quat_a, t_quat *quat_b)
 
 int	quat_invert(t_quat *quat)
 {
-	double	tmp;
+	float	tmp;
 
 	quat_conj(quat);
 	tmp = quat_len_squared(quat);

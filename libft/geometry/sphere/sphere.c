@@ -15,7 +15,7 @@
 #include <math.h>
 #include <stdio.h>
 
-void	new_sphere(t_sphere *this, t_vec3 *center, double radius)
+void	new_sphere(t_sphere *this, t_vec3 *center, float radius)
 {
 	this->center = center;
 	if (radius <= 0)
@@ -78,10 +78,10 @@ void	print_sphere(t_sphere *this)
  x = x1 >= 0 ? x1 : (x2 >= 0 ? x2 : NaN)
 
 */
-int	intersection_sphere(double *t, t_sphere *sphere, t_ray *ray)
+int	intersection_sphere(float *t, t_sphere *sphere, t_ray *ray)
 {
-	double	discriminant;
-	double	a[3];
+	float	discriminant;
+	float	a[3];
 	t_vec3	v;
 
 	copy_vec3(&v, ray->terminus);
