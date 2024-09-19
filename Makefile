@@ -36,7 +36,7 @@ CFLAGS += -Wconversion
 CFLAGS += -Wunreachable-code
 CFLAGS += -Wshadow
 CFLAGS += -Wno-overlength-strings
-# performance flags
+# performance flags (don't do much tbh)
 CFLAGS += -Ofast
 CFLAGS += -march=native
 CFLAGS += -fno-signed-zeros
