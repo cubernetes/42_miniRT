@@ -60,24 +60,6 @@ static void	init_shadow_ray(t_hit *shadow_hit, t_hit *hit,
 	new_ray(ray, &hit->point, &orientation);
 }
 
-t_vec3	*get_object_pos(t_obj *obj)
-{
-	if (obj->type == TOK_SPHERE)
-		return (obj->sphere.center);
-	else if (obj->type == TOK_PLANE)
-		return (obj->plane.point);
-	return (obj->cylinder.center);
-}
-
-char	*obj_type_to_str(t_obj *obj)
-{
-	if (obj->type == TOK_SPHERE)
-		return ("sphere");
-	else if (obj->type == TOK_PLANE)
-		return ("plane");
-	return ("cylinder");
-}
-
 /* expensive function, is run:
  *     window_width * window_height * nb_lights * nb_objs times (roughly 3 mil.)
  */
@@ -99,12 +81,10 @@ t_color	calculate_lighting(t_hit *hit, t_scene *scene)
 		init_shadow_ray(&shadow_hit, hit, scene->lights[i], &ray);
 		if (dot_product_vec3(&hit->norm, ray.vec)
 			* dot_product_vec3(&hit->norm, &hit->ray_dir) < 0.0
-			&& (cast_ray(&shadow_hit, &ray, scene)
-			|| shadow_hit.t * shadow_hit.t > length_squared_vec3(&orig_vec)))
-		{
+			&& (cast_ray(&shadow_hit, &ray, scene) || shadow_hit.t
+				* shadow_hit.t > length_squared_vec3(&orig_vec)))
 			combine_light(&res, scene->lights[i],
-					fabs(cos_vec3(&hit->norm, ray.vec)));
-		}
+				fabs(cos_vec3(&hit->norm, ray.vec)));
 	}
 	if (hit->object->selected)
 		res = 0x00FF00FF - res;

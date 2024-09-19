@@ -15,128 +15,108 @@
 #include <stdio.h>
 #include <math.h>
 
-static int	mod(int a, int b)
+int	edge_detection(t_rt_img *img, int x, int y, int rs)
 {
-	const int	r = a % b;
+	t_vec3		grad[2];
+	const int	kernel_x[3][3] = {{1, 0, -1}, {2, 0, -2}, {1, 0, -1}};
+	const int	kernel_y[3][3] = {{1, 2, 1}, {0, 0, 0}, {-1, -2, -1}};
+	int			i[2];
+	t_color		temp;
 
-	if (r < 0)
-		return (r + b);
-	return (r);
-}
-
-void	apply_random_antialiasing(t_gc *gc, int width, int height)
-{
-	int			x;
-	int			y;
-	int			i;
-	int			rand;
-	t_color		res_color;
-	t_color		tmp_color;
-	const int	sample_amount = 4;
-
-	y = -1;
-	while (++y < height)
+	ft_memset(grad, 0, sizeof(t_vec3) * 2);
+	i[0] = -1;
+	while (++(i[0]) < 3)
 	{
-		x = -1;
-		while (++x < width)
+		i[1] = -1;
+		while (++(i[1]) < 3)
 		{
-			res_color = 0;
-			i = -1;
-			while (++i < sample_amount)
-			{
-				rand = ft_rand();
-				tmp_color = mlx_pixel_get_buf(&gc->img, x + (mod((rand / 3), 3)) - 1, y + (mod(rand, 3)) - 1);
-				set_red(&res_color, get_red(&res_color) + get_red(&tmp_color) / sample_amount);
-				set_green(&res_color, get_green(&res_color) + get_green(&tmp_color) / sample_amount);
-				set_blue(&res_color, get_blue(&res_color) + get_blue(&tmp_color) / sample_amount);
-			}
-			mlx_pixel_put_buf(&gc->img2, x, y, res_color);
+			temp = mlx_pixel_get_buf(img,
+					x + (i[0] - 1) * rs, y + (i[1] - 1) * rs);
+			grad[0].x += kernel_x[2 - i[0]][2 - i[1]] * (int)get_red(&temp);
+			grad[0].y += kernel_x[2 - i[0]][2 - i[1]] * (int)get_green(&temp);
+			grad[0].z += kernel_x[2 - i[0]][2 - i[1]] * (int)get_blue(&temp);
+			grad[1].x += kernel_y[2 - i[0]][2 - i[1]] * (int)get_red(&temp);
+			grad[1].y += kernel_y[2 - i[0]][2 - i[1]] * (int)get_green(&temp);
+			grad[1].z += kernel_y[2 - i[0]][2 - i[1]] * (int)get_blue(&temp);
+		}
+	}
+	return (length_squared_vec3(grad)
+		+ length_squared_vec3(grad + 1) >= EPSILON);
+}
+typedef struct s_antialiasing
+{
+	t_gc	*gc;
+	int		width;
+	int		height;
+	int		resolution;
+	int		x;
+	int		y;
+	t_color	res_color;
+	t_color	tmp_color;
+}	t_antialiasing;
+
+void	gaussian_blur(t_antialiasing *data)
+{
+	int	i;
+	int	j;
+
+	data->res_color = 0;
+	i = -2;
+	while (++i < 2)
+	{
+		j = -2;
+		while (++j < 2)
+		{
+			data->tmp_color = mlx_pixel_get_buf(&data->gc->img,
+					data->x + i * data->resolution,
+					data->y + j * data->resolution);
+			set_red(&data->res_color, get_red(&data->res_color)
+				+ get_red(&data->tmp_color) / 9);
+			set_green(&data->res_color, get_green(&data->res_color)
+				+ get_green(&data->tmp_color) / 9);
+			set_blue(&data->res_color, get_blue(&data->res_color)
+				+ get_blue(&data->tmp_color) / 9);
 		}
 	}
 }
 
-int	edge_detection(t_rt_img *img, int x, int y, int resolution)
+void	put_blurred_pixel(t_antialiasing *data)
 {
-	t_vec3			grad_x;
-	t_vec3			grad_y;
-	const int	kernel_x[3][3] = {{1, 0, -1},
-							{2, 0, -2},
-							{1, 0, -1}};
-	const int	kernel_y[3][3] = {{1, 2, 1},
-								{0, 0, 0},
-								{-1, -2, -1}};
+	int	i;
+	int	j;
 
-	new_vec3(&grad_x, 0, 0, 0);
-	new_vec3(&grad_y, 0, 0, 0);
-	for (int i = 0; i < 3; i++)
+	i = -1;
+	while (++i < data->resolution)
 	{
-		for (int j = 0; j < 3; j++)
-		{
-			t_color	temp = mlx_pixel_get_buf(img, x + (i - 1) * resolution, y + (j - 1) * resolution);
-			grad_x.x += kernel_x[2 - i][2 - j] * (int)get_red(&temp);
-			grad_x.y += kernel_x[2 - i][2 - j] * (int)get_green(&temp);
-			grad_x.z += kernel_x[2 - i][2 - j] * (int)get_blue(&temp);
-			grad_y.x += kernel_y[2 - i][2 - j] * (int)get_red(&temp);
-			grad_y.y += kernel_y[2 - i][2 - j] * (int)get_green(&temp);
-			grad_y.z += kernel_y[2 - i][2 - j] * (int)get_blue(&temp);
-		}
+		j = -1;
+		while (++j < data->resolution)
+			mlx_pixel_put_buf(&data->gc->img2, data->x + i,
+				data->y + j, data->res_color);
 	}
-	const double len_sq_x = length_squared_vec3(&grad_x);
-	const double len_sq_y = length_squared_vec3(&grad_y);
-//	double grad_degree = atan2(sqrt(len_sq_y), sqrt(len_sq_x)) * 180 / PI;
-//	if (grad_degree < 0.0)
-//		grad_degree += 360.0;
-	if (len_sq_x + len_sq_y < EPSILON)
-		return (0);
-//	printf("grad degree = %f\n", grad_degree);
-	return (1);
 }
 
-void	apply_pattern_antialiasing(t_gc *gc, int width, int height, int resolution)
+void	antialiasing(t_gc *gc, int width, int height, int resolution)
 {
-	int			x;
-	int			y;
-	t_color		res_color;
-	t_color		tmp_color;
+	t_antialiasing	data;
 
-	y = 0;
-	while (y + resolution - 1 < height)
+	data = (t_antialiasing){.gc = gc, .width = width,
+		.height = height, .resolution = resolution};
+	data.y = 0;
+	while (data.y + data.resolution - 1 < data.height)
 	{
-		x = 0;
-		while (x + resolution - 1 < width)
+		data.x = 0;
+		while (data.x + data.resolution - 1 < data.width)
 		{
-			if (x > resolution && y > resolution
-				&& x + 2 * resolution - 1 < width
-				&& y + 2 * resolution - 1 < height
-				&& (edge_detection(&gc->img3, x, y, resolution)))
-			{
-				res_color = 0;
-				for (int i = -1; i < 2; i++)
-				{
-					for (int j = -1; j < 2; j++)
-					{
-						tmp_color = mlx_pixel_get_buf(&gc->img, x + i * resolution, y + j * resolution);
-						set_red(&res_color, get_red(&res_color) + get_red(&tmp_color) / 9);
-						set_green(&res_color, get_green(&res_color) + get_green(&tmp_color) / 9);
-						set_blue(&res_color, get_blue(&res_color) + get_blue(&tmp_color) / 9);
-					}
-				}
-//				set_red(&res_color, 255);
-//				set_green(&res_color, 255);
-//				set_blue(&res_color, 255);
-			}
+			if (data.x > data.resolution && data.y > data.resolution
+				&& data.x + 2 * data.resolution - 1 < data.width
+				&& data.y + 2 * data.resolution - 1 < data.height
+				&& (edge_detection(&gc->img3, data.x, data.y, data.resolution)))
+				gaussian_blur(&data);
 			else
-				res_color = mlx_pixel_get_buf(&gc->img, x, y);
-//				res_color = 0;
-			for (int i = 0; i < resolution; i++)
-			{
-				for (int j = 0; j < resolution; j++)
-				{
-					mlx_pixel_put_buf(&gc->img2, x + i, y + j, res_color);
-				}
-			}
-			x += resolution;
+				data.res_color = mlx_pixel_get_buf(&gc->img, data.x, data.y);
+			put_blurred_pixel(&data);
+			data.x += data.resolution;
 		}
-		y += resolution;
+		data.y += data.resolution;
 	}
 }

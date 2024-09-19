@@ -18,14 +18,15 @@
 #include <unistd.h>
 #include <math.h>
 
+//TODO: removed null protection from parse_vec3 and parse_color
+// check that its actually not needed
+
 int	parse_vec3(char *str, t_vec3 *vec, int flag)
 {
 	int		i;
 	char	*ptr;
 	char	*next_ptr;
 
-	if (!str)
-		return (EXIT_FAILURE);
 	i = -1;
 	ptr = str;
 	while (++i < 3)
@@ -41,9 +42,8 @@ int	parse_vec3(char *str, t_vec3 *vec, int flag)
 			return (EXIT_FAILURE);
 		ptr = next_ptr + 1;
 	}
-	//if (flag == NORM_VEC && (length_squared_vec3(vec) - 1.0) > EPSILON)
-	if ((flag == NORM_VEC && (fabs(vec->x) > 1.0
-		|| fabs(vec->y) > 1.0 || fabs(vec->z)> 1.0)) && length_squared_vec3(vec) > 0.0)
+	if ((flag == NORM_VEC && (fabs(vec->x) > 1.0 || fabs(vec->y) > 1.0
+				|| fabs(vec->z) > 1.0)) && length_squared_vec3(vec) > 0.0)
 		return (EXIT_FAILURE);
 	if (flag == NORM_VEC)
 		unit_vec3(vec);
@@ -58,8 +58,6 @@ int	parse_color(char *str, t_color *color)
 	double	temp[3];
 
 	*color = 0;
-	if (!str)
-		return (EXIT_FAILURE);
 	i = -1;
 	ptr = str;
 	while (++i < 3)
@@ -86,30 +84,25 @@ int	read_rt_file(char *file, t_scene *scene)
 	char		*line;
 	t_list		*objects;
 	t_list		*lights;
-	int			has_cam;
-	int			has_amb;
+	int			has_flag[2];
 
 	if (open_rt_file(file, &fd))
 		return (EXIT_FAILURE);
-	has_cam = init_parse(&objects, &lights, &line, fd);
-	has_amb = 0;
+	has_flag[0] = init_parse(&objects, &lights, &line, fd);
+	has_flag[1] = 0;
 	while (line)
 	{
 		if (line[0] != '\n' && line[0] != '#')
 		{
-			has_cam += !ft_strncmp(line, "C ", 2);
-			has_amb += !ft_strncmp(line, "A ", 2);
+			has_flag[0] += !ft_strncmp(line, "C ", 2);
+			has_flag[1] += !ft_strncmp(line, "A ", 2);
 			if (parse_line(line, scene, objects, lights))
-			{
-				close(fd);
-				ft_printf("<%s>\n", line);
-				return (EXIT_FAILURE);
-			}
+				return (close(fd), ft_printf("<%s>\n", line), EXIT_FAILURE);
 		}
 		line = get_next_line(fd);
 		if (line)
 			line = ft_replace_all(line, "\t", " ");
 	}
 	end_parse(scene, objects, lights, fd);
-	return (has_cam != 1 || has_amb != 1);
+	return (has_flag[0] != 1 || has_flag[1] != 1);
 }

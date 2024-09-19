@@ -285,9 +285,7 @@ bool						translate_camera(t_camera *camera,
 /* antialiasing.c */
 int							edge_detection(t_rt_img *img, int x, int y,
 								int resolution);
-void						apply_random_antialiasing(t_gc *gc, int width,
-								int height);
-void						apply_pattern_antialiasing(t_gc *gc, int width,
+void						antialiasing(t_gc *gc, int width,
 								int height, int resolution);
 /* interpolation.c */
 void						interpolation(t_gc *gc, unsigned int width,

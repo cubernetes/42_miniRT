@@ -124,7 +124,7 @@ void	sample_frame(t_gc *gc, t_scene *scene, int resolution, int sample,
 	}
 	if (gc->antialiasing)
 	{
-		apply_pattern_antialiasing(gc, scene->window_width, scene->window_height, resolution);
+		antialiasing(gc, scene->window_width, scene->window_height, resolution);
 		if (gc->interpolation)
 			interpolation(gc, (unsigned int)scene->window_width, (unsigned int)scene->window_height, (unsigned int)resolution);
 		render_cursor(gc);
