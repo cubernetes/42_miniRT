@@ -1,7 +1,5 @@
 #! /bin/sh
 
-# TODO important: norminette
-# TODO important: sometimes, when moving around, it stops rendering and you have to click a button to continue render. investigate
 # TODO later: rotations for objects
 # TODO later: compile without performance flags, since it's stricter in those cases
 # TODO unimportant: turn off lighting when moving??

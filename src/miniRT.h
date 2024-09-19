@@ -6,7 +6,7 @@
 /*   By: tischmid <tischmid@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 21:48:04 by tischmid          #+#    #+#             */
-/*   Updated: 2024/09/19 12:52:24 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/09/19 12:54:53 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,13 +121,16 @@ struct							s_rt_img
 };
 
 /* gc == graphics context */
+/* img: colors with after lighting */
+/* img2: colors after antialiasing */
+/* img3: colors before lighting */
 struct							s_gc
 {
 	void						*mlx;
 	void						*win;
-	t_rt_img img;  // colors with after lighting
-	t_rt_img img2; // colors after antialiasing
-	t_rt_img img3; // colors before lighting
+	t_rt_img					img;
+	t_rt_img					img2;
+	t_rt_img					img3;
 	t_scene						*scene;
 	int							sample;
 	int							sample_size;
@@ -257,16 +260,16 @@ struct							s_interpolation
 	t_vec3						res_tmp;
 };
 
-struct						s_antialiasing
+struct							s_antialiasing
 {
-	t_gc	*gc;
-	int		width;
-	int		height;
-	int		resolution;
-	int		x;
-	int		y;
-	t_color	res_color;
-	t_color	tmp_color;
+	t_gc						*gc;
+	int							width;
+	int							height;
+	int							resolution;
+	int							x;
+	int							y;
+	t_color						res_color;
+	t_color						tmp_color;
 };
 
 /***************** prototypes ****************/
@@ -352,8 +355,8 @@ bool							translate_camera(t_camera *camera,
 /* antialiasing.c */
 int								edge_detection(t_rt_img *img, int x, int y,
 									int resolution);
-void							antialiasing(t_gc *gc, int width,
-								int height, int resolution);
+void							antialiasing(t_gc *gc, int width, int height,
+									int resolution);
 
 /* interpolation.c */
 void							interpolation(t_gc *gc, unsigned int width,

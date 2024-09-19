@@ -6,7 +6,7 @@
 /*   By: nam-vu <nam-vu@student.42berlin.de>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 00:04:58 by nam-vu            #+#    #+#             */
-/*   Updated: 2024/09/19 07:59:38 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/09/19 12:59:44 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,22 +51,4 @@ void	print_double_byte_by_byte(double value)
 	while ((unsigned int)(++i) < sizeof(double))
 		printf("%02X ", byte_ptr[i]);
 	printf(" : %f\n", value);
-}
-
-t_vec3	*get_object_pos(t_obj *obj)
-{
-	if (obj->type == TOK_SPHERE)
-		return (obj->sphere.center);
-	else if (obj->type == TOK_PLANE)
-		return (obj->plane.point);
-	return (obj->cylinder.center);
-}
-
-char	*obj_type_to_str(t_obj *obj)
-{
-	if (obj->type == TOK_SPHERE)
-		return ("sphere");
-	else if (obj->type == TOK_PLANE)
-		return ("plane");
-	return ("cylinder");
 }

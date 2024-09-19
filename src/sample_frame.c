@@ -6,7 +6,7 @@
 /*   By: tischmid <tischmid@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 11:07:17 by tischmid          #+#    #+#             */
-/*   Updated: 2024/09/19 11:26:17 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/09/19 12:59:20 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	handle_antialiasing(t_gc *gc, int resolution)
 {
 	if (gc->antialiasing)
 	{
-		apply_pattern_antialiasing(gc, gc->scene->window_width,
+		antialiasing(gc, gc->scene->window_width,
 			gc->scene->window_height, resolution);
 		if (gc->interpolation)
 			interpolation(gc, (unsigned int)gc->scene->window_width,

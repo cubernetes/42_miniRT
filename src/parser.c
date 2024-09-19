@@ -6,7 +6,7 @@
 /*   By: nam-vu <nam-vu@student.42berlin.de>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 02:14:14 by nam-vu            #+#    #+#             */
-/*   Updated: 2024/09/17 03:48:11 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/09/19 12:59:00 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 //TODO: removed null protection from parse_vec3 and parse_color
 // check that its actually not needed
 
-int	parse_vec3(char *str, t_vec3 *vec, int flag)
+int	parse_vec3(char str[static 1], t_vec3 *vec, int flag)
 {
 	int		i;
 	char	*ptr;
@@ -50,7 +50,7 @@ int	parse_vec3(char *str, t_vec3 *vec, int flag)
 	return (EXIT_SUCCESS);
 }
 
-int	parse_color(char *str, t_color *color)
+int	parse_color(char str[static 1], t_color *color)
 {
 	int		i;
 	char	*ptr;
