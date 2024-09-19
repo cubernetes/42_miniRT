@@ -6,7 +6,7 @@
 /*   By: tischmid <tischmid@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 21:48:04 by tischmid          #+#    #+#             */
-/*   Updated: 2024/09/19 10:50:44 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/09/19 11:27:03 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ typedef struct s_hit		t_hit;
 typedef struct s_camera		t_camera;
 typedef struct s_viewport	t_viewport;
 typedef struct s_control	t_control;
+typedef struct s_rendering	t_rendering;
 
 /********** struct defintions **********/
 struct						s_camera
@@ -212,14 +213,41 @@ struct						s_hit
 	t_color					color;
 };
 
+struct						s_rendering
+{
+	t_gc	*gc;
+	int		resolution;
+	int		sample;
+	int		sample_size;
+	t_ray	ray;
+	t_vec3	terminus;
+	t_hit	hit;
+	t_vec3	pixel;
+	t_vec3	row_start_vec;
+	t_color	tmp_color;
+	int		x;
+	int		y;
+	int		i;
+	int		j;
+};
+
 /***************** prototypes ****************/
 /* main.c */
 void						finish(int exit_status, t_gc *gc);
 
 /* render.c */
-int							cast_ray(t_hit *hit, t_ray *ray, t_scene *scene);
 int							render(void *arg);
+void						init_viewport_params(t_scene *scene,
+								t_vec3 *terminus);
+void						init_render(t_scene *scene, t_vec3 *terminus);
+void						render_cursor(t_gc *gc);
+
+/* hoarding_disorder.c */
 void						assert_norm(t_hit *hit, int index);
+
+/* cast_ray.c */
+int							cast_ray(t_hit *hit, t_ray *ray, t_scene *scene);
+
 /* lights.c */
 void						apply_light(t_color *color, t_color light);
 t_color						calculate_lighting(t_hit *hit, t_scene *scene);
@@ -302,5 +330,19 @@ void						select_object(t_gc *gc, int x, int y);
 
 /* handle_keycode.c */
 int							sync_movement(int keycode, t_gc *gc, bool pressed);
+
+/* controls.c */
+void						manage_controls(t_gc *gc);
+
+/* fps.c */
+void						calculate_fps(t_gc *gc);
+
+/* translate_object.c */
+bool						translate_object(t_obj *obj, t_direction direction,
+								double amount);
+
+/* sample_frame.c */
+void						sample_frame(t_gc *gc, int resolution, int sample,
+								int sample_size);
 
 #endif /* miniRT.h */

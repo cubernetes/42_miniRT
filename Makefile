@@ -98,6 +98,8 @@ SRC :=
 vpath %.c src
 SRC += antialiasing.c
 SRC += cast_ray.c
+SRC += control.c
+SRC += fps.c
 SRC += handle_keycode.c
 SRC += hoarding_disorder.c
 SRC += interpolation.c
@@ -113,9 +115,11 @@ SRC += parser_utils2.c
 SRC += printing.c
 SRC += render.c
 SRC += rotate.c
+SRC += sample_frame.c
 SRC += select_object.c
 SRC += setup_mlx.c
 SRC += translate_camera.c
+SRC += translate_object.c
 SRC += update_window.c
 
 # objects
