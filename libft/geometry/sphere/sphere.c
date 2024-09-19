@@ -6,7 +6,7 @@
 /*   By: nam-vu <nam-vu@student.42berlin.de>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 22:06:44 by nam-vu            #+#    #+#             */
-/*   Updated: 2024/09/19 07:56:20 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/09/19 08:03:07 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,13 +78,12 @@ void	print_sphere(t_sphere *this)
  x = x1 >= 0 ? x1 : (x2 >= 0 ? x2 : NaN)
 
 */
-int	intersection_sphere(double *t, t_sphere *sphere, t_ray *ray, bool flag)
+int	intersection_sphere(double *t, t_sphere *sphere, t_ray *ray)
 {
 	double	discriminant;
 	double	a[3];
 	t_vec3	v;
 
-	(void)flag;
 	copy_vec3(&v, ray->terminus);
 	substract_vec3(&v, sphere->center);
 	a[0] = length_squared_vec3(ray->vec);

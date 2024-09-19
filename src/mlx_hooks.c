@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 11:11:35 by tosuman           #+#    #+#             */
-/*   Updated: 2024/09/19 07:37:18 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/09/19 08:02:28 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 #include <X11/Xlib.h>
 #include <X11/keysym.h>
 
-void	select_object(t_gc *gc, int x, int y, bool flag)
+void	select_object(t_gc *gc, int x, int y)
 {
 	t_hit	hit;
 	t_ray	ray;
@@ -37,14 +37,8 @@ void	select_object(t_gc *gc, int x, int y, bool flag)
 	while (++i < x)
 		add_vec3(&pixel, &gc->scene->viewport->right_step);
 	new_ray(&ray, &terminus, &pixel);
-	if (!cast_ray(&hit, &ray, gc->scene, false))
+	if (!cast_ray(&hit, &ray, gc->scene))
 	{
-		if (flag)
-		{
-			printf("obj: %s\n", obj_type_to_str(hit.object));
-			calculate_lighting(&hit, gc->scene, true);
-			return ;
-		}
 		gc->scene->control.e_control_type = OBJECT;
 		gc->scene->control.u_control_object.object = hit.object;
 		i = -1;
@@ -73,23 +67,13 @@ int	mouse_down_hook(void *arg1, ...)
 	va_end(ap);
 	if (button == Button1 && gc->scene->control.e_control_type == MENU)
 	{
-		if ((true))
-		{
-			gc->scene->control.e_control_type = CAMERA;
-			gc->scene->control.u_control_object.camera = gc->scene->camera;
-			if (!gc->mouse_hidden)
-				mlx_mouse_hide(gc->mlx, gc->win);
-		}
-		else
-		{
-			mlx_pixel_put_buf(&gc->img, x - x % gc->resolution, y - y % gc->resolution, 0x00FFFFFF);
-			mlx_put_image_to_window(gc->mlx, gc->win, gc->img.img, 0, 0);
-			mlx_do_sync(gc->mlx);
-			select_object(gc, x - x % gc->resolution, y - y % gc->resolution, true);
-		}
+		gc->scene->control.e_control_type = CAMERA;
+		gc->scene->control.u_control_object.camera = gc->scene->camera;
+		if (!gc->mouse_hidden)
+			mlx_mouse_hide(gc->mlx, gc->win);
 	}
 	else
-		select_object(gc, x, y, false);
+		select_object(gc, x, y);
 	return (0);
 }
 

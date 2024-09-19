@@ -6,7 +6,7 @@
 /*   By: nam-vu <nam-vu@student.42berlin.de>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 02:59:34 by nam-vu            #+#    #+#             */
-/*   Updated: 2024/09/19 07:54:24 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/09/19 08:01:17 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,10 +94,10 @@ void	sample_frame(t_gc *gc, t_scene *scene, int resolution, int sample,
 			{
 				new_ray(&ray, &terminus, &vec[PIXEL]);
 				tmp_color = 0;
-				if (!cast_ray(&hit, &ray, scene, false))
+				if (!cast_ray(&hit, &ray, scene))
 				{
 					tmp_color = hit.color;
-					apply_light(&(hit.color), calculate_lighting(&hit, scene, false));
+					apply_light(&(hit.color), calculate_lighting(&hit, scene));
 				}
 				i[I] = -1;
 				while (++(i[I]) < resolution)

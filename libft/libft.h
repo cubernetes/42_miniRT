@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 20:07:51 by tosuman           #+#    #+#             */
-/*   Updated: 2024/09/19 07:55:53 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/09/19 08:02:50 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -545,7 +545,7 @@ void							new_sphere(t_sphere *this,
 void							copy_sphere(t_sphere *this, t_sphere *sphere);
 void							print_sphere(t_sphere *this);
 int								intersection_sphere(double *t,
-									t_sphere *sphere, t_ray *ray, bool flag);
+									t_sphere *sphere, t_ray *ray);
 
 /* plane */
 void							new_plane(t_plane *this,

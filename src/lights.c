@@ -6,7 +6,7 @@
 /*   By: nam-vu <nam-vu@student.42berlin.de>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 00:38:28 by nam-vu            #+#    #+#             */
-/*   Updated: 2024/09/19 07:16:11 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/09/19 08:00:40 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,34 +78,10 @@ char	*obj_type_to_str(t_obj *obj)
 	return ("cylinder");
 }
 
-//t_color	is_subnormal(t_hit *shadow_hit, t_hit *hit,
-//	t_light *light, t_ray *ray)
-//{
-//	t_vec3	first;
-//
-//	copy_vec3(&first, &(shadow_hit->point));
-//	substract_vec3(&first, &hit->point);
-//	if (length_squared_vec3(&first) <= EPSILON2)
-//		combine_light(&shadow_hit->color, light,
-//			fabs(cos_vec3(&hit->norm, ray->vec)));
-//	return (shadow_hit->color);
-//}
-
-void	print_color_term(t_color color)
-{
-	printf("\033[38;2;%d;%d;%dmR: %d, G: %d, B: %d\033[m\n",
-		(color & 0x00FF0000) >> 16,
-		(color & 0x0000FF00) >> 8,
-		color & 0x000000FF,
-		(color & 0x00FF0000) >> 16,
-		(color & 0x0000FF00) >> 8,
-		color & 0x000000FF);
-}
-
 /* expensive function, is run:
  *     window_width * window_height * nb_lights * nb_objs times (roughly 3 mil.)
  */
-t_color	calculate_lighting(t_hit *hit, t_scene *scene, bool flag)
+t_color	calculate_lighting(t_hit *hit, t_scene *scene)
 {
 	t_ray	ray;
 	int		i;
@@ -123,53 +99,13 @@ t_color	calculate_lighting(t_hit *hit, t_scene *scene, bool flag)
 		init_shadow_ray(&shadow_hit, hit, scene->lights[i], &ray);
 		if (dot_product_vec3(&hit->norm, ray.vec)
 			* dot_product_vec3(&hit->norm, &hit->ray_dir) < 0.0
-			&& (cast_ray(&shadow_hit, &ray, scene, flag)
+			&& (cast_ray(&shadow_hit, &ray, scene)
 			|| shadow_hit.t * shadow_hit.t > length_squared_vec3(&orig_vec)))
 		{
 			combine_light(&res, scene->lights[i],
 					fabs(cos_vec3(&hit->norm, ray.vec)));
-			/* if (res == 2434344) */
-				/* printf("OK: %f\n", fabs(cos_vec3(&hit->norm, ray.vec))); */
-			/* else */
-				/* printf("BAD: %f\n", fabs(cos_vec3(&hit->norm, ray.vec))); */
-			/* if (hit->object->type == TOK_SPHERE) */
-				/* print_color_term(res); */
-			/* if (hit->object->type == TOK_SPHERE) */
-			/* { */
-				/* printf("Object type (where intersection is): %s\n", obj_type_to_str(hit->object)); */
-				/* printf("Shooting ray from %f,%f,%f (intersection) to %f,%f,%f (light)\n", */
-						/* hit->point.x, */
-						/* hit->point.y, */
-						/* hit->point.z, */
-						/* scene->lights[i]->point->x, */
-						/* scene->lights[i]->point->y, */
-						/* scene->lights[i]->point->z); */
-				/* if (!cast_ray(&shadow_hit, &ray, scene)) */
-				/* { */
-					/* printf("Hit this object (meaning there should be shadow): %s\n", obj_type_to_str(shadow_hit.object)); */
-					/* printf("It's this far away: %.20f\n", shadow_hit.t); */
-				/* } */
-				/* else */
-					/* printf("Nothing hit (meaning the light is directly visible)\n"); */
-				/* printf("\n"); */
-			/* } */
-			/* else */
-				/* (void)cast_ray(&shadow_hit, &ray, scene); */
 		}
-		/* else */
-			/* if (hit->object->type == TOK_SPHERE) */
-				/* print_color_term(res); */
 	}
-	/* if (hit->object->type == TOK_SPHERE) */
-	/* { */
-		/* printf("\033[38;2;%d;%d;%dmR: %d, G: %d, B: %d\033[m\n", */
-			/* (res & 0x00FF0000) >> 16, */
-			/* (res & 0x0000FF00) >> 8, */
-			/* res & 0x000000FF, */
-			/* (res & 0x00FF0000) >> 16, */
-			/* (res & 0x0000FF00) >> 8, */
-			/* res & 0x000000FF); */
-	/* } */
 	if (hit->object->selected)
 		res = 0x00FF00FF - res;
 	return (res);

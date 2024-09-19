@@ -203,7 +203,7 @@ fi forbidden-funcs-internal:
 	@#   and exit are from the subject
 	@# - ... are from the math library (-lm)
 	@# - ... are from the minilibx library (-lmlx)
-	@# - sqrt, cos, sin, tan is from the math library
+	@# - sqrt, cos, sin, tan, ... is from the math library
 	@# - the functions below starting with underscore are added by the compiler
 	@# - and a significant part of functions is also added by the mlx library
 	@printf '\n'
@@ -226,6 +226,8 @@ fi forbidden-funcs-internal:
 		grep -v ' cos@'             | \
 		grep -v ' sin@'             | \
 		grep -v ' tan@'             | \
+		grep -v ' fmax@'            | \
+		grep -v ' fmin@'            | \
 		grep -v ' __gmon_start__'              | \
 		grep -v ' _ITM_registerTMCloneTable'   | \
 		grep -v ' _ITM_deregisterTMCloneTable' | \
@@ -292,6 +294,7 @@ fi forbidden-funcs-internal:
 		grep -v ' XWarpPointer'                  | \
 		grep -v ' XFixesHideCursor'              | \
 		grep -v ' XFixesShowCursor'              | \
+		grep -v ' XDrawString'                   | \
 		grep ''                                  && \
 		printf '\033[41;30m%s\033[m\n' "There are forbidden functions!" || \
 		( \
@@ -372,6 +375,7 @@ fi forbidden-funcs-internal:
 				-e 'XWarpPointer' \
 				-e 'XFixesHideCursor' \
 				-e 'XFixesShowCursor' \
+				-e 'XDrawString' \
 				| \
 			grep --invert-match '\<ft_' && \
 			printf '\033[41;30m%s\033[m\n' "You've used a forbidden function!" || \

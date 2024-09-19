@@ -6,7 +6,7 @@
 /*   By: tischmid <tischmid@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 21:48:04 by tischmid          #+#    #+#             */
-/*   Updated: 2024/09/19 07:56:56 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/09/19 08:00:43 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -217,12 +217,12 @@ struct						s_hit
 void						finish(int exit_status, t_gc *gc);
 
 /* render.c */
-int							cast_ray(t_hit *hit, t_ray *ray, t_scene *scene, bool flag);
+int							cast_ray(t_hit *hit, t_ray *ray, t_scene *scene);
 int							render(void *arg);
 void						assert_norm(t_hit *hit, int index);
 /* lights.c */
 void						apply_light(t_color *color, t_color light);
-t_color						calculate_lighting(t_hit *hit, t_scene *scene, bool flag);
+t_color						calculate_lighting(t_hit *hit, t_scene *scene);
 
 /* parser.c */
 int							parse_vec3(char *str, t_vec3 *vec, int flag);

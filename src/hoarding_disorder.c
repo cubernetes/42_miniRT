@@ -6,7 +6,7 @@
 /*   By: nam-vu <nam-vu@student.42berlin.de>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 00:04:58 by nam-vu            #+#    #+#             */
-/*   Updated: 2024/09/08 00:04:58 by nam-vu           ###   ########.fr       */
+/*   Updated: 2024/09/19 07:59:38 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,6 @@ void	print_double_byte_by_byte(double value)
 	byte_ptr = (unsigned char *)&value;
 	i = -1;
 	while ((unsigned int)(++i) < sizeof(double))
-	{
 		printf("%02X ", byte_ptr[i]);
-	}
 	printf(" : %f\n", value);
 }
