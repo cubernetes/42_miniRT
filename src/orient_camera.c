@@ -16,7 +16,7 @@
 
 /* todo unimportant: either rotate view direction vector and then recalculate the other 2
  * OR: rotate each vector using 3 different quaternions? */
-void	rotate_camera(t_camera *camera, t_direction direction, double degrees)
+void	rotate_camera(t_camera *camera, t_direction direction, float degrees)
 {
 	t_quat	quat;
 	t_vec3	left_vec;
@@ -52,7 +52,7 @@ void	camera_yaw(t_scene *scene, int amount)
 
 void	camera_pitch(t_scene *scene, int amount)
 {
-	double			dot;
+	float			dot;
 
 	dot = dot_product_vec3(&scene->camera->dir,
 			&(t_vec3){.x = 0, .y = (amount > 0) - (amount < 0), .z = 0});

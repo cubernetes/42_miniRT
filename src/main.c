@@ -113,8 +113,8 @@ int	main(int ac, char **av)
 	mlx_mouse_hide(gc.mlx, gc.win);
 
 	/* render(&gc); */
-	/* const double	angle = 3; */
-	/* const double	amount = 2 * 200 * sin(angle * 3 / 180); */
+	/* const float	angle = 3; */
+	/* const float	amount = 2 * 200 * sin(angle * 3 / 180); */
 	/* for (int i = 0; i < 120 * 1; ++i) */
 	/* { */
 		/* render(&gc); */

@@ -14,7 +14,7 @@
 #include "libft.h"
 
 static bool	translate_camera_u_d(t_camera *camera,
-	t_direction direction, double amount)
+	t_direction direction, float amount)
 {
 	if (direction == DIR_UP)
 		camera->pos.y += amount;
@@ -24,7 +24,7 @@ static bool	translate_camera_u_d(t_camera *camera,
 }
 
 static bool	translate_camera_f_b(t_camera *camera,
-	t_direction direction, double amount)
+	t_direction direction, float amount)
 {
 	t_vec3	direction_vector;
 
@@ -45,7 +45,7 @@ static bool	translate_camera_f_b(t_camera *camera,
 }
 
 static bool	translate_camera_l_r(t_camera *camera,
-	t_direction direction, double amount)
+	t_direction direction, float amount)
 {
 	t_vec3			direction_vector;
 	static t_vec3	upwards_vector = {.x = 0, .y = 1, .z = 0};
@@ -67,7 +67,7 @@ static bool	translate_camera_l_r(t_camera *camera,
 	return (true);
 }
 
-bool	translate_camera(t_camera *camera, t_direction direction, double amount)
+bool	translate_camera(t_camera *camera, t_direction direction, float amount)
 {
 	bool	moved;
 

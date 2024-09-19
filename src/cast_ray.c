@@ -21,7 +21,7 @@ void	calculate_norm_cylinder(t_hit *hit)
 	t_vec3	norm_base;
 	t_vec3	temp;
 	t_ray	ray;
-	double	norm_len_squared;
+	float	norm_len_squared;
 
 	new_ray(&ray, hit->object->cylinder.center, hit->object->cylinder.axis);
 	norm_point_to_line(&norm_base, &hit->point, &ray);
@@ -52,7 +52,7 @@ void	calculate_norm(t_hit *hit)
 		calculate_norm_cylinder(hit);
 }
 
-static void	calculate_hit(t_hit *hit, t_ray *ray, t_obj *object, double *old_t)
+static void	calculate_hit(t_hit *hit, t_ray *ray, t_obj *object, float *old_t)
 {
 	if (object->type == TOK_PLANE)
 		intersection_plane(&hit->t, &object->plane, ray);
@@ -71,7 +71,7 @@ static void	calculate_hit(t_hit *hit, t_ray *ray, t_obj *object, double *old_t)
 int	cast_ray(t_hit *hit, t_ray *ray, t_scene *scene)
 {
 	int		i;
-	double	old_t;
+	float	old_t;
 
 	i = -1;
 	hit->t = NO_ROOTS;

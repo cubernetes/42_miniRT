@@ -55,7 +55,7 @@ int	parse_color(char *str, t_color *color)
 	int		i;
 	char	*ptr;
 	char	*next_ptr;
-	double	temp[3];
+	float	temp[3];
 
 	*color = 0;
 	if (!str)

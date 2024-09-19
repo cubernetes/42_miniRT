@@ -25,7 +25,7 @@ void	init_viewport_params(t_scene *scene, t_vec3 *terminus)
 	t_vec3	scaled_up;
 	t_vec3	scaled_right;
 	t_vec3	scaled_view;
-	double	focal_distance;
+	float	focal_distance;
 
 	copy_vec3(&scene->viewport->down_step, &scene->camera->up);
 	sc_mult_vec3(&scene->viewport->down_step, -1);
@@ -141,7 +141,7 @@ void	sample_frame(t_gc *gc, t_scene *scene, int resolution, int sample,
 bool	control_camera(t_gc *gc)
 {
 	bool	moved;
-	const double	move_step = ((int)gc->scene->control.lctrl_pressed * 4.0 + 1.0)
+	const float	move_step = ((int)gc->scene->control.lctrl_pressed * 4.0 + 1.0)
 		* MOVE_STEP / gc->fps;
 
 	moved = false;
@@ -166,7 +166,7 @@ bool	control_camera(t_gc *gc)
 	return (moved);
 }
 
-bool	translate_vec3(t_vec3 *vec, t_direction direction, double amount)
+bool	translate_vec3(t_vec3 *vec, t_direction direction, float amount)
 {
 	bool	moved;
 
@@ -191,7 +191,7 @@ bool	translate_vec3(t_vec3 *vec, t_direction direction, double amount)
 	return (true);
 }
 
-bool	translate_object(t_obj *obj, t_direction direction, double amount)
+bool	translate_object(t_obj *obj, t_direction direction, float amount)
 {
 	bool	moved;
 
@@ -214,7 +214,7 @@ bool	translate_object(t_obj *obj, t_direction direction, double amount)
 bool	control_object(t_gc *gc)
 {
 	bool	moved;
-	const double	move_step = (gc->scene->control.lctrl_pressed * 4.0 + 1.0)
+	const float	move_step = (gc->scene->control.lctrl_pressed * 4.0 + 1.0)
 		* MOVE_STEP / gc->fps;
 
 	moved = false;
@@ -264,11 +264,11 @@ void	manage_controls(t_gc *gc)
 
 void	calculate_fps(t_gc *gc)
 {
-	double	now;
+	float	now;
 
 	now = ft_uptime_linux();
 	gc->frames_rendered++;
-	gc->fps = (double)gc->frames_rendered / (now - gc->fps_start);
+	gc->fps = (float)gc->frames_rendered / (now - gc->fps_start);
 	if (ft_uptime_linux() - gc->fps_start > 1.0)
 	{
 		if (gc->fps < MIN_FPS)

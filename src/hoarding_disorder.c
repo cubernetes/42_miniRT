@@ -41,14 +41,14 @@ void	assert_norm(t_hit *hit, int index)
 	}
 }
 
-void	print_double_byte_by_byte(double value)
+void	print_float_byte_by_byte(float value)
 {
 	unsigned char	*byte_ptr;
 	int				i;
 
 	byte_ptr = (unsigned char *)&value;
 	i = -1;
-	while ((unsigned int)(++i) < sizeof(double))
+	while ((unsigned int)(++i) < sizeof(float))
 		printf("%02X ", byte_ptr[i]);
 	printf(" : %f\n", value);
 }
