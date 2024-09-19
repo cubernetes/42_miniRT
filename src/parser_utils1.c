@@ -6,7 +6,7 @@
 /*   By: nam-vu <nam-vu@student.42berlin.de>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 02:15:45 by nam-vu            #+#    #+#             */
-/*   Updated: 2024/09/18 08:27:02 by tosuman          ###   ########.fr       */
+/*   Updated: 2024/09/19 13:41:51 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,12 @@ int	parse_camera(char *line, t_scene *scene)
 	scene->fov = ft_strtof(arr[3]);
 	if (isnan(scene->fov) || scene->fov < 0.0 || scene->fov > 180.0)
 		return (EXIT_FAILURE);
+	if (scene->camera->dir.x == 0.0 && scene->camera->dir.z == 0.0)
+		scene->camera->dir.x += 0.1;
 	copy_vec3(&scene->camera->up, &scene->camera->dir);
 	copy_vec3(&tmp, &scene->camera->dir);
 	cross_product_vec3(&tmp, &(t_vec3){.x = 0, .y = -1, .z = 0});
+	unit_vec3(&tmp);
 	cross_product_vec3(&scene->camera->up, &tmp);
 	sc_mult_vec3(&tmp, -1);
 	copy_vec3(&scene->camera->right, &tmp);

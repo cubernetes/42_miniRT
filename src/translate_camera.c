@@ -6,7 +6,7 @@
 /*   By: tischmid <tischmid@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 21:47:54 by tischmid          #+#    #+#             */
-/*   Updated: 2024/09/19 03:39:41 by nam-vu           ###   ########.fr       */
+/*   Updated: 2024/09/19 13:28:35 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,7 @@ static bool	translate_camera_f_b(t_camera *camera,
 	t_vec3	direction_vector;
 
 	if (camera->dir.x == 0 && camera->dir.z == 0)
-	{
-		ft_printf("Looking straight up, cannot move forward/backward\n");
-		return (false);
-	}
+		camera->dir.x += 0.1;
 	copy_vec3(&direction_vector, &camera->dir);
 	direction_vector.y = 0;
 	unit_vec3(&direction_vector);
@@ -51,10 +48,7 @@ static bool	translate_camera_l_r(t_camera *camera,
 	static t_vec3	upwards_vector = {.x = 0, .y = 1, .z = 0};
 
 	if (camera->dir.x == 0 && camera->dir.z == 0)
-	{
-		printf("Looking straight up, cannot move left/right\n");
-		return (false);
-	}
+		camera->dir.x += 0.1;
 	copy_vec3(&direction_vector, &camera->dir);
 	direction_vector.y = 0;
 	unit_vec3(&direction_vector);
