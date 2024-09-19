@@ -6,7 +6,7 @@
 /*   By: tischmid <tischmid@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 21:48:04 by tischmid          #+#    #+#             */
-/*   Updated: 2024/09/19 08:14:44 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/09/19 08:17:10 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,8 +101,8 @@ struct						s_camera
 
 struct						s_viewport
 {
-	double					width;
-	double					height;
+	float					width;
+	float					height;
 	t_vec3					right_step;
 	t_vec3					down_step;
 	t_vec3					top_left;
@@ -130,19 +130,19 @@ struct						s_gc
 	int						sample_size;
 	int						resolution;
 	int						ideal_resolution;
-	double					last_moved;
+	float					last_moved;
 	bool					fully_rendered;
 	int						x;
 	int						y;
 	int						frames_rendered;
-	double					fps_start;
-	double					fps;
+	float					fps_start;
+	float					fps;
 	char					*fps_string;
 	bool					mouse_hidden;
 	int						antialiasing;
 	int						interpolation;
 };
-// NOTE: last_moved is double because ft_uptime_linux returns double
+// NOTE: last_moved is float because ft_uptime_linux returns float
 // thereforce, this feature exists only for linux AT THE MOMENT
 
 struct						s_control
@@ -178,7 +178,7 @@ struct						s_scene
 	int						nb_objs;
 	t_camera				*camera;
 	t_viewport				*viewport;
-	double					fov;
+	float					fov;
 	t_control				control;
 };
 
@@ -199,12 +199,12 @@ struct						s_light
 {
 	t_vec3					*point;
 	t_color					color;
-	double					ratio;
+	float					ratio;
 };
 
 struct						s_hit
 {
-	double					t;
+	float					t;
 	t_vec3					point;
 	t_vec3					norm;
 	t_vec3					ray_dir;
@@ -274,13 +274,13 @@ void						rotate_object(t_obj *obj, t_quat *quat);
 
 /* orient_camera.c */
 void						rotate_camera(t_camera *camera,
-								t_direction direction, double degrees);
+								t_direction direction, float degrees);
 void						camera_yaw(t_scene *scene, int amount);
 void						camera_pitch(t_scene *scene, int amount);
 
 /* translate_camera.c */
 bool						translate_camera(t_camera *camera,
-								t_direction direction, double amount);
+								t_direction direction, float amount);
 
 /* antialiasing.c */
 int							edge_detection(t_rt_img *img, int x, int y,

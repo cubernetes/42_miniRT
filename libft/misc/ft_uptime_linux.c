@@ -6,7 +6,7 @@
 /*   By: tischmid <tischmid@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 22:13:18 by tischmid          #+#    #+#             */
-/*   Updated: 2024/09/18 21:32:42 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/09/19 08:17:40 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@
 
 // todo: valgrind the shit out of this or sth.
 // todo: sus not checking fd, but gnl would fail anyway
-double	ft_uptime_linux(void)
+float	ft_uptime_linux(void)
 {
-	double	uptime;
+	float	uptime;
 	int		fd;
 	char	*line;
 	char	**parts;
