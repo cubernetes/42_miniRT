@@ -27,7 +27,7 @@ void	substract_vec3(t_vec3 *this, t_vec3 *vec)
 	this->z -= vec->z;
 }
 
-float	dot_product_vec3(t_vec3 *this, t_vec3 *vec)
+double	dot_product_vec3(t_vec3 *this, t_vec3 *vec)
 {
 	return (this->x * vec->x
 		+ this->y * vec->y

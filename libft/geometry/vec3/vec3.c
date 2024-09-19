@@ -15,7 +15,7 @@
 #include <stdio.h>
 #include <math.h>
 
-void	new_vec3(t_vec3 *this, float x, float y, float z)
+void	new_vec3(t_vec3 *this, double x, double y, double z)
 {
 	this->x = x;
 	this->y = y;
@@ -42,11 +42,11 @@ void	print_vec3(t_vec3 *this)
 //{
 //	t_vec3	eq[3];
 //	t_vec3	b;
-//	float	coefficient;
+//	double	coefficient;
 //	t_vec3	new_substraction;
 //	t_vec3	temp;
-//	float	t;
-//	float	rhs;
+//	double	t;
+//	double	rhs;
 //
 //	copy_vec3(&b, this);
 //	for (int i = 0; i < 3; i++)
@@ -94,7 +94,7 @@ void	print_vec3(t_vec3 *this)
 //	}
 //}
 
-float	cos_vec3(t_vec3 *a, t_vec3 *b)
+double	cos_vec3(t_vec3 *a, t_vec3 *b)
 {
 	return (dot_product_vec3(a, b)
 		/ sqrt(length_squared_vec3(a) * length_squared_vec3(b)));

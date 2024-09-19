@@ -65,11 +65,11 @@ void	print_plane(t_plane *this)
   2) b != 0, then ray is parallel to plane, no intersections are possible;
  otherwise, t = -b/k;
 */
-int	intersection_plane(float *t, t_plane *plane, t_ray *ray)
+int	intersection_plane(double *t, t_plane *plane, t_ray *ray)
 {
 	t_vec3	v;
-	float	k;
-	float	b;
+	double	k;
+	double	b;
 
 	copy_vec3(&v, ray->terminus);
 	substract_vec3(&v, plane->point);

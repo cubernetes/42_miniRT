@@ -39,9 +39,9 @@ void	print_cylinder(t_cylinder *this)
 	print_vec3(this->base_bot);
 }
 
-void	choose_root(float *t, float *x)
+void	choose_root(double *t, double *x)
 {
-	float	min_x;
+	double	min_x;
 	int		i;
 
 	min_x = NO_ROOTS;
@@ -54,7 +54,7 @@ void	choose_root(float *t, float *x)
 	*t = min_x;
 }
 
-void	calculate_products_cylinder(float *d, t_cylinder *cylinder,
+void	calculate_products_cylinder(double *d, t_cylinder *cylinder,
 	t_ray *ray, t_vec3 *q)
 {
 	copy_vec3(q, ray->terminus);
@@ -64,7 +64,7 @@ void	calculate_products_cylinder(float *d, t_cylinder *cylinder,
 	d[2] = dot_product_vec3(q, cylinder->axis);
 }
 
-void	calculate_sec_cylinder(float *sec, t_ray *ray, float *d)
+void	calculate_sec_cylinder(double *sec, t_ray *ray, double *d)
 {
 	sec[0] = length_squared_vec3(ray->vec) - d[0] * d[0];
 	sec[1] = 2 * (d[1] - d[0] * d[2]);

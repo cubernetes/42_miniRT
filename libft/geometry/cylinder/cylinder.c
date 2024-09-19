@@ -17,7 +17,7 @@
 
 void	new_cylinder(t_cylinder *this, t_cylinder *cylinder_params)
 {
-	float	ratio;
+	double	ratio;
 
 	if (cylinder_params->radius <= 0 || cylinder_params->height <= 0)
 	{
@@ -72,7 +72,7 @@ void	norm_point_to_line(t_vec3 *norm, t_vec3 *point, t_ray *ray)
 {
 	t_vec3	v;
 	t_vec3	offset;
-	float	t;
+	double	t;
 
 	copy_vec3(&v, point);
 	substract_vec3(&v, ray->terminus);
@@ -87,7 +87,7 @@ void	norm_point_to_line(t_vec3 *norm, t_vec3 *point, t_ray *ray)
  get intersections with top/bottom plane and check if the
  distance to the top/bottom base is not bigger than radius
 */
-static void	intersection_cylinder_sides(float *x,
+static void	intersection_cylinder_sides(double *x,
 	t_cylinder *cylinder, t_ray *ray)
 {
 	t_plane	top;
@@ -118,11 +118,11 @@ static void	intersection_cylinder_sides(float *x,
 }
 
 /* can be put in choose_root */
-static void	is_real_cylinder(float *x, t_cylinder *cylinder, t_ray *ray)
+static void	is_real_cylinder(double *x, t_cylinder *cylinder, t_ray *ray)
 {
 	t_vec3	root1;
 	t_vec3	root2;
-	float	max_distance_squared;
+	double	max_distance_squared;
 
 	max_distance_squared = cylinder->radius
 		* cylinder->radius + cylinder->height * cylinder->height / 4;
@@ -222,15 +222,15 @@ static void	is_real_cylinder(float *x, t_cylinder *cylinder, t_ray *ray)
 
  choose the lowest valid from x1, x2, intersection_top, intersection_bot
  */
-int	intersection_cylinder(float *t, t_cylinder *cylinder, t_ray *ray)
+int	intersection_cylinder(double *t, t_cylinder *cylinder, t_ray *ray)
 {
 	t_vec3	q;
-	float	d[3];
-	float	sec[3];
-	float	discriminant;
-	float	x[4];
+	double	d[3];
+	double	sec[3];
+	double	discriminant;
+	double	x[4];
 
-	ft_memmove(x, &(float []){-1, -1, -1}, sizeof(float) * 3);
+	ft_memmove(x, &(double []){-1, -1, -1}, sizeof(double) * 3);
 	calculate_products_cylinder(d, cylinder, ray, &q);
 	calculate_sec_cylinder(sec, ray, d);
 	sec[2] = length_squared_vec3(&q)

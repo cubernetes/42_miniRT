@@ -26,7 +26,7 @@ void	copy_ray(t_ray *this, t_ray *ray)
 	copy_vec3(this->terminus, ray->terminus);
 }
 
-int	ray_at(t_ray *this, float t, t_vec3 *res)
+int	ray_at(t_ray *this, double t, t_vec3 *res)
 {
 	t_vec3	offset;
 
