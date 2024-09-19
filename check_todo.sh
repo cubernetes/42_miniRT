@@ -1,7 +1,6 @@
 #! /bin/sh
 
 # TODO unimportant: create GitHub Releases
-# TODO later: benchmark float (e.g. sqrtf) against double (e.g. sqrt)
 # TODO later: rotations for objects
 # TODO unimportant: create a small python script to generate "edge case" files
 # TODO unimportant: create a small bash script to test against the "edge case" files
