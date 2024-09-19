@@ -6,7 +6,7 @@
 /*   By: nam-vu <nam-vu@student.42berlin.de>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 02:59:34 by nam-vu            #+#    #+#             */
-/*   Updated: 2024/09/19 13:38:08 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/09/19 14:44:47 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,9 @@ void	render_cursor(t_gc *gc)
 	int			i;
 	t_rt_img	*curr_img;
 
+	if (gc->scene->window_width < CURSOR_SIZE * 2
+		|| gc->scene->window_height < CURSOR_SIZE * 2)
+		return ;
 	if (gc->antialiasing)
 		curr_img = &gc->img2;
 	else

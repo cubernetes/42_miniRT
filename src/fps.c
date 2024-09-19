@@ -6,7 +6,7 @@
 /*   By: tischmid <tischmid@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 11:04:11 by tischmid          #+#    #+#             */
-/*   Updated: 2024/09/19 11:04:20 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/09/19 14:47:24 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,5 +33,6 @@ void	calculate_fps(t_gc *gc)
 		gc->fps_start = now;
 		gc->frames_rendered = 1;
 	}
-	mlx_string_put(gc->mlx, gc->win, 50, 50, 0x00FFFFFF, gc->fps_string);
+	if (gc->scene->window_width >= 100 && gc->scene->window_height >= 100)
+		mlx_string_put(gc->mlx, gc->win, 50, 50, 0x00FFFFFF, gc->fps_string);
 }

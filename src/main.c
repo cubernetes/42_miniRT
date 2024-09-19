@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 19:40:05 by tosuman           #+#    #+#             */
-/*   Updated: 2024/09/19 10:56:12 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/09/19 14:52:33 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ int	main(int ac, char **av)
 	mlx_mouse_move(gc.mlx, gc.win,
 		gc.scene->window_width / 2, gc.scene->window_height / 2);
 	mlx_mouse_hide(gc.mlx, gc.win);
-	mlx_loop_hook(gc.mlx, render, (void *)&gc);
+	/* mlx_loop_hook(gc.mlx, render, (void *)&gc); */
 	mlx_loop(gc.mlx);
 	finish(0, &gc);
 	return (EXIT_SUCCESS);
