@@ -87,6 +87,7 @@ typedef struct s_hit		t_hit;
 typedef struct s_camera		t_camera;
 typedef struct s_viewport	t_viewport;
 typedef struct s_control	t_control;
+typedef struct s_antialiasing	t_antialiasing;
 
 /********** struct defintions **********/
 struct						s_camera
@@ -210,6 +211,18 @@ struct						s_hit
 	t_vec3					ray_dir;
 	t_obj					*object;
 	t_color					color;
+};
+
+struct						s_antialiasing
+{
+	t_gc	*gc;
+	int		width;
+	int		height;
+	int		resolution;
+	int		x;
+	int		y;
+	t_color	res_color;
+	t_color	tmp_color;
 };
 
 /***************** prototypes ****************/

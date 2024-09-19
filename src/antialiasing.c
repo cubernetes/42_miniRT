@@ -43,17 +43,6 @@ int	edge_detection(t_rt_img *img, int x, int y, int rs)
 	return (length_squared_vec3(grad)
 		+ length_squared_vec3(grad + 1) >= EPSILON);
 }
-typedef struct s_antialiasing
-{
-	t_gc	*gc;
-	int		width;
-	int		height;
-	int		resolution;
-	int		x;
-	int		y;
-	t_color	res_color;
-	t_color	tmp_color;
-}	t_antialiasing;
 
 void	gaussian_blur(t_antialiasing *data)
 {
