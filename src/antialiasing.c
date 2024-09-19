@@ -6,7 +6,7 @@
 /*   By: nam-vu <nam-vu@student.42berlin.de>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 21:02:35 by nam-vu            #+#    #+#             */
-/*   Updated: 2024/09/12 21:02:35 by nam-vu           ###   ########.fr       */
+/*   Updated: 2024/09/19 08:39:06 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,10 +59,10 @@ int	edge_detection(t_rt_img *img, int x, int y, int resolution)
 {
 	t_vec3			grad_x;
 	t_vec3			grad_y;
-	const int	kernel_x[3][3] = {{1, 0, -1},
+	const float	kernel_x[3][3] = {{1, 0, -1},
 							{2, 0, -2},
 							{1, 0, -1}};
-	const int	kernel_y[3][3] = {{1, 2, 1},
+	const float	kernel_y[3][3] = {{1, 2, 1},
 								{0, 0, 0},
 								{-1, -2, -1}};
 
@@ -73,12 +73,12 @@ int	edge_detection(t_rt_img *img, int x, int y, int resolution)
 		for (int j = 0; j < 3; j++)
 		{
 			t_color	temp = mlx_pixel_get_buf(img, x + (i - 1) * resolution, y + (j - 1) * resolution);
-			grad_x.x += kernel_x[2 - i][2 - j] * (int)get_red(&temp);
-			grad_x.y += kernel_x[2 - i][2 - j] * (int)get_green(&temp);
-			grad_x.z += kernel_x[2 - i][2 - j] * (int)get_blue(&temp);
-			grad_y.x += kernel_y[2 - i][2 - j] * (int)get_red(&temp);
-			grad_y.y += kernel_y[2 - i][2 - j] * (int)get_green(&temp);
-			grad_y.z += kernel_y[2 - i][2 - j] * (int)get_blue(&temp);
+			grad_x.x += kernel_x[2 - i][2 - j] * (float)get_red(&temp);
+			grad_x.y += kernel_x[2 - i][2 - j] * (float)get_green(&temp);
+			grad_x.z += kernel_x[2 - i][2 - j] * (float)get_blue(&temp);
+			grad_y.x += kernel_y[2 - i][2 - j] * (float)get_red(&temp);
+			grad_y.y += kernel_y[2 - i][2 - j] * (float)get_green(&temp);
+			grad_y.z += kernel_y[2 - i][2 - j] * (float)get_blue(&temp);
 		}
 	}
 	const float len_sq_x = length_squared_vec3(&grad_x);

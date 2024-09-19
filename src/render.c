@@ -6,7 +6,7 @@
 /*   By: nam-vu <nam-vu@student.42berlin.de>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 02:59:34 by nam-vu            #+#    #+#             */
-/*   Updated: 2024/09/19 08:01:17 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/09/19 08:38:20 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,12 @@ void	init_viewport_params(t_scene *scene, t_vec3 *terminus)
 	copy_vec3(&scene->viewport->right_step, &scene->camera->right);
 	copy_vec3(&scene->viewport->top_left, terminus);
 	copy_vec3(&scaled_view, &scene->camera->dir);
-	focal_distance = scene->window_width / (2 * tan(scene->fov * PI / 360));
+	focal_distance = (float)scene->window_width / (2 * tanf(scene->fov * PI / 360));
 	sc_mult_vec3(&scaled_view, focal_distance);
 	copy_vec3(&scaled_right, &scene->camera->right);
-	sc_mult_vec3(&scaled_right, scene->window_width / 2.0);
+	sc_mult_vec3(&scaled_right, (float)scene->window_width / 2.0f);
 	copy_vec3(&scaled_up, &scene->camera->up);
-	sc_mult_vec3(&scaled_up, scene->window_height / 2.0);
+	sc_mult_vec3(&scaled_up, (float)scene->window_height / 2.0f);
 	add_vec3(&scene->viewport->top_left, &scaled_view);
 	substract_vec3(&scene->viewport->top_left, &scaled_right);
 	add_vec3(&scene->viewport->top_left, &scaled_up);
@@ -141,7 +141,7 @@ void	sample_frame(t_gc *gc, t_scene *scene, int resolution, int sample,
 bool	control_camera(t_gc *gc)
 {
 	bool	moved;
-	const float	move_step = ((int)gc->scene->control.lctrl_pressed * 4.0 + 1.0)
+	const float	move_step = ((float)gc->scene->control.lctrl_pressed * 4.0f + 1.0f)
 		* MOVE_STEP / gc->fps;
 
 	moved = false;
@@ -214,7 +214,7 @@ bool	translate_object(t_obj *obj, t_direction direction, float amount)
 bool	control_object(t_gc *gc)
 {
 	bool	moved;
-	const float	move_step = (gc->scene->control.lctrl_pressed * 4.0 + 1.0)
+	const float	move_step = ((float)gc->scene->control.lctrl_pressed * 4.0f + 1.0f)
 		* MOVE_STEP / gc->fps;
 
 	moved = false;
@@ -245,9 +245,9 @@ void	manage_controls(t_gc *gc)
 
 	moved = true;
 	if (gc->scene->control.f_pressed && !gc->scene->control.lctrl_pressed)
-		gc->scene->fov = fmin(gc->scene->fov + 1, 150);
+		gc->scene->fov = fminf(gc->scene->fov + 1, 150);
 	else if (gc->scene->control.f_pressed && gc->scene->control.lctrl_pressed)
-		gc->scene->fov = fmax(gc->scene->fov - 1, 30);
+		gc->scene->fov = fmaxf(gc->scene->fov - 1, 30);
 	else
 		moved = false;
 	if (gc->scene->control.e_control_type == CAMERA)

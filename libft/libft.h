@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 20:07:51 by tosuman           #+#    #+#             */
-/*   Updated: 2024/09/19 08:19:58 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/09/19 08:29:40 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,11 @@
 
 /* geometry */
 # define NO_ROOTS -1
-# define PI 3.1415926535897932384626
-# define DEG_TO_RAD 0.017453292519943295
-# define RAD_TO_DEG 57.29577951308232
+# define PI 3.1415926535897932384626f
+# define DEG_TO_RAD 0.017453292519943295f
+# define RAD_TO_DEG 57.29577951308232f
 
-# define EPSILON_ROOT 1e-10
+# define EPSILON_ROOT 1e-10f
 
 /***************** FORWARD DECLARATIONS. *****************/
 typedef struct s_list			t_list;

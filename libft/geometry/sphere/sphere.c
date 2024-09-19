@@ -67,7 +67,7 @@ void	print_sphere(t_sphere *this)
  C = || v || ^ 2 - r ^ 2
 
  calculate discriminant D:
- D = sqrt(B ^ 2 - 4AC)
+ D = sqrtf(B ^ 2 - 4AC)
  if D is negative, no intersections are possible.
 
  calculate roots:
@@ -92,7 +92,7 @@ int	intersection_sphere(float *t, t_sphere *sphere, t_ray *ray)
 	discriminant = a[1] * a[1] - 4 * a[0] * a[2];
 	if (discriminant >= 0)
 	{
-		discriminant = sqrt(discriminant);
+		discriminant = sqrtf(discriminant);
 		*t = -a[1] - discriminant;
 		if (*t <= EPSILON_ROOT)
 		{

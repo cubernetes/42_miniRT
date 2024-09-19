@@ -6,7 +6,7 @@
 /*   By: nam-vu <nam-vu@student.42berlin.de>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 00:38:28 by nam-vu            #+#    #+#             */
-/*   Updated: 2024/09/19 08:07:41 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/09/19 08:32:26 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,12 @@ void	apply_light(t_color *color, t_color ratio)
 static void	combine_light(t_color *color, t_light *light,
 	float diffusion_factor)
 {
-	const unsigned int	new_red = (unsigned int)(get_red(color)
-			+ get_red(&light->color) * light->ratio * diffusion_factor);
-	const unsigned int	new_green = (unsigned int)(get_green(color)
-			+ get_green(&light->color) * light->ratio * diffusion_factor);
-	const unsigned int	new_blue = (unsigned int)(get_blue(color)
-			+ get_blue(&light->color) * light->ratio * diffusion_factor);
+	const unsigned int	new_red = (unsigned int)((float)get_red(color)
+			+ (float)get_red(&light->color) * light->ratio * diffusion_factor);
+	const unsigned int	new_green = (unsigned int)((float)get_green(color)
+			+ (float)get_green(&light->color) * light->ratio * diffusion_factor);
+	const unsigned int	new_blue = (unsigned int)((float)get_blue(color)
+			+ (float)get_blue(&light->color) * light->ratio * diffusion_factor);
 
 	if (new_red > 255)
 		set_red(color, 255);
@@ -103,7 +103,7 @@ t_color	calculate_lighting(t_hit *hit, t_scene *scene)
 			|| shadow_hit.t * shadow_hit.t > length_squared_vec3(&orig_vec)))
 		{
 			combine_light(&res, scene->lights[i],
-					fabs(cos_vec3(&hit->norm, ray.vec)));
+					fabsf(cos_vec3(&hit->norm, ray.vec)));
 		}
 	}
 	if (hit->object->selected)

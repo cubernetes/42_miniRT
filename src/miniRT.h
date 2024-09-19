@@ -6,7 +6,7 @@
 /*   By: tischmid <tischmid@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 21:48:04 by tischmid          #+#    #+#             */
-/*   Updated: 2024/09/19 08:17:10 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/09/19 08:37:15 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@
 # include "mlx_int.h"
 # include <stdlib.h>
 
-# define EPSILON 0.0001
-# define EPSILON2 0.0000001
+# define EPSILON 0.0001f
+# define EPSILON2 0.0000001f
 
 /* parse.c */
 # define ANY_VEC 0
@@ -38,9 +38,9 @@
 # define SAMPLE_SIZE 7
 # define RESOLUTION 8
 
-# define CAM_ROTATE_FACTOR 10.0
-# define MOVE_DELAY 1.0
-# define MOVE_STEP 80
+# define CAM_ROTATE_FACTOR 10.0f
+# define MOVE_DELAY 1.0f
+# define MOVE_STEP 80.0f
 
 # define CURSOR_SIZE 10
 # define CURSOR_CLR 0x00FFFFFF

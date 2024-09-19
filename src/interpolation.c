@@ -6,7 +6,7 @@
 /*   By: nam-vu <nam-vu@student.42berlin.de>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 18:55:33 by nam-vu            #+#    #+#             */
-/*   Updated: 2024/09/18 02:12:54 by nam-vu           ###   ########.fr       */
+/*   Updated: 2024/09/19 08:39:20 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 
 void	color_to_vec3(t_vec3 *vec, t_color color)
 {
-	vec->r = get_red(&color);
-	vec->g = get_green(&color);
-	vec->b = get_blue(&color);
+	vec->r = (float)get_red(&color);
+	vec->g = (float)get_green(&color);
+	vec->b = (float)get_blue(&color);
 }
 
 void	vec3_to_color(t_vec3 *vec, t_color *color)
