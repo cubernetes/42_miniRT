@@ -6,7 +6,7 @@
 /*   By: nam-vu <nam-vu@student.42berlin.de>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 22:11:47 by nam-vu            #+#    #+#             */
-/*   Updated: 2024/09/12 01:14:15 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/09/19 07:56:08 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ int	intersection_plane(double *t, t_plane *plane, t_ray *ray)
 		return (1);
 	}
 	*t = -b / k;
-	if (*t <= 0)
+	if (*t <= EPSILON_ROOT)
 		*t = NO_ROOTS;
 	return (*t == NO_ROOTS);
 }

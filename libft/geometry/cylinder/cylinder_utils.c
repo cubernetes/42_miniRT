@@ -6,7 +6,7 @@
 /*   By: nam-vu <nam-vu@student.42berlin.de>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 22:36:46 by nam-vu            #+#    #+#             */
-/*   Updated: 2024/09/17 02:36:49 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/09/19 07:56:03 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	choose_root(double *t, double *x)
 	i = -1;
 	while (++i < 4)
 	{
-		if ((x[i] > 0) && (min_x == -1 || x[i] < min_x))
+		if ((x[i] > EPSILON_ROOT) && (min_x == -1 || x[i] < min_x))
 			min_x = x[i];
 	}
 	*t = min_x;

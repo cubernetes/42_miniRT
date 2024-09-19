@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 20:07:51 by tosuman           #+#    #+#             */
-/*   Updated: 2024/09/17 02:38:04 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/09/19 07:55:53 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@
 # define PI 3.1415926535897932384626
 # define DEG_TO_RAD 0.017453292519943295
 # define RAD_TO_DEG 57.29577951308232
+
+# define EPSILON_ROOT 1e-10
 
 /***************** FORWARD DECLARATIONS. *****************/
 typedef struct s_list			t_list;
@@ -543,7 +545,7 @@ void							new_sphere(t_sphere *this,
 void							copy_sphere(t_sphere *this, t_sphere *sphere);
 void							print_sphere(t_sphere *this);
 int								intersection_sphere(double *t,
-									t_sphere *sphere, t_ray *ray);
+									t_sphere *sphere, t_ray *ray, bool flag);
 
 /* plane */
 void							new_plane(t_plane *this,

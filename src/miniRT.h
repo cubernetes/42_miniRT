@@ -6,7 +6,7 @@
 /*   By: tischmid <tischmid@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 21:48:04 by tischmid          #+#    #+#             */
-/*   Updated: 2024/09/19 02:26:17 by nam-vu           ###   ########.fr       */
+/*   Updated: 2024/09/19 07:56:56 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,11 @@
 # define WINDOW_HEIGHT 1080
 
 # define SAMPLE_SIZE 7
-// # define RESOLUTION 8
-# define RESOLUTION 4
+# define RESOLUTION 8
 
 # define CAM_ROTATE_FACTOR 10.0
-# define MOVE_DELAY 1000000.0
-# define MOVE_STEP 30
+# define MOVE_DELAY 1.0
+# define MOVE_STEP 80
 
 # define CURSOR_SIZE 10
 # define CURSOR_CLR 0x00FFFFFF
@@ -218,12 +217,12 @@ struct						s_hit
 void						finish(int exit_status, t_gc *gc);
 
 /* render.c */
-int							cast_ray(t_hit *hit, t_ray *ray, t_scene *scene);
+int							cast_ray(t_hit *hit, t_ray *ray, t_scene *scene, bool flag);
 int							render(void *arg);
 void						assert_norm(t_hit *hit, int index);
 /* lights.c */
 void						apply_light(t_color *color, t_color light);
-t_color						calculate_lighting(t_hit *hit, t_scene *scene);
+t_color						calculate_lighting(t_hit *hit, t_scene *scene, bool flag);
 
 /* parser.c */
 int							parse_vec3(char *str, t_vec3 *vec, int flag);
@@ -293,5 +292,9 @@ void						apply_pattern_antialiasing(t_gc *gc, int width,
 /* interpolation.c */
 void						interpolation(t_gc *gc, unsigned int width,
 								unsigned int height, unsigned int resolution);
+
+/* todo: currently in src/lights.c, put in separate file */
+t_vec3						*get_object_pos(t_obj *obj);
+char						*obj_type_to_str(t_obj *obj);
 
 #endif /* miniRT.h */

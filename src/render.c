@@ -6,7 +6,7 @@
 /*   By: nam-vu <nam-vu@student.42berlin.de>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 02:59:34 by nam-vu            #+#    #+#             */
-/*   Updated: 2024/09/19 02:33:29 by nam-vu           ###   ########.fr       */
+/*   Updated: 2024/09/19 07:54:24 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,10 +94,10 @@ void	sample_frame(t_gc *gc, t_scene *scene, int resolution, int sample,
 			{
 				new_ray(&ray, &terminus, &vec[PIXEL]);
 				tmp_color = 0;
-				if (!cast_ray(&hit, &ray, scene))
+				if (!cast_ray(&hit, &ray, scene, false))
 				{
 					tmp_color = hit.color;
-					apply_light(&(hit.color), calculate_lighting(&hit, scene));
+					apply_light(&(hit.color), calculate_lighting(&hit, scene, false));
 				}
 				i[I] = -1;
 				while (++(i[I]) < resolution)
@@ -271,10 +271,10 @@ void	calculate_fps(t_gc *gc)
 	gc->fps = (double)gc->frames_rendered / (now - gc->fps_start);
 	if (ft_uptime_linux() - gc->fps_start > 1.0)
 	{
-		// if (gc->fps < MIN_FPS)
-		// 	gc->ideal_resolution = ft_min(gc->ideal_resolution + 1, 64);
-		// else if (gc->fps > MIN_FPS + 10)
-		// 	gc->ideal_resolution = ft_max(gc->ideal_resolution - 1, 2);
+		if (gc->fps < MIN_FPS)
+			gc->ideal_resolution = ft_min(gc->ideal_resolution + 1, 64);
+		else if (gc->fps > MIN_FPS + 10)
+			gc->ideal_resolution = ft_max(gc->ideal_resolution - 1, 2);
 		gc_start_context("FPS");
 		gc_free("FPS");
 		gc->fps_string = ft_itoa((int)gc->fps);
@@ -293,19 +293,19 @@ int	render(void *arg)
 	manage_controls(gc);
 	if (ft_uptime_linux() - gc->last_moved > MOVE_DELAY
 		&& gc->resolution >= 2 && gc->sample == 0)
+	{
 		gc->resolution--;
+		gc->fully_rendered = false;
+	}
 	if (!gc->fully_rendered)
 	{
 		sample_frame(gc, gc->scene, gc->resolution, gc->sample, gc->sample_size);
 		gc->sample = (gc->sample + 1) % gc->sample_size;
 		if (gc->resolution == 1 && gc->sample == 0)
-		{
 			gc->fully_rendered = true;
-//			destroy_hook(gc);
-		}
 		else
 			gc->fully_rendered = false;
+		calculate_fps(gc);
 	}
-	calculate_fps(gc);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 19:40:05 by tosuman           #+#    #+#             */
-/*   Updated: 2024/09/19 02:18:47 by nam-vu           ###   ########.fr       */
+/*   Updated: 2024/09/19 07:18:01 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,6 @@ int	main(int ac, char **av)
 	setup_scene(&scene);
 	parse_args(ac, av, &scene, &gc);
 	setup_mlx(&gc, &scene);
-	/* update_dimensions(&gc); */
 	mlx_mouse_move(gc.mlx, gc.win,
 		gc.scene->window_width / 2, gc.scene->window_height / 2);
 	mlx_mouse_hide(gc.mlx, gc.win);

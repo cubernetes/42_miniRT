@@ -6,7 +6,7 @@
 /*   By: nam-vu <nam-vu@student.42berlin.de>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 02:37:41 by nam-vu            #+#    #+#             */
-/*   Updated: 2024/09/19 03:19:35 by nam-vu           ###   ########.fr       */
+/*   Updated: 2024/09/19 07:56:48 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,12 +52,12 @@ void	calculate_norm(t_hit *hit)
 		calculate_norm_cylinder(hit);
 }
 
-void	calculate_hit(t_hit *hit, t_ray *ray, t_obj *object, double *old_t)
+static void	calculate_hit(t_hit *hit, t_ray *ray, t_obj *object, double *old_t, bool flag)
 {
 	if (object->type == TOK_PLANE)
 		intersection_plane(&hit->t, &object->plane, ray);
 	else if (object->type == TOK_SPHERE)
-		intersection_sphere(&hit->t, &object->sphere, ray);
+		intersection_sphere(&hit->t, &object->sphere, ray, flag);
 	else if (object->type == TOK_CYLINDER)
 		intersection_cylinder(&hit->t, &object->cylinder, ray);
 	if ((hit->t > EPSILON) && (hit->t < *old_t || *old_t == NO_ROOTS) && isnormal(hit->t))
@@ -68,7 +68,7 @@ void	calculate_hit(t_hit *hit, t_ray *ray, t_obj *object, double *old_t)
 	}
 }
 
-int	cast_ray(t_hit *hit, t_ray *ray, t_scene *scene)
+int	cast_ray(t_hit *hit, t_ray *ray, t_scene *scene, bool flag)
 {
 	int		i;
 	double	old_t;
@@ -78,7 +78,7 @@ int	cast_ray(t_hit *hit, t_ray *ray, t_scene *scene)
 	old_t = NO_ROOTS;
 	hit->color = 0x00000000;
 	while (++i < scene->nb_objs)
-		calculate_hit(hit, ray, scene->objects[i], &old_t);
+		calculate_hit(hit, ray, scene->objects[i], &old_t, flag);
 	if (old_t == NO_ROOTS)
 	{
 		hit->t = NO_ROOTS;

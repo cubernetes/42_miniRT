@@ -6,11 +6,12 @@
 /*   By: nam-vu <nam-vu@student.42berlin.de>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 22:06:44 by nam-vu            #+#    #+#             */
-/*   Updated: 2024/09/17 02:10:07 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/09/19 07:56:20 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+
 #include <math.h>
 #include <stdio.h>
 
@@ -77,12 +78,13 @@ void	print_sphere(t_sphere *this)
  x = x1 >= 0 ? x1 : (x2 >= 0 ? x2 : NaN)
 
 */
-int	intersection_sphere(double *t, t_sphere *sphere, t_ray *ray)
+int	intersection_sphere(double *t, t_sphere *sphere, t_ray *ray, bool flag)
 {
 	double	discriminant;
 	double	a[3];
 	t_vec3	v;
 
+	(void)flag;
 	copy_vec3(&v, ray->terminus);
 	substract_vec3(&v, sphere->center);
 	a[0] = length_squared_vec3(ray->vec);
@@ -93,9 +95,11 @@ int	intersection_sphere(double *t, t_sphere *sphere, t_ray *ray)
 	{
 		discriminant = sqrt(discriminant);
 		*t = -a[1] - discriminant;
-		if (*t <= 0)
+		if (*t <= EPSILON_ROOT)
+		{
 			*t = -a[1] + discriminant;
-		if (*t > 0)
+		}
+		if (*t > EPSILON_ROOT)
 		{
 			*t /= 2 * a[0];
 			return (1);
