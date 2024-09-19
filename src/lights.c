@@ -6,7 +6,7 @@
 /*   By: nam-vu <nam-vu@student.42berlin.de>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 00:38:28 by nam-vu            #+#    #+#             */
-/*   Updated: 2024/09/19 11:33:16 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/09/19 16:21:55 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ t_color	calculate_lighting(t_hit *hit, t_scene *scene)
 		if (dot_product_vec3(&hit->norm, ray.vec)
 			* dot_product_vec3(&hit->norm, &hit->ray_dir) < 0.0
 			&& (cast_ray(&shadow_hit, &ray, scene) || shadow_hit.t
-				* shadow_hit.t > length_squared_vec3(&orig_vec)))
+				* shadow_hit.t + EPSILON_ROOT > length_squared_vec3(&orig_vec)))
 			combine_light(&res, scene->lights[i],
 				fabs(cos_vec3(&hit->norm, ray.vec)));
 	}
