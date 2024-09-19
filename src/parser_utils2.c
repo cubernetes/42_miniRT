@@ -48,14 +48,14 @@ int	open_rt_file(char *file, int *fd)
 	return (EXIT_SUCCESS);
 }
 
-bool	init_parse(t_list **objects, t_list **lights, char **line, int fd)
+int	init_parse(t_list **objects, t_list **lights, char **line, int fd)
 {
 	*objects = lnew();
 	*lights = lnew();
 	*line = get_next_line(fd);
 	if (*line)
 		*line = ft_replace_all(*line, "\t", " ");
-	return (false);
+	return (0);
 }
 
 void	end_parse(t_scene *scene, t_list *objects, t_list *lights, int fd)

@@ -1,23 +1,16 @@
 #! /bin/sh
 
-# TODO: create GitHub Releases
-# TODO: benchmark float (e.g. sqrtf) against double (e.g. sqrt)
-# TODO: fix that mlx valgrind error regarding writing to uninitialized bytes
+# TODO unimportant: create GitHub Releases
+# TODO later: benchmark float (e.g. sqrtf) against double (e.g. sqrt)
+# TODO later: rotations for objects
+# TODO unimportant: create a small python script to generate "edge case" files
+# TODO unimportant: create a small bash script to test against the "edge case" files
+# TODO later: norminette
+# TODO later: compile without performance flags, since it's stricter in those cases
+# TODO important: sometimes, when moving around, it stops rendering and you have to click a button to continue render. investigate
+# TODO unimportant: turn off lighting when moving??
+# TODO later: ONLY remove this file when the following command doesn't print anything anymore (except for this file)
 
-# TODO: add precision functions (round, etc.)
-# TODO: add diffuse lighting
-# TODO: understand and fix lighting artefacts
-# TODO: rotations for objects and camera
-# TODO: create a small python script to generate "edge case" files
-# TODO: create a small bash script to test against the "edge case" files
-# TODO: norminette
-# TODO: compile without performance flags, since it's stricter in those cases
-# TODO: make only one single contiguous allocation (not really required)
-# TODO: having the sphere very close behind you still produces the same sphere in front of you!
-# TODO: sometimes, when moving around, it stops rendering and you have to click a button to continue render. investigate
-# TODO: turn off raytracing when moving??
-
-# TODO: ONLY remove this file when the following command doesn't print anything anymore (except for this file)
 grep --color=always \
 	--exclude-dir=.git/ \
 	--exclude-dir=data_constructors \

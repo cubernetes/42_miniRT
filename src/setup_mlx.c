@@ -6,7 +6,7 @@
 /*   By: tischmid <tischmid@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 20:47:11 by tischmid          #+#    #+#             */
-/*   Updated: 2024/09/18 08:08:55 by tosuman          ###   ########.fr       */
+/*   Updated: 2024/09/19 02:19:07 by nam-vu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,27 +31,32 @@ void	setup_hooks(t_gc *gc)
 void	setup_mlx(t_gc *gc, t_scene *scene)
 {
 	gc->mlx = gc_add(mlx_init())->last->as_ptr;
-	// TODO: /\ check NULL
+	if (gc->mlx == NULL)
+		finish(1, gc);
 	gc->win = mlx_new_resizable_window(gc->mlx, scene->window_width,
 			scene->window_height, "miniRT");
-	// /\ TODO: check NULL
+	if (gc->win == NULL)
+		finish(1, gc);
 	gc->img.img = mlx_new_image(gc->mlx, scene->window_width,
 			scene->window_height);
-	// /\ TODO: check NULL
+	if (gc->img.img == NULL)
+		finish(1, gc);
 	gc->img.addr = mlx_get_data_addr(
 			gc->img.img, &gc->img.bpp,
 			&gc->img.line_length,
 			&gc->img.endian);
 	gc->img2.img = mlx_new_image(gc->mlx, scene->window_width,
 			scene->window_height);
-	// /\ TODO: check NULL
+	if (gc->img2.img == NULL)
+		finish(1, gc);
 	gc->img2.addr = mlx_get_data_addr(
 			gc->img2.img, &gc->img2.bpp,
 			&gc->img2.line_length,
 			&gc->img2.endian);
 	gc->img3.img = mlx_new_image(gc->mlx, scene->window_width,
 								 scene->window_height);
-	// /\ TODO: check NULL
+	if (gc->img3.img == NULL)
+		finish(1, gc);
 	gc->img3.addr = mlx_get_data_addr(
 			gc->img3.img, &gc->img3.bpp,
 			&gc->img3.line_length,

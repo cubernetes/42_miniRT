@@ -6,7 +6,7 @@
 /*   By: tischmid <tischmid@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 21:48:04 by tischmid          #+#    #+#             */
-/*   Updated: 2024/09/18 22:02:40 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/09/19 02:26:17 by nam-vu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,12 @@
 # define WINDOW_HEIGHT 1080
 
 # define SAMPLE_SIZE 7
-# define RESOLUTION 8
+// # define RESOLUTION 8
+# define RESOLUTION 64
 
 # define CAM_ROTATE_FACTOR 10.0
-# define MOVE_DELAY 1.0
-# define MOVE_STEP 60
+# define MOVE_DELAY 1000000.0
+# define MOVE_STEP 30
 
 # define CURSOR_SIZE 10
 # define CURSOR_CLR 0x00FFFFFF
@@ -217,7 +218,7 @@ struct						s_hit
 void						finish(int exit_status, t_gc *gc);
 
 /* render.c */
-int							cast_ray(t_hit *hit, t_ray *ray, t_scene *scene);
+int							cast_ray(t_hit *hit, t_ray *ray, t_scene *scene, int print_flag);
 int							render(void *arg);
 void						assert_norm(t_hit *hit, int index);
 /* lights.c */
@@ -240,7 +241,7 @@ int							parse_cylinder(t_list *objects, char **arr);
 int							parse_line(char *line, t_scene *scene,
 								t_list *objects, t_list *lights);
 int							open_rt_file(char *file, int *fd);
-bool						init_parse(t_list **objects, t_list **lights,
+int							init_parse(t_list **objects, t_list **lights,
 								char **line, int fd);
 void						end_parse(t_scene *scene, t_list *objects,
 								t_list *lights, int fd);

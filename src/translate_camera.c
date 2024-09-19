@@ -6,14 +6,13 @@
 /*   By: tischmid <tischmid@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 21:47:54 by tischmid          #+#    #+#             */
-/*   Updated: 2024/09/18 21:45:54 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/09/19 03:39:41 by nam-vu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
 #include "libft.h"
 
-// todo: check why it's wrong
 static bool	translate_camera_u_d(t_camera *camera,
 	t_direction direction, double amount)
 {
@@ -53,7 +52,7 @@ static bool	translate_camera_l_r(t_camera *camera,
 
 	if (camera->dir.x == 0 && camera->dir.z == 0)
 	{
-		ft_printf("Looking straight up, cannot move left/right\n");
+		printf("Looking straight up, cannot move left/right\n");
 		return (false);
 	}
 	copy_vec3(&direction_vector, &camera->dir);

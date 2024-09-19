@@ -6,7 +6,7 @@
 /*   By: nam-vu <nam-vu@student.42berlin.de>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 00:38:28 by nam-vu            #+#    #+#             */
-/*   Updated: 2024/09/18 08:34:26 by tosuman          ###   ########.fr       */
+/*   Updated: 2024/09/19 03:17:54 by nam-vu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,13 +54,13 @@ static void	init_shadow_ray(t_hit *shadow_hit, t_hit *hit,
 	static t_vec3	orientation;
 
 	shadow_hit->t = NO_ROOTS;
-	copy_vec3(&orientation, &hit->point);
-	substract_vec3(&orientation, light->point);
+	copy_vec3(&orientation, light->point);
+	substract_vec3(&orientation, &hit->point);
 	unit_vec3(&orientation);
-	new_ray(ray, light->point, &orientation);
+	new_ray(ray, &hit->point, &orientation);
 }
 
-static t_color	is_subnormal(t_hit *shadow_hit, t_hit *hit,
+t_color	is_subnormal(t_hit *shadow_hit, t_hit *hit,
 	t_light *light, t_ray *ray)
 {
 	t_vec3	first;
@@ -76,6 +76,7 @@ static t_color	is_subnormal(t_hit *shadow_hit, t_hit *hit,
 /* expensive function, is run:
  *     window_width * window_height * nb_lights * nb_objs times (roughly 3 mil.)
  */
+//TODO important: fix lights
 t_color	calculate_lighting(t_hit *hit, t_scene *scene)
 {
 	t_ray	ray;
@@ -87,7 +88,6 @@ t_color	calculate_lighting(t_hit *hit, t_scene *scene)
 	res = 0;
 	combine_light(&res, scene->lights[0], scene->lights[0]->ratio);
 	i = 0;
-
 	while (++i < scene->nb_lights)
 	{
 		init_shadow_ray(&shadow_hit, hit, scene->lights[i], &ray);
@@ -95,14 +95,28 @@ t_color	calculate_lighting(t_hit *hit, t_scene *scene)
 			* dot_product_vec3(&hit->norm, &hit->ray_dir);
 		if (tmp > 0.0 && fabs(tmp) > EPSILON)
 		{
-			if (cast_ray(&shadow_hit, &ray, scene))
+			if (cast_ray(&shadow_hit, &ray, scene, 1))
+			{
 				combine_light(&res, scene->lights[i],
-					fabs(cos_vec3(&hit->norm, ray.vec)));
+						fabs(cos_vec3(&hit->norm, ray.vec)));
+			}
 			else
 			{
-				shadow_hit.color = res;
-				res = is_subnormal(&shadow_hit, hit, scene->lights[i], &ray);
+				printf("\nobject of a pixel\n");
+				if (hit->object->type == TOK_SPHERE)
+					print_sphere(&hit->object->sphere);
+				else if (hit->object->type == TOK_PLANE)
+					print_plane(&hit->object->plane);
+				else if (hit->object->type == TOK_CYLINDER)
+					print_cylinder(&hit->object->cylinder);
+				print_ray(&ray);
+				print_light(scene->lights[i]);
 			}
+			//else
+			//{
+			//	shadow_hit.color = res;
+			//	res = is_subnormal(&shadow_hit, hit, scene->lights[i], &ray);
+			//}
 		}
 	}
 	if (hit->object->selected)

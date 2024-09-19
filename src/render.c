@@ -6,7 +6,7 @@
 /*   By: nam-vu <nam-vu@student.42berlin.de>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 02:59:34 by nam-vu            #+#    #+#             */
-/*   Updated: 2024/09/19 00:55:51 by nam-vu           ###   ########.fr       */
+/*   Updated: 2024/09/19 02:33:29 by nam-vu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ void	sample_frame(t_gc *gc, t_scene *scene, int resolution, int sample,
 			{
 				new_ray(&ray, &terminus, &vec[PIXEL]);
 				tmp_color = 0;
-				if (!cast_ray(&hit, &ray, scene))
+				if (!cast_ray(&hit, &ray, scene, 0))
 				{
 					tmp_color = hit.color;
 					apply_light(&(hit.color), calculate_lighting(&hit, scene));
@@ -271,10 +271,10 @@ void	calculate_fps(t_gc *gc)
 	gc->fps = (double)gc->frames_rendered / (now - gc->fps_start);
 	if (ft_uptime_linux() - gc->fps_start > 1.0)
 	{
-		if (gc->fps < MIN_FPS)
-			gc->ideal_resolution = ft_min(gc->ideal_resolution + 1, 64);
-		else if (gc->fps > MIN_FPS + 10)
-			gc->ideal_resolution = ft_max(gc->ideal_resolution - 1, 2);
+		// if (gc->fps < MIN_FPS)
+		// 	gc->ideal_resolution = ft_min(gc->ideal_resolution + 1, 64);
+		// else if (gc->fps > MIN_FPS + 10)
+		// 	gc->ideal_resolution = ft_max(gc->ideal_resolution - 1, 2);
 		gc_start_context("FPS");
 		gc_free("FPS");
 		gc->fps_string = ft_itoa((int)gc->fps);

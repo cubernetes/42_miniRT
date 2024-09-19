@@ -80,25 +80,25 @@ int	parse_color(char *str, t_color *color)
 	return (EXIT_SUCCESS);
 }
 
-//todo important: add min and max limit for some elements
-//todo important: bug when not specifiying ambient light: first available light is taken as ambient light
 int	read_rt_file(char *file, t_scene *scene)
 {
 	int			fd;
 	char		*line;
 	t_list		*objects;
 	t_list		*lights;
-	bool		has_cam;
+	int			has_cam;
+	int			has_amb;
 
 	if (open_rt_file(file, &fd))
 		return (EXIT_FAILURE);
 	has_cam = init_parse(&objects, &lights, &line, fd);
+	has_amb = 0;
 	while (line)
 	{
 		if (line[0] != '\n' && line[0] != '#')
 		{
-			if (!ft_strncmp(line, "C ", 2))
-				has_cam = true;
+			has_cam += !ft_strncmp(line, "C ", 2);
+			has_amb += !ft_strncmp(line, "A ", 2);
 			if (parse_line(line, scene, objects, lights))
 			{
 				close(fd);
@@ -111,5 +111,5 @@ int	read_rt_file(char *file, t_scene *scene)
 			line = ft_replace_all(line, "\t", " ");
 	}
 	end_parse(scene, objects, lights, fd);
-	return (has_cam != true);
+	return (has_cam != 1 || has_amb != 1);
 }

@@ -6,7 +6,7 @@
 /*   By: nam-vu <nam-vu@student.42berlin.de>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 02:37:41 by nam-vu            #+#    #+#             */
-/*   Updated: 2024/09/12 01:14:55 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/09/19 03:19:35 by nam-vu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	calculate_hit(t_hit *hit, t_ray *ray, t_obj *object, double *old_t)
 		intersection_sphere(&hit->t, &object->sphere, ray);
 	else if (object->type == TOK_CYLINDER)
 		intersection_cylinder(&hit->t, &object->cylinder, ray);
-	if ((hit->t > 0) && (hit->t < *old_t || *old_t == NO_ROOTS))
+	if ((hit->t > 0) && (hit->t < *old_t || *old_t == NO_ROOTS) && isnormal(hit->t))
 	{
 		*old_t = hit->t;
 		hit->object = object;
@@ -68,7 +68,7 @@ void	calculate_hit(t_hit *hit, t_ray *ray, t_obj *object, double *old_t)
 	}
 }
 
-int	cast_ray(t_hit *hit, t_ray *ray, t_scene *scene)
+int	cast_ray(t_hit *hit, t_ray *ray, t_scene *scene, int print_flag)
 {
 	int		i;
 	double	old_t;
@@ -88,5 +88,16 @@ int	cast_ray(t_hit *hit, t_ray *ray, t_scene *scene)
 	(void)ray_at(ray, hit->t, &(hit->point));
 	calculate_norm(hit);
 	copy_vec3(&hit->ray_dir, ray->vec);
+	if (print_flag)
+	{
+		printf("\nobject in between\n");
+		printf("t = %f\n", hit->t);
+		if (hit->object->type == TOK_SPHERE)
+			print_sphere(&hit->object->sphere);
+		else if (hit->object->type == TOK_PLANE)
+			print_plane(&hit->object->plane);
+		else if (hit->object->type == TOK_CYLINDER)
+			print_cylinder(&hit->object->cylinder);
+	}
 	return (EXIT_SUCCESS);
 }

@@ -1,6 +1,6 @@
 # Makefile for [ "$(uname -s)" = "Linux" ]
 
-# TODO: adapt for MacOS
+# TODO later: adapt for MacOS
 
 # config
 NAME := miniRT
@@ -16,14 +16,14 @@ MINILIBX_FILE := libmlx_Linux.a
 MINILIBX_LIB := $(patsubst lib%,%,$(patsubst %.a,%,$(MINILIBX_FILE)))
 
 # tools
-# TODO: check gcc as well
+# TODO later: check gcc as well
 CC := cc
 RM := /bin/rm -f
 MKDIR := /bin/mkdir -p
 NM := nm
 NORMINETTE_EXCLUDE_DIRS := ./norminette_exclude_dirs
 
-# TODO: check to not fuck up := and +=
+# TODO later: check to not fuck up := and +=
 # general compile flags
 CFLAGS :=
 CFLAGS += -std=c11
@@ -196,7 +196,6 @@ r rerun: re
 l leakcheck: re
 	@$(MAKE) valrun
 
-# TODO: benchmark between ft_printf and printf
 ### Don't recompile, just check for forbidden functions
 fi forbidden-funcs-internal:
 	@# - memset, bzero, ... can be ignored from nm (they are added by compiler)

@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 19:40:05 by tosuman           #+#    #+#             */
-/*   Updated: 2024/09/19 01:02:04 by nam-vu           ###   ########.fr       */
+/*   Updated: 2024/09/19 02:18:47 by nam-vu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ void	init(t_gc *gc)
 {
 	(void)set_allocator(gc_malloc);
 	(void)gc_set_context("DEFAULT");
+	ft_memset(gc, 0, sizeof(t_gc));
 	gc->sample = 0;
 	gc->sample_size = SAMPLE_SIZE;
 	gc->resolution = RESOLUTION;
@@ -40,14 +41,23 @@ void	init(t_gc *gc)
 
 void	finish(int exit_status, t_gc *gc)
 {
-	mlx_do_key_autorepeaton(gc->mlx);
-	if (gc->mouse_hidden)
-		mlx_mouse_show(gc->mlx, gc->win);
-	mlx_destroy_image(gc->mlx, gc->img.img);
-	mlx_destroy_image(gc->mlx, gc->img2.img);
-	mlx_destroy_image(gc->mlx, gc->img3.img);
-	mlx_destroy_window(gc->mlx, gc->win);
-	mlx_destroy_display(gc->mlx);
+	if (gc->mlx)
+	{
+		mlx_do_key_autorepeaton(gc->mlx);
+		if (gc->win)
+		{
+			if (gc->mouse_hidden)
+				mlx_mouse_show(gc->mlx, gc->win);
+			mlx_destroy_window(gc->mlx, gc->win);
+		}
+		if (gc->img.img)
+			mlx_destroy_image(gc->mlx, gc->img.img);
+		if (gc->img2.img)
+			mlx_destroy_image(gc->mlx, gc->img2.img);
+		if (gc->img3.img)
+			mlx_destroy_image(gc->mlx, gc->img3.img);
+		mlx_destroy_display(gc->mlx);
+	}
 	gc_free_all();
 	exit(exit_status);
 }

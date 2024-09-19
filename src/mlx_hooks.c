@@ -37,7 +37,7 @@ void	select_object(t_gc *gc, int x, int y)
 	while (++i < x)
 		add_vec3(&pixel, &gc->scene->viewport->right_step);
 	new_ray(&ray, &terminus, &pixel);
-	if (!cast_ray(&hit, &ray, gc->scene))
+	if (!cast_ray(&hit, &ray, gc->scene, 0))
 	{
 		gc->scene->control.e_control_type = OBJECT;
 		gc->scene->control.u_control_object.object = hit.object;
