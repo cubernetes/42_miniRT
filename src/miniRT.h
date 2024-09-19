@@ -37,7 +37,7 @@
 
 # define SAMPLE_SIZE 7
 // # define RESOLUTION 8
-# define RESOLUTION 64
+# define RESOLUTION 4
 
 # define CAM_ROTATE_FACTOR 10.0
 # define MOVE_DELAY 1000000.0
@@ -218,7 +218,7 @@ struct						s_hit
 void						finish(int exit_status, t_gc *gc);
 
 /* render.c */
-int							cast_ray(t_hit *hit, t_ray *ray, t_scene *scene, int print_flag);
+int							cast_ray(t_hit *hit, t_ray *ray, t_scene *scene);
 int							render(void *arg);
 void						assert_norm(t_hit *hit, int index);
 /* lights.c */

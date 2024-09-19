@@ -60,64 +60,44 @@ static void	init_shadow_ray(t_hit *shadow_hit, t_hit *hit,
 	new_ray(ray, &hit->point, &orientation);
 }
 
-t_color	is_subnormal(t_hit *shadow_hit, t_hit *hit,
-	t_light *light, t_ray *ray)
-{
-	t_vec3	first;
-
-	copy_vec3(&first, &(shadow_hit->point));
-	substract_vec3(&first, &hit->point);
-	if (length_squared_vec3(&first) <= EPSILON2)
-		combine_light(&shadow_hit->color, light,
-			fabs(cos_vec3(&hit->norm, ray->vec)));
-	return (shadow_hit->color);
-}
+//t_color	is_subnormal(t_hit *shadow_hit, t_hit *hit,
+//	t_light *light, t_ray *ray)
+//{
+//	t_vec3	first;
+//
+//	copy_vec3(&first, &(shadow_hit->point));
+//	substract_vec3(&first, &hit->point);
+//	if (length_squared_vec3(&first) <= EPSILON2)
+//		combine_light(&shadow_hit->color, light,
+//			fabs(cos_vec3(&hit->norm, ray->vec)));
+//	return (shadow_hit->color);
+//}
 
 /* expensive function, is run:
  *     window_width * window_height * nb_lights * nb_objs times (roughly 3 mil.)
  */
-//TODO important: fix lights
 t_color	calculate_lighting(t_hit *hit, t_scene *scene)
 {
 	t_ray	ray;
 	int		i;
 	t_hit	shadow_hit;
 	t_color	res;
-	double	tmp;
+	t_vec3	orig_vec;
 
 	res = 0;
 	combine_light(&res, scene->lights[0], scene->lights[0]->ratio);
 	i = 0;
 	while (++i < scene->nb_lights)
 	{
+		copy_vec3(&orig_vec, scene->lights[i]->point);
+		substract_vec3(&orig_vec, &hit->point);
 		init_shadow_ray(&shadow_hit, hit, scene->lights[i], &ray);
-		tmp = dot_product_vec3(&hit->norm, ray.vec)
-			* dot_product_vec3(&hit->norm, &hit->ray_dir);
-		if (tmp > 0.0 && fabs(tmp) > EPSILON)
-		{
-			if (cast_ray(&shadow_hit, &ray, scene, 1))
-			{
-				combine_light(&res, scene->lights[i],
-						fabs(cos_vec3(&hit->norm, ray.vec)));
-			}
-			else
-			{
-				printf("\nobject of a pixel\n");
-				if (hit->object->type == TOK_SPHERE)
-					print_sphere(&hit->object->sphere);
-				else if (hit->object->type == TOK_PLANE)
-					print_plane(&hit->object->plane);
-				else if (hit->object->type == TOK_CYLINDER)
-					print_cylinder(&hit->object->cylinder);
-				print_ray(&ray);
-				print_light(scene->lights[i]);
-			}
-			//else
-			//{
-			//	shadow_hit.color = res;
-			//	res = is_subnormal(&shadow_hit, hit, scene->lights[i], &ray);
-			//}
-		}
+		if (dot_product_vec3(&hit->norm, ray.vec)
+			* dot_product_vec3(&hit->norm, &hit->ray_dir) < 0.0
+			&& (cast_ray(&shadow_hit, &ray, scene)
+			|| shadow_hit.t * shadow_hit.t > length_squared_vec3(&orig_vec)))
+			combine_light(&res, scene->lights[i],
+					fabs(cos_vec3(&hit->norm, ray.vec)));
 	}
 	if (hit->object->selected)
 		res = 0x00FF00FF - res;

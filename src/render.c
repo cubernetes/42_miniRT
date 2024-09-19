@@ -94,7 +94,7 @@ void	sample_frame(t_gc *gc, t_scene *scene, int resolution, int sample,
 			{
 				new_ray(&ray, &terminus, &vec[PIXEL]);
 				tmp_color = 0;
-				if (!cast_ray(&hit, &ray, scene, 0))
+				if (!cast_ray(&hit, &ray, scene))
 				{
 					tmp_color = hit.color;
 					apply_light(&(hit.color), calculate_lighting(&hit, scene));
