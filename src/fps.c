@@ -6,7 +6,7 @@
 /*   By: tischmid <tischmid@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 11:04:11 by tischmid          #+#    #+#             */
-/*   Updated: 2024/09/19 14:47:24 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/09/19 15:33:58 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,7 @@ void	calculate_fps(t_gc *gc)
 			gc->ideal_resolution = ft_min(gc->ideal_resolution + 1, 64);
 		else if (gc->fps > MIN_FPS + 10)
 			gc->ideal_resolution = ft_max(gc->ideal_resolution - 1, 2);
-		gc_start_context("FPS");
-		gc_free("FPS");
-		gc->fps_string = ft_itoa((int)gc->fps);
-		gc_end_context();
+		gc->fps_string = ft_itoa_static((int)gc->fps);
 		gc->fps_start = now;
 		gc->frames_rendered = 1;
 	}

@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 20:07:51 by tosuman           #+#    #+#             */
-/*   Updated: 2024/09/19 08:02:50 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/09/19 15:28:16 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -388,6 +388,7 @@ char							*ft_replace_all(const char str[static 1],
 bool							cmp_int_asc(int a, int b);
 bool							cmp_int_desc(int a, int b);
 char							*ft_itoa(int n);
+char							*ft_itoa_static(int n);
 int								ft_atoi(char const *nptr);
 int								ft_atoi_status(char const *nptr, int *status);
 long							ft_atol_status(char const *nptr, int *status);

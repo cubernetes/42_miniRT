@@ -94,6 +94,7 @@ SRC += ft_strrchr.c
 SRC += ft_tolower.c
 SRC += ft_toupper.c
 SRC += ft_itoa.c
+SRC += ft_itoa_static.c
 SRC += ft_strtrim.c
 SRC += ft_substr.c
 SRC += ft_strjoin.c

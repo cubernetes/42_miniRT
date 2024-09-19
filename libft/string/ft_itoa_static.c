@@ -1,32 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_uptime_linux.c                                  :+:      :+:    :+:   */
+/*   ft_itoa_static.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tischmid <tischmid@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/16 22:13:18 by tischmid          #+#    #+#             */
-/*   Updated: 2024/09/19 15:18:28 by tischmid         ###   ########.fr       */
+/*   Created: 2024/09/19 15:27:49 by tischmid          #+#    #+#             */
+/*   Updated: 2024/09/19 15:28:00 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-#include <fcntl.h>
-#include <math.h>
-#include <unistd.h>
-
-double	ft_uptime_linux(void)
+char	*ft_itoa_static(int n)
 {
-	char	buf[100];
-	ssize_t	bytes_read;
-	int		fd;
+	static char		buf[20];
+	size_t			n_len;
+	unsigned int	n_cpy;
+	int				is_neg;
+	char			*str;
 
-	fd = open("/proc/uptime", O_RDONLY);
-	if (fd < 0)
-		return (-1);
-	bytes_read = read(fd, buf, 99);
-	close(fd);
-	buf[bytes_read] = 0;
-	return (ft_atof(buf));
+	is_neg = n < 0;
+	n_len = 0;
+	n_cpy = ft_abs(n) + !n;
+	while (n_cpy * ++n_len != 0)
+		n_cpy /= 10;
+	--n_len;
+	str = buf;
+	str += (int)n_len + is_neg;
+	n_cpy = ft_abs(n);
+	*str-- = 0;
+	while (n_len--)
+	{
+		*str-- = (char)(n_cpy % 10 + '0');
+		n_cpy /= 10;
+	}
+	if (is_neg)
+		*str-- = '-';
+	return (++str);
 }
