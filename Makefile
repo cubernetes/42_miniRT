@@ -1,7 +1,5 @@
 # Makefile for [ "$(uname -s)" = "Linux" ]
 
-# TODO later: adapt for MacOS
-
 # config
 NAME := miniRT
 SRCDIR := src
@@ -16,14 +14,12 @@ MINILIBX_FILE := libmlx_Linux.a
 MINILIBX_LIB := $(patsubst lib%,%,$(patsubst %.a,%,$(MINILIBX_FILE)))
 
 # tools
-# TODO later: check gcc as well
 CC := cc
 RM := /bin/rm -f
 MKDIR := /bin/mkdir -p
 NM := nm
 NORMINETTE_EXCLUDE_DIRS := ./norminette_exclude_dirs
 
-# TODO later: check to not fuck up := and +=
 # general compile flags
 CFLAGS :=
 CFLAGS += -std=c11
