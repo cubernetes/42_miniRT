@@ -6,7 +6,7 @@
 /*   By: tosuman <timo42@proton.me>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 11:11:35 by tosuman           #+#    #+#             */
-/*   Updated: 2024/09/19 08:02:28 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/09/19 08:07:54 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -197,37 +197,6 @@ int	keyup_hook(void *arg1, ...)
 	sync_movement(keycode, gc, false);
 	return (0);
 }
-
-// todo later: remove
-/* Damn... */
-/* void	update_dimensions(t_gc *gc) */
-/* { */
-	/* t_xvar		*xvar; */
-	/* t_win_list	*win; */
-	/* Window		root; */
-/*  */
-	/* xvar = gc->mlx; */
-	/* win = gc->win; */
-	/* XGetGeometry(xvar->display, */
-		/* win->window, */
-		/* &root, */
-		/* &gc->x, */
-		/* &gc->y, */
-		/* (unsigned int *)&gc->scene->window_width, */
-		/* (unsigned int *)&gc->scene->window_height, */
-		/* &(unsigned int){0}, */
-		/* &(unsigned int){0}); */
-	/* XTranslateCoordinates(xvar->display, */
-		/* win->window, */
-		/* root, */
-		/* 0, */
-		/* 0, */
-		/* &gc->x, */
-		/* &gc->y, */
-		/* &root); */
-	/* gc->scene->camera->center_x = gc->x + gc->scene->window_width / 2; */
-	/* gc->scene->camera->center_y = gc->y + gc->scene->window_height / 2; */
-/* } */
 
 int	update_window(void *arg1, ...)
 {
