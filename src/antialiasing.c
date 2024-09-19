@@ -81,9 +81,9 @@ int	edge_detection(t_rt_img *img, int x, int y, int resolution)
 			grad_y.z += kernel_y[2 - i][2 - j] * (int)get_blue(&temp);
 		}
 	}
-	const float len_sq_x = length_squared_vec3(&grad_x);
-	const float len_sq_y = length_squared_vec3(&grad_y);
-//	float grad_degree = atan2(sqrt(len_sq_y), sqrt(len_sq_x)) * 180 / PI;
+	const double len_sq_x = length_squared_vec3(&grad_x);
+	const double len_sq_y = length_squared_vec3(&grad_y);
+//	double grad_degree = atan2(sqrt(len_sq_y), sqrt(len_sq_x)) * 180 / PI;
 //	if (grad_degree < 0.0)
 //		grad_degree += 360.0;
 	if (len_sq_x + len_sq_y < EPSILON)

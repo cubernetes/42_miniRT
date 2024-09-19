@@ -25,7 +25,7 @@ void	apply_light(t_color *color, t_color ratio)
 }
 
 static void	combine_light(t_color *color, t_light *light,
-	float diffusion_factor)
+	double diffusion_factor)
 {
 	const unsigned int	new_red = (unsigned int)(get_red(color)
 			+ get_red(&light->color) * light->ratio * diffusion_factor);

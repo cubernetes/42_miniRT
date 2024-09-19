@@ -68,19 +68,19 @@ void	interpolation(t_gc *gc, unsigned int width, unsigned int height, unsigned i
 				for (unsigned int j = 0; j < resolution; j++)
 				{
 					copy_vec3(&top_left_tmp, &top_left);
-					sc_mult_vec3(&top_left_tmp, (float) (resolution - j) / (float) resolution);
+					sc_mult_vec3(&top_left_tmp, (double) (resolution - j) / (double) resolution);
 					copy_vec3(&top_right_tmp, &top_right);
-					sc_mult_vec3(&top_right_tmp, (float) j / (float) resolution);
+					sc_mult_vec3(&top_right_tmp, (double) j / (double) resolution);
 					copy_vec3(&top_interpolation, &top_left_tmp);
 					add_vec3(&top_interpolation, &top_right_tmp);
-					sc_mult_vec3(&top_interpolation, (float) (resolution - i) / (float) resolution);
+					sc_mult_vec3(&top_interpolation, (double) (resolution - i) / (double) resolution);
 					copy_vec3(&bot_left_tmp, &bot_left);
-					sc_mult_vec3(&bot_left_tmp, (float) (resolution - j) / (float) resolution);
+					sc_mult_vec3(&bot_left_tmp, (double) (resolution - j) / (double) resolution);
 					copy_vec3(&bot_right_tmp, &bot_right);
-					sc_mult_vec3(&bot_right_tmp, (float) j / (float) resolution);
+					sc_mult_vec3(&bot_right_tmp, (double) j / (double) resolution);
 					copy_vec3(&bot_interpolation, &bot_left_tmp);
 					add_vec3(&bot_interpolation, &bot_right_tmp);
-					sc_mult_vec3(&bot_interpolation, (float) i / (float) resolution);
+					sc_mult_vec3(&bot_interpolation, (double) i / (double) resolution);
 					copy_vec3(&res_tmp, &top_interpolation);
 					add_vec3(&res_tmp, &bot_interpolation);
 					vec3_to_color(&res_tmp, &res_color);
