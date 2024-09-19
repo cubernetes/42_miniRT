@@ -147,7 +147,7 @@ $(NAME): $(LIBFT_DIR)/$(LIBFT_FILE) $(MINILIBX_DIR)/$(MINILIBX_FILE) $(OBJ)
 	$(CC) $(OBJ) -o $@ $(LDFLAGS) $(LDLIBS)
 
 $(OBJDIR)/%.o: %.c | $(OBJDIR)
-	$(CC) $< -c -o $@ $(CPPFLAGS) $(CFLAGS) -g
+	$(CC) $< -c -o $@ $(CPPFLAGS) $(CFLAGS)
 
 $(OBJDIR):
 	$(MKDIR) $@

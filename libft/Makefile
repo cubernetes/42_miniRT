@@ -261,7 +261,7 @@ $(NAME): $(OBJ)
 	$(AR) $@ $(OBJ)
 
 $(OBJDIR)/%.o: %.c | $(OBJDIR)
-	$(CC) $< -c -o $@ $(CFLAGS) $(CPPFLAGS) -g
+	$(CC) $< -c -o $@ $(CFLAGS) $(CPPFLAGS)
 
 $(OBJDIR):
 	$(MKDIR) $@
