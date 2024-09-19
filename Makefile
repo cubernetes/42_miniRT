@@ -228,6 +228,11 @@ fi forbidden-funcs-internal:
 		grep -v ' tan@'             | \
 		grep -v ' fmax@'            | \
 		grep -v ' fmin@'            | \
+        grep -v ' cosf@'            | \
+        grep -v ' fmaxf@'           | \
+        grep -v ' fminf@'           | \
+        grep -v ' sinf@'            | \
+        grep -v ' tanf@'            | \
 		grep -v ' __gmon_start__'              | \
 		grep -v ' _ITM_registerTMCloneTable'   | \
 		grep -v ' _ITM_deregisterTMCloneTable' | \
