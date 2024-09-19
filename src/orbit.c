@@ -6,7 +6,7 @@
 /*   By: tischmid <tischmid@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 10:56:01 by tischmid          #+#    #+#             */
-/*   Updated: 2024/09/19 13:02:55 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/09/19 14:38:29 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	orbit(t_gc *gc, t_scene *scene)
 {
 	const double	angle = 3;
 	const double	amount = 2 * 200 * sin(angle * 3 / 180);
-	int			i;
+	int				i;
 
 	render(gc);
 	i = -1;
