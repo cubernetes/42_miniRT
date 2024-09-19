@@ -6,7 +6,7 @@
 /*   By: tischmid <tischmid@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 21:52:38 by tischmid          #+#    #+#             */
-/*   Updated: 2024/09/12 01:17:00 by tischmid         ###   ########.fr       */
+/*   Updated: 2024/09/19 09:11:54 by tischmid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ void	quat_print(t_quat *quat)
 // curr_length == length_squared_vec3(x_curr, y_curr, z_curr);
 // x_new / x_curr = sin(degrees * PI / 360) / sqrt(curr_length);
 
-//todo later: maybe use cosf
 // expects a unit vector!!!
 // WATCH OUT, the following line might be missing before (or after?) sc_mult_vec
 /* unit_vec3(&unit_axis); */
